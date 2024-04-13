@@ -8,8 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.compose.getEurExchange
+import com.example.myapplication.compose.getYenExchange
 import com.example.myapplication.compose.screens.UICompose
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -18,11 +22,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
+                val yenExchange = remember { mutableStateOf<Float>(getYenExchange(this)) }
+                val eurExchange = remember { mutableStateOf<Float>(getEurExchange(this)) }
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    UICompose()
+                    UICompose(
+                        yenExchange,
+                        eurExchange
+                    )
                 }
             }
         }

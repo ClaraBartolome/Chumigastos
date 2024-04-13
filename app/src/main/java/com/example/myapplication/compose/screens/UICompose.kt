@@ -1,50 +1,60 @@
 package com.example.myapplication.compose.screens
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.R
 import com.example.myapplication.common.ChumiScreens
+import com.example.myapplication.compose.components.AlertExchange
+import com.example.myapplication.compose.components.TopAppBarDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UICompose() {
+fun UICompose(
+    yenExchange: MutableState<Float>,
+    eurExchange: MutableState<Float>
+) {
     val navController = rememberNavController()
     val ctx = LocalContext.current
+
+    //Edit exchange
+    val isPopUpExchangeOpen = remember { mutableStateOf(false) }
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(stringResource(R.string.app_name))
-                }
-            )
-        },
-    ) {
-            innerPadding ->
+        topBar = { TopAppBarDefault(navController = navController, screen = ChumiScreens.Start, isPopUpExchangeOpen) },
+    ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = ChumiScreens.Start.name,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = ChumiScreens.Start.name){
-                MainScreen()
+            composable(route = ChumiScreens.Start.name) {
+                MainScreen(
+                    yenExchange,
+                    eurExchange,
+                    onClickAdd = { createToast(ctx) },
+                    onClickList = { createToast(ctx) },
+                    onClickTotals = { createToast(ctx) }
+                )
+                if (isPopUpExchangeOpen.value) {
+                    AlertExchange(onDismissRequest = { isPopUpExchangeOpen.value = false }) {
+
+                    }
+                }
             }
         }
     }
+}
+
+private fun createToast(context: Context) {
+    Toast.makeText(context, "Próximamente", Toast.LENGTH_SHORT).show()
 }

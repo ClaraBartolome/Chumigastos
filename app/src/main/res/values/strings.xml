@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">Chumigastos</string>
+    <string name="add_uppercase">ADD</string>
+    <string name="shopping_list_uppercase">SHOPPING LIST</string>
+    <string name="total_uppercase">TOTAL</string>
+    <string name="edit_change">Update exchange</string>
+    <string name="JPY_exchange">1 JPY is equal to</string>
+    <string name="EUR_exchange">1 EUR is equal to</string>
+    <string name="eur_to_jpy">EUR to JPY</string>
+    <string name="jpy_to_eur">JPY to EUR</string>
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_uppercase">AÑADIR</string>
+    <string name="shopping_list_uppercase">LISTA DE LA COMPRA</string>
+    <string name="total_uppercase">TOTAL</string>
+    <string name="edit_change">Editar cambio</string>
+    <string name="JPY_exchange">1 JPY equivale a</string>
+    <string name="EUR_exchange">1 EUR equivale a</string>
+    <string name="eur_to_jpy">EUR a JPY</string>
+    <string name="jpy_to_eur">JPY a EUR</string>
+</resources>
