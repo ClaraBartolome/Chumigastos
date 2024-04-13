@@ -16,6 +16,9 @@ fun setYenExchange(activity: ComponentActivity, yenExchange: MutableState<Float>
     activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
         PREFERENCES_YEN_EXCHANGE, yenExchange.value
     ).apply()
+    activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
+        PREFERENCES_EUR_EXCHANGE, 1/yenExchange.value
+    ).apply()
 }
 
 fun getEurExchange(activity: ComponentActivity): Float {
@@ -26,5 +29,8 @@ fun getEurExchange(activity: ComponentActivity): Float {
 fun setEurExchange(activity: ComponentActivity, eurExchange: MutableState<Float>) {
     activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
         PREFERENCES_EUR_EXCHANGE, eurExchange.value
+    ).apply()
+    activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
+        PREFERENCES_YEN_EXCHANGE, 1/eurExchange.value
     ).apply()
 }

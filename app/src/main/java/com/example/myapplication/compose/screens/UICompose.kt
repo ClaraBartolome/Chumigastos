@@ -18,11 +18,12 @@ import com.example.myapplication.common.ChumiScreens
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.TopAppBarDefault
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UICompose(
     yenExchange: MutableState<Float>,
-    eurExchange: MutableState<Float>
+    eurExchange: MutableState<Float>,
+    saveYenExchange: () -> Unit,
+    saveEurExchange: () -> Unit,
 ) {
     val navController = rememberNavController()
     val ctx = LocalContext.current
@@ -46,8 +47,20 @@ fun UICompose(
                     onClickTotals = { createToast(ctx) }
                 )
                 if (isPopUpExchangeOpen.value) {
-                    AlertExchange(onDismissRequest = { isPopUpExchangeOpen.value = false }) {
-
+                    AlertExchange(
+                        eurExchange.value,
+                        yenExchange.value,
+                        onDismissRequest = {
+                            isPopUpExchangeOpen.value = false
+                        }) { text, exchangeEurYen ->
+                        if (text.isNotBlank() && exchangeEurYen) {
+                            eurExchange.value = text.toFloat()
+                            saveEurExchange.invoke()
+                        } else if (!exchangeEurYen) {
+                            yenExchange.value = text.toFloat()
+                            saveYenExchange.invoke()
+                        }
+                        isPopUpExchangeOpen.value = false
                     }
                 }
             }

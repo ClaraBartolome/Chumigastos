@@ -16,6 +16,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +29,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.myapplication.R
+import com.example.myapplication.compose.getYenExchange
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun AlertExchange(
+    eurChange: Float,
+    yenChange:Float,
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit
+    onConfirmation: (String, Boolean) -> Unit
 ) {
+    val exchangeEurYen = remember { mutableStateOf(true) }
+    val input = remember { mutableStateOf("") }
     Dialog(onDismissRequest = { /*TODO*/ }) {
         Card(
             colors = CardDefaults.cardColors(
@@ -56,7 +63,7 @@ fun AlertExchange(
                         textAlign = TextAlign.Start
                     )
 
-                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(end= 16.dp)) {
+                    IconButton(onClick = { exchangeEurYen.value = !exchangeEurYen.value }, modifier = Modifier.padding(end= 16.dp)) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_exchange),
                             contentDescription = "",
@@ -66,28 +73,28 @@ fun AlertExchange(
                     }
                 }
                 Text(
-                    text = stringResource(id = R.string.eur_to_jpy),
+                    text = stringResource(id = if(exchangeEurYen.value) R.string.eur_to_jpy else R.string.jpy_to_eur),
                     modifier = Modifier
-                        .padding(start = 16.dp, top = 8.dp)
+                        .padding(start = 16.dp)
                         .align(Alignment.CenterHorizontally),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = stringResource(id = R.string.EUR_exchange),
+                    text = stringResource(id = if(exchangeEurYen.value) R.string.EUR_exchange else R.string.JPY_exchange),
                     modifier = Modifier.padding(start = 16.dp, top = 8.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.DarkGray
                 )
-                MoneyItemPopUp()
+                MoneyItemPopUp(exchangeEurYen, eurChange, yenChange){text -> input.value = text}
 
                 Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
                     .fillMaxWidth()
                     .padding( horizontal = 16.dp)){
                     PopUpButton("Cancelar"){onDismissRequest.invoke()}
-                    PopUpButton("Aceptar"){onConfirmation.invoke()}
+                    PopUpButton("Aceptar"){onConfirmation.invoke(input.value, exchangeEurYen.value)}
                 }
             }
         }
@@ -113,9 +120,9 @@ private fun PopUpButton(label: String, onClick: () -> Unit){
 @Composable
 private fun DefaultPreview() {
     MyApplicationTheme {
-        AlertExchange(
+        AlertExchange(1.0f, 1.0f,
             onDismissRequest = { /*TODO*/ },
-            onConfirmation = { /*TODO*/ }
+            onConfirmation = { text, exchange -> }
         )
     }
 }

@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.compose.getEurExchange
 import com.example.myapplication.compose.getYenExchange
 import com.example.myapplication.compose.screens.UICompose
+import com.example.myapplication.compose.setEurExchange
+import com.example.myapplication.compose.setYenExchange
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +32,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     UICompose(
                         yenExchange,
-                        eurExchange
+                        eurExchange,
+                        { setYenExchange(this, yenExchange) },
+                        { setEurExchange(this, eurExchange) }
                     )
                 }
             }
