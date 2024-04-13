@@ -55,9 +55,11 @@ fun UICompose(
                         }) { text, exchangeEurYen ->
                         if (text.isNotBlank() && exchangeEurYen) {
                             eurExchange.value = text.toFloat()
+                            yenExchange.value = 1/eurExchange.value
                             saveEurExchange.invoke()
                         } else if (!exchangeEurYen) {
                             yenExchange.value = text.toFloat()
+                            eurExchange.value = 1/yenExchange.value
                             saveYenExchange.invoke()
                         }
                         isPopUpExchangeOpen.value = false

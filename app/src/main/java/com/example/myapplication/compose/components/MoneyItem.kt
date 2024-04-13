@@ -122,8 +122,9 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean>, eurChange: Float, yenChange:
                 OutlinedTextField(
                     value = text,
                     onValueChange = {
-                        text = formatTextExchange(parseValue(it), eurToYen.value)
-                        onUpdateNumber.invoke(parseValue(it).toString())
+                        val newText = it.replace(Regex("[^0-9.,]"), "")
+                        text = newText
+                        onUpdateNumber.invoke(parseValue(newText).toString())
                     },
                     placeholder = {
                         Text(text = (if (eurToYen.value) eurChange else yenChange).toString(),
