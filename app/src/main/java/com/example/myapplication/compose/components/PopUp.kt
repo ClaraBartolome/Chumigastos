@@ -35,7 +35,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 @Composable
 fun AlertExchange(
     eurChange: Float,
-    yenChange:Float,
+    yenChange: Float,
     onDismissRequest: () -> Unit,
     onConfirmation: (String, Boolean) -> Unit
 ) {

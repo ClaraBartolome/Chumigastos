@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
@@ -43,13 +46,10 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoneyItem(digit: MutableState<Float>, icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit) {
-    var text by remember { mutableStateOf(formatText(digit.value)) }
+fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>, icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit) {
+
     val previousValue = remember { mutableStateOf(digit.value) }
-    LaunchedEffect(digit.value) {
-        // Se ejecutará cuando el valor de digit cambie
-        text = formatText(digit.value)
-    }
+    var currentValue = 0.0f
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -71,19 +71,30 @@ fun MoneyItem(digit: MutableState<Float>, icon: Int = R.drawable.ic_euro, onUpda
             Column(modifier = Modifier
                 .weight(1f)) {
                 OutlinedTextField(
-                    value = text,
+                    value = text.value,
                     onValueChange = {
                         val newText = it.replace(Regex("[^0-9.,]"), "") // Eliminar cualquier cosa que no sea digito o coma o punto
-                        val currentValue = parseValue(newText)
-                        text = formatText(currentValue)
-                        if(currentValue != previousValue.value){
-                            previousValue.value = currentValue
-                            digit.value = currentValue
-                            onUpdateNumber.invoke()
-                        }
+                        currentValue = parseValue(newText)
+                        text.value = newText
                     },
                     textStyle = MaterialTheme.typography.titleMedium,
                     singleLine = true,
+                    trailingIcon = {
+                        IconButton(onClick = {
+
+                                previousValue.value = currentValue
+                                digit.value = currentValue
+                                onUpdateNumber.invoke()
+
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_calculate),
+                                contentDescription = "",
+                                tint = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier.fillMaxSize(0.8f)
+                            )
+                        }
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     colors = OutlinedTextFieldDefaults.colors(
                         errorContainerColor = Color.Transparent,
@@ -182,13 +193,7 @@ private fun parseValue(text: String): Float{
     return cleanedText.toFloatOrNull() ?: 0.0f
 }
 
-private fun formatText(value: Float): String {
-    return if (value % 1.0f == 0.0f) {
-        value.toInt().toString()
-    } else {
-        String.format(Locale.getDefault(), "%.2f", value)
-    }
-}
+
 
 private fun formatTextExchange(value: Float, type:Boolean): String {
     return if (value % 1.0f == 0.0f) {
@@ -207,9 +212,11 @@ private fun DefaultPreview() {
         Column {
             MoneyItem(
                 remember { mutableStateOf<Float>(1.0f) },
+                remember { mutableStateOf("1") },
                 R.drawable.ic_euro, {})
             MoneyItem(
                 remember { mutableStateOf<Float>(1.0f) },
+                remember { mutableStateOf("1.0f") },
                 R.drawable.ic_yen, {})
         }
     }
