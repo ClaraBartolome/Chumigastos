@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.common.ChumiScreens
+import com.example.myapplication.compose.components.AlertAdd
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.TopAppBarDefault
 
@@ -36,6 +37,13 @@ fun UICompose(
 
     //Edit exchange
     val isPopUpExchangeOpen = remember { mutableStateOf(false) }
+
+    //Add Item
+    val isPopUpAddItemOpen = remember { mutableStateOf(false) }
+
+    //Price
+    val yenValue = remember { mutableStateOf<Float>(100f) }
+    val eurValue = remember { mutableStateOf<Float>(100/ eurExchange.value) }
     Scaffold(
         topBar = { TopAppBarDefault(navController = navController, screen = ChumiScreens.Start, isPopUpExchangeOpen) },
     ) { innerPadding ->
@@ -57,7 +65,9 @@ fun UICompose(
                     MainScreen(
                         yenExchange,
                         eurExchange,
-                        onClickAdd = { createToast(ctx) },
+                        yenValue,
+                        eurValue,
+                        onClickAdd = { isPopUpAddItemOpen.value = true },
                         onClickList = { createToast(ctx) },
                         onClickTotals = { createToast(ctx) }
                     )
@@ -78,6 +88,14 @@ fun UICompose(
                                 saveYenExchange.invoke()
                             }
                             isPopUpExchangeOpen.value = false
+                        }
+                    }
+                    if(isPopUpAddItemOpen.value){
+                        AlertAdd(
+                            eurValue.value,
+                            yenValue.value,
+                            onDismissRequest = { isPopUpAddItemOpen.value = false}) {
+                            isPopUpAddItemOpen.value = false
                         }
                     }
                 }

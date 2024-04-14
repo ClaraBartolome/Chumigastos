@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.compose.formatText
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.util.Locale
 
@@ -170,6 +172,62 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean>, eurChange: Float, yenChange:
     }
 }
 
+@Composable
+fun ShowMoneyExchangeItem(eur: Float, yen: Float){
+    Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+        .padding(top = 8.dp)){
+
+        OutlinedCard (
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                .height(IntrinsicSize.Min)) {
+                Text(text = formatText(eur),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(all = 8.dp))
+                VerticalDivider(thickness = 2.dp, color = Color.LightGray)
+
+                Column(modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.Center){
+                    Image(painter = painterResource(id = R.drawable.ic_euro), contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxHeight(0.7f), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    )
+                }
+            }
+        }
+
+        OutlinedCard (
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                .height(IntrinsicSize.Min)) {
+                Text(text = formatText(yen),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(all = 8.dp))
+                VerticalDivider(thickness = 2.dp, color = Color.LightGray)
+
+                Column(modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.Center){
+                    Image(painter = painterResource(id = R.drawable.ic_yen), contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxHeight(0.7f), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    )
+                }
+            }
+        }
+
+    }
+}
+
 
 private fun parseValue(text: String): Float{
     // Encontrar la última coma en la cadena
@@ -191,18 +249,6 @@ private fun parseValue(text: String): Float{
 
     // Convertir la cadena limpia a un número flotante
     return cleanedText.toFloatOrNull() ?: 0.0f
-}
-
-
-
-private fun formatTextExchange(value: Float, type:Boolean): String {
-    return if (value % 1.0f == 0.0f) {
-        value.toInt().toString()
-    } else if(type) {
-        String.format(Locale.getDefault(), "%.2f", value)
-    }else{
-        String.format(Locale.getDefault(), "%.5f", value)
-    }
 }
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)

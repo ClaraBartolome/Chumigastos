@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.myapplication.R
-import com.example.myapplication.compose.getYenExchange
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
@@ -93,8 +92,8 @@ fun AlertExchange(
                 Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
                     .fillMaxWidth()
                     .padding( horizontal = 16.dp)){
-                    PopUpButton("Cancelar"){onDismissRequest.invoke()}
-                    PopUpButton("Aceptar"){onConfirmation.invoke(input.value, exchangeEurYen.value)}
+                    PopUpButton(stringResource(id = R.string.dismiss)){onDismissRequest.invoke()}
+                    PopUpButton(stringResource(id = R.string.accept)){onConfirmation.invoke(input.value, exchangeEurYen.value)}
                 }
             }
         }
@@ -102,7 +101,7 @@ fun AlertExchange(
 }
 
 @Composable
-private fun PopUpButton(label: String, onClick: () -> Unit){
+fun PopUpButton(label: String, onClick: () -> Unit){
     Button(
         onClick = { onClick.invoke()},
         colors = ButtonDefaults.buttonColors(

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.compose.components.DoubleBorderButton
 import com.example.myapplication.compose.components.MoneyItem
+import com.example.myapplication.compose.formatText
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.util.Locale
 
@@ -31,11 +32,12 @@ import java.util.Locale
 fun MainScreen(
     yenExchange: MutableState<Float>,
     eurExchange: MutableState<Float>,
+    yenValue: MutableState<Float>,
+    eurValue: MutableState<Float>,
     onClickAdd: ()-> Unit,
     onClickList: ()-> Unit,
     onClickTotals: ()-> Unit) {
-    val yenValue = remember { mutableStateOf<Float>(yenExchange.value) }
-    val eurValue = remember { mutableStateOf<Float>(eurExchange.value) }
+
     val textYen = remember { mutableStateOf(yenValue.value.toString()) }
     val textEur = remember { mutableStateOf(eurValue.value.toString()) }
     Column(verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxSize()) {
@@ -78,19 +80,15 @@ fun MainScreen(
 
 private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) = yen.value * yenExchange.value
 
-private fun formatText(value: Float): String {
-    return if (value % 1.0f == 0.0f) {
-        value.toInt().toString()
-    } else {
-        String.format(Locale.getDefault(), "%.2f", value)
-    }
-}
+
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
 @Composable
 fun prevMainScreen(){
     MyApplicationTheme {
         MainScreen(
+            remember { mutableStateOf<Float>(1.0f)},
+            remember { mutableStateOf<Float>(1.0f)},
             remember { mutableStateOf<Float>(1.0f)},
             remember { mutableStateOf<Float>(1.0f)},
             {}, {}, {})

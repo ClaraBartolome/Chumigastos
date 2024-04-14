@@ -8,4 +8,16 @@
     <string name="EUR_exchange">1 EUR equivale a</string>
     <string name="eur_to_jpy">EUR a JPY</string>
     <string name="jpy_to_eur">JPY a EUR</string>
+    <string name="add_purchase">Añadir compra</string>
+    <string name="triffle">Chuminada</string>
+    <string name="triffle_name">Nombre del objeto</string>
+    <string name="store_name">Nombre de la tienda</string>
+    <string name="accept">Aceptar</string>
+    <string name="dismiss">Cancelar</string>
+    <string name="clothes">Ropa</string>
+    <string name="food">Food</string>
+    <string name="stationery">Papelería</string>
+    <string name="home">Hogar</string>
+    <string name="triffles">Chuminadas</string>
+    <string name="category">Categoría</string>
 </resources>
