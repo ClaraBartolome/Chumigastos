@@ -1,0 +1,47 @@
+package com.example.myapplication.db
+
+
+import androidx.room.Dao
+
+@Dao
+interface TrifleDao {
+
+    /*@Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertLink(link: LinkModel)
+
+    @Update
+    suspend fun updateLink(link: LinkModel)
+
+    @Delete
+    suspend fun deleteLink(link: LinkModel)
+
+    @Delete
+    suspend fun deleteListLink(linkList: List<LinkModel>)
+
+    @Query("DELETE FROM link_table")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM link_table WHERE folder = :folderName")
+    suspend fun deleteAllinFolder(folderName: String)
+
+    @Query("SELECT * FROM link_table ")
+    fun getAll(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY name ASC")
+    suspend fun getAllOrderedByNameAsc(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY name DESC")
+    suspend fun getAllOrderedByNameDesc(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY dateOfCreation ASC")
+    suspend fun getAllOrderedByDateOfCreationAsc(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY dateOfCreation DESC")
+    suspend fun getAllOrderedByDateOfCreationDesc(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY dateOfModified ASC")
+    suspend fun getAllOrderedByDateOfModifiedAsc(): List<LinkModel>
+
+    @Query("SELECT * FROM link_table ORDER BY dateOfModified DESC")
+    suspend fun getAllOrderedByDateOfModifiedDesc(): List<LinkModel>*/
+}

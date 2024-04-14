@@ -9,8 +9,8 @@
     <string name="eur_to_jpy">EUR to JPY</string>
     <string name="jpy_to_eur">JPY to EUR</string>
     <string name="add_purchase">Add purchase</string>
-    <string name="triffle">Triffle</string>
-    <string name="triffle_name">Triffle name</string>
+    <string name="trifle">Trifle</string>
+    <string name="trifle_name">Trifle name</string>
     <string name="acme" translatable="false">ACME</string>
     <string name="store_name">Store name</string>
     <string name="accept">Accept</string>
@@ -19,6 +19,6 @@
     <string name="food">Food</string>
     <string name="stationery">Stationery</string>
     <string name="home">home</string>
-    <string name="triffles">Triffles</string>
+    <string name="trifles">Trifles</string>
     <string name="category">Category</string>
 </resources>

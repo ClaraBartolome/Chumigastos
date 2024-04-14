@@ -72,7 +72,7 @@ fun AlertExchange(
                     }
                 }
                 Text(
-                    text = stringResource(id = if(exchangeEurYen.value) R.string.eur_to_jpy else R.string.jpy_to_eur),
+                    text = stringResource(id = if(exchangeEurYen.value) R.string.jpy_to_eur else R.string.eur_to_jpy),
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .align(Alignment.CenterHorizontally),
@@ -81,7 +81,7 @@ fun AlertExchange(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = stringResource(id = if(exchangeEurYen.value) R.string.EUR_exchange else R.string.JPY_exchange),
+                    text = stringResource(id = if(exchangeEurYen.value) R.string.JPY_exchange else R.string.EUR_exchange),
                     modifier = Modifier.padding(start = 16.dp, top = 8.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium,
