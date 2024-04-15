@@ -6,6 +6,8 @@ import androidx.compose.runtime.MutableState
 import com.example.myapplication.common.PREFERENCES_EUR_EXCHANGE
 import com.example.myapplication.common.PREFERENCES_YEN_EXCHANGE
 import com.example.myapplication.common.PREFERENCE_FILE
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 fun getYenExchange(activity: ComponentActivity): Float {
@@ -42,4 +44,10 @@ fun formatText(value: Float): String {
     } else {
         String.format(Locale.getDefault(), "%.2f", value)
     }
+}
+
+fun getDate(): String {
+    val time = Calendar.getInstance().time
+    val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    return formatter.format(time)
 }

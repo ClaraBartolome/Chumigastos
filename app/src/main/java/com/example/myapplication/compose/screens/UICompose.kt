@@ -2,19 +2,25 @@ package com.example.myapplication.compose.screens
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +41,9 @@ fun UICompose(
     val navController = rememberNavController()
     val ctx = LocalContext.current
 
+    //Toolbar
+    val screen = remember { mutableStateOf(ChumiScreens.Start) }
+
     //Edit exchange
     val isPopUpExchangeOpen = remember { mutableStateOf(false) }
 
@@ -45,7 +54,7 @@ fun UICompose(
     val yenValue = remember { mutableStateOf<Float>(100f) }
     val eurValue = remember { mutableStateOf<Float>(100/ eurExchange.value) }
     Scaffold(
-        topBar = { TopAppBarDefault(navController = navController, screen = ChumiScreens.Start, isPopUpExchangeOpen) },
+        topBar = { TopAppBarDefault(navController = navController, screen = screen.value, isPopUpExchangeOpen) },
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -53,6 +62,7 @@ fun UICompose(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = ChumiScreens.Start.name) {
+                screen.value = ChumiScreens.Start
                 Box(
                     modifier = with (Modifier){
                         fillMaxSize()
@@ -68,7 +78,7 @@ fun UICompose(
                         yenValue,
                         eurValue,
                         onClickAdd = { isPopUpAddItemOpen.value = true },
-                        onClickList = { createToast(ctx) },
+                        onClickList = { navController.navigate(ChumiScreens.ShoppingList.name) },
                         onClickTotals = { createToast(ctx) }
                     )
                     if (isPopUpExchangeOpen.value) {
@@ -94,16 +104,36 @@ fun UICompose(
                         AlertAdd(
                             eurValue.value,
                             yenValue.value,
-                            onDismissRequest = { isPopUpAddItemOpen.value = false}) {
+                            onDismissRequest = { isPopUpAddItemOpen.value = false})
+                        { trifleModel ->
+                            createToast(ctx, trifleModel.name)
                             isPopUpAddItemOpen.value = false
                         }
                     }
                 }
                 }
+
+            composable(route = ChumiScreens.ShoppingList.name){
+                screen.value = ChumiScreens.ShoppingList
+                Box(
+                    modifier = with (Modifier){
+                        fillMaxSize()
+                            .paint(
+                                // Replace with your image id
+                                painterResource(id = R.drawable.bg_image_test),
+                                contentScale = ContentScale.FillBounds)
+
+                    }) {
+                    ShoppingListScreen(
+                        eurExchange = eurExchange.value,
+                        yenExchange = yenExchange.value,
+                        onAddClick = {})
+                }
+            }
         }
     }
 }
 
-private fun createToast(context: Context) {
-    Toast.makeText(context, "Próximamente", Toast.LENGTH_SHORT).show()
+private fun createToast(context: Context, label: String = "Próximamente") {
+    Toast.makeText(context, label, Toast.LENGTH_SHORT).show()
 }

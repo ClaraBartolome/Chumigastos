@@ -5,15 +5,15 @@ import com.example.myapplication.R
 enum class ChumiScreens() {
     Start,
     ShoppingList,
-    List
+    Totals
 }
 
 val categories = listOf(
+    R.string.trifles,
     R.string.clothes,
     R.string.food,
     R.string.stationery,
-    R.string.home,
-    R.string.trifles
+    R.string.home
 )
 
 //Preferences

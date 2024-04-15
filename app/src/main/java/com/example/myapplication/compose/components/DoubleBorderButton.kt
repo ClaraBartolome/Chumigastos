@@ -3,9 +3,14 @@ package com.example.myapplication.compose.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun DoubleBorderButton(label: String = "AÑADIR", color: Color = Color.Green, onClick: () -> Unit) {
+fun DoubleBorderButton(label: String = "AÑADIR", color: Color = Color.DarkGray, onClick: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = color,
@@ -43,13 +48,14 @@ fun DoubleBorderButton(label: String = "AÑADIR", color: Color = Color.Green, on
             border = BorderStroke(4.dp, Color.White),
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(IntrinsicSize.Min)
                 .padding(all = 8.dp)
         ) {
             Text(
                 text = label,
                 modifier = Modifier
                     .padding(16.dp)
+                    .fillMaxHeight()
                     .align(Alignment.CenterHorizontally),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,

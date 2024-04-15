@@ -55,7 +55,7 @@ fun TopAppBarDefault(
                         )
                     }
                 }
-                else -> {}
+                ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

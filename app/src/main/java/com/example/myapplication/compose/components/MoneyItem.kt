@@ -124,7 +124,7 @@ fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>, icon: Int 
 }
 
 @Composable
-fun MoneyItemPopUp(eurToYen: MutableState<Boolean>, eurChange: Float, yenChange: Float, onUpdateNumber: (String) -> Unit){
+fun MoneyItemPopUp(eurToYen: MutableState<Boolean> = remember { mutableStateOf(false) }, eurChange: Float = 1.0f, yenChange: Float = 1.0f, onUpdateNumber: (String) -> Unit = {}){
     var text by remember { mutableStateOf("") }
     OutlinedCard (
         modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
@@ -174,13 +174,10 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean>, eurChange: Float, yenChange:
 
 @Composable
 fun ShowMoneyExchangeItem(eur: Float, yen: Float){
-    Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-        .padding(top = 8.dp)){
+    Row(horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
+        .fillMaxWidth()){
 
         OutlinedCard (
-            modifier = Modifier.padding(top = 8.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                 .height(IntrinsicSize.Min)) {
@@ -203,7 +200,6 @@ fun ShowMoneyExchangeItem(eur: Float, yen: Float){
         }
 
         OutlinedCard (
-            modifier = Modifier.padding(top = 8.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                 .height(IntrinsicSize.Min)) {
@@ -224,7 +220,6 @@ fun ShowMoneyExchangeItem(eur: Float, yen: Float){
                 }
             }
         }
-
     }
 }
 
@@ -264,6 +259,9 @@ private fun DefaultPreview() {
                 remember { mutableStateOf<Float>(1.0f) },
                 remember { mutableStateOf("1.0f") },
                 R.drawable.ic_yen, {})
+            Column(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
+                ShowMoneyExchangeItem(eur = 1.67f, yen = 1.67f)
+            }
         }
     }
 }
