@@ -47,8 +47,10 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 fun UICompose(
     yenExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
     eurExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
     saveYenExchange: () -> Unit = {},
     saveEurExchange: () -> Unit = {},
+    saveIsEurToYen: () -> Unit = {}
 ) {
     val navController = rememberNavController()
     val ctx = LocalContext.current
@@ -65,11 +67,15 @@ fun UICompose(
     //Price
     val yenValue = remember { mutableStateOf<Float>(100f) }
     val eurValue = remember { mutableStateOf<Float>(100/ eurExchange.value) }
+
     Scaffold(
         topBar = { TopAppBarDefault(navController = navController, screen = screen.value, isPopUpExchangeOpen) },
         bottomBar = { MainScreenBottomNav(
             onClickAdd = { createToast(ctx) },
-            onClickChange = { createToast(ctx) },
+            onClickChange = {
+                isEurToYen.value = !isEurToYen.value
+                saveIsEurToYen.invoke()
+                            },
             onClickEdit = { isPopUpExchangeOpen.value = true },
         )},
         containerColor = Color.Transparent,
@@ -97,6 +103,7 @@ fun UICompose(
                         eurExchange,
                         yenValue,
                         eurValue,
+                        isEurToYen,
                         onClickAdd = { isPopUpAddItemOpen.value = true },
                         onClickList = { navController.navigate(ChumiScreens.ShoppingList.name) },
                         onClickTotals = { createToast(ctx) }

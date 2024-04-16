@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.compose.getEurExchange
+import com.example.myapplication.compose.getIsEurToYen
 import com.example.myapplication.compose.getYenExchange
 import com.example.myapplication.compose.screens.UICompose
 import com.example.myapplication.compose.setEurExchange
+import com.example.myapplication.compose.setIsEurToYen
 import com.example.myapplication.compose.setYenExchange
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -28,6 +30,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 val yenExchange = remember { mutableStateOf<Float>(getYenExchange(this)) }
                 val eurExchange = remember { mutableStateOf<Float>(getEurExchange(this)) }
+                val isEurToYen = remember { mutableStateOf(getIsEurToYen(this)) }
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize().background(Color.Transparent)
@@ -35,8 +38,10 @@ class MainActivity : ComponentActivity() {
                     UICompose(
                         yenExchange,
                         eurExchange,
+                        isEurToYen,
                         { setYenExchange(this, yenExchange) },
-                        { setEurExchange(this, eurExchange) }
+                        { setEurExchange(this, eurExchange) },
+                        { setIsEurToYen(this, isEurToYen) }
                     )
                 }
             }

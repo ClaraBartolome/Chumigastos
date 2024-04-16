@@ -53,7 +53,6 @@ fun MainScreenChangeComponent(
     isTextFieldEnabled: Boolean = false,
     imageFlag: Int = R.drawable.image_eur_flag,
     textFieldWeight: Float = 1.8f,
-    digit: MutableState<Float> = remember { mutableStateOf(1.0f) },
     text: MutableState<String> = remember { mutableStateOf("0123456789")},
     currencyName: String = "Euros",
     firstExchange: String = "1JPY = 0,00061EUR",

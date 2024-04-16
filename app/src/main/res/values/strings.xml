@@ -26,4 +26,6 @@
     <string name="yen" translatable="false">JPY</string>
     <string name="currency_exchange">Currency exchange</string>
     <string name="calculate">Calculate</string>
+    <string name="JPY_exchange_main" translatable="false">1JPY = %1$sEUR</string>
+    <string name="Eur_exchange_main" translatable="false">1EUR = %1$sJPY</string>
 </resources>
