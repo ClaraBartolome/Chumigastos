@@ -19,9 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
 import com.example.myapplication.common.ChumiScreens
+import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +89,8 @@ private fun TitleText(screen: ChumiScreens) {
     }
     Text(
         text = title,
-        color = MaterialTheme.colorScheme.onPrimary
+        color = MaterialTheme.colorScheme.onPrimary,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = poppinsFontFamily
     )
 }

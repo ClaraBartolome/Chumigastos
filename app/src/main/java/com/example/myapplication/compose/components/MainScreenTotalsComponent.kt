@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun MainScreenTotalsComponent(onClickSeeAll: ()-> Unit = {}) {
@@ -52,10 +53,12 @@ fun MainScreenTotalsComponent(onClickSeeAll: ()-> Unit = {}) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(id = R.string.total_uppercase),
+                Text(text = stringResource(id = R.string.total_lowercase),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.SemiBold)
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppinsFontFamily
+                )
                 Text(text = stringResource(id = R.string.see_all),
                     style = MaterialTheme.typography.bodyLarge,
                     textDecoration = TextDecoration.Underline,

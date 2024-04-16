@@ -27,12 +27,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
@@ -47,13 +50,9 @@ fun MainScreenBottomNav(onClickEdit: () -> Unit = {}, onClickAdd: () -> Unit = {
             .fillMaxWidth()
             .height(80.dp)
             .background(MaterialTheme.colorScheme.surfaceVariant)) {
-        IconButton(onClick = { onClickEdit.invoke() }) {
-            Icon(
-                imageVector = (Icons.Filled.Edit),
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+
+
+        IconButtonApp(Icons.Filled.Edit, stringResource(id = R.string.edit_change), onClickEdit )
 
         FloatingActionButton(
             shape = CircleShape,
@@ -68,13 +67,7 @@ fun MainScreenBottomNav(onClickEdit: () -> Unit = {}, onClickAdd: () -> Unit = {
             Icon(Icons.Filled.Add, "Localized description")
         }
 
-        IconButton(onClick = { onClickChange.invoke() }) {
-            Icon(
-                painterResource(id = R.drawable.ic_money_exchange),
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+        IconButtonApp(imageId = R.drawable.ic_money_exchange, label = stringResource(id = R.string.swap_currencies), onClickChange)
     }
 }
 
@@ -100,13 +93,7 @@ fun MainScreenBottomNavOverlap() {
                     )
                 }
 
-                IconButton(onClick = {  }) {
-                    Icon(
-                        imageVector = (Icons.Filled.Edit),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+
             }
         }
 
@@ -122,11 +109,46 @@ fun MainScreenBottomNavOverlap() {
                         hoveredElevation = 2.dp
                     ),
                     onClick = {  }) {
-                    Icon(Icons.Filled.Add, "Localized description")
+                    Icon(Icons.Filled.Add, "")
                 }
             }
         }
 
+    }
+}
+
+@Composable
+private fun IconButtonApp(imageVector: ImageVector, label:String, onClick: () -> Unit){
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        IconButton(onClick = { onClick.invoke() }) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Text(text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun IconButtonApp(imageId: Int, label:String, onClick: () -> Unit){
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        IconButton(onClick = { onClick.invoke() }) {
+            Icon(
+                painterResource(id = imageId),
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Text(text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 2
+        )
     }
 }
 
@@ -137,7 +159,7 @@ private fun prevMainScreen(){
         Scaffold(
             bottomBar = { MainScreenBottomNav() }
         ) {
-            innerPadding ->
+                innerPadding ->
             Column(Modifier.padding(innerPadding)) {
 
             }

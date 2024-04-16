@@ -38,6 +38,7 @@ import com.example.myapplication.compose.components.MoneyItem
 import com.example.myapplication.compose.formatText
 import com.example.myapplication.compose.parseValue
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun MainScreen(
@@ -67,7 +68,8 @@ fun MainScreen(
                 Text(text = stringResource(id = R.string.currency_exchange),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.SemiBold)
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppinsFontFamily)
 
                 Text(text = stringResource(id = R.string.calculate),
                     style = MaterialTheme.typography.bodyLarge,
