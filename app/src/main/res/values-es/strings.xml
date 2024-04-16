@@ -23,4 +23,7 @@
     <string name="see_all">Ver todos</string>
     <string name="currency_exchange">Cambio de moneda</string>
     <string name="calculate">Calcular</string>
+    <string name="totals">Totales</string>
+    <string name="add_item">Añadir objeto</string>
+    <string name="shopping_list">Lista de la compra</string>
 </resources>

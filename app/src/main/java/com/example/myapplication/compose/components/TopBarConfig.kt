@@ -1,5 +1,7 @@
 package com.example.myapplication.compose.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -25,14 +28,22 @@ import com.example.myapplication.common.ChumiScreens
 fun TopAppBarDefault(
     navController: NavHostController,
     screen: ChumiScreens,
-    isAlertExchangeOpen: MutableState<Boolean>
+    isAlertExchangeOpen: MutableState<Boolean>,
+    onNavigationIconClick: () -> Unit = {}
 ) {
     val showMenu = remember { mutableStateOf(false) }
     TopAppBar(
         title = { TitleText(screen) },
         actions = {
             when (screen) {
-                ChumiScreens.Start,ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
+                ChumiScreens.Start, ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
+            }
+        },
+        navigationIcon = {
+            if (screen == ChumiScreens.Start) {
+                IconButtonApp(
+                    imageVector = Icons.Filled.Menu,
+                    action = { onNavigationIconClick.invoke() })
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -47,6 +58,21 @@ private fun IconButtonApp(iconId: Int, action: () -> (Unit), contentDescription:
     IconButton(onClick = action) {
         Icon(
             painter = painterResource(id = iconId),
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+private fun IconButtonApp(
+    imageVector: ImageVector,
+    action: () -> (Unit),
+    contentDescription: String = ""
+) {
+    IconButton(onClick = action) {
+        Icon(
+            imageVector = imageVector,
             contentDescription = contentDescription,
             tint = MaterialTheme.colorScheme.onPrimary
         )
