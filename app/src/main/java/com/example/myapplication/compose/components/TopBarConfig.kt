@@ -32,30 +32,7 @@ fun TopAppBarDefault(
         title = { TitleText(screen) },
         actions = {
             when (screen) {
-                ChumiScreens.Start -> {
-                    IconButtonApp(
-                        iconId = R.drawable.ic_dots,
-                        action = { showMenu.value = !showMenu.value })
-                    DropdownMenu(expanded = showMenu.value, onDismissRequest = { showMenu.value = false }) {
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    text = stringResource(id = R.string.edit_change),
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                )
-                            },
-                            onClick = {
-                                isAlertExchangeOpen.value = true
-                                showMenu.value = false},
-                            leadingIcon = {
-                                Icon(painter = painterResource(R.drawable.ic_edit),
-                                    contentDescription = "",
-                                    tint = MaterialTheme.colorScheme.onBackground)
-                            }
-                        )
-                    }
-                }
-                ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
+                ChumiScreens.Start,ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

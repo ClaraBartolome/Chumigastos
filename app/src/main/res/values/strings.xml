@@ -21,4 +21,9 @@
     <string name="home">Home</string>
     <string name="trifles">Trifles</string>
     <string name="category">Category</string>
+    <string name="see_all">See all</string>
+    <string name="eur" translatable="false">Euro</string>
+    <string name="yen" translatable="false">JPY</string>
+    <string name="currency_exchange">Currency exchange</string>
+    <string name="calculate">Calculate</string>
 </resources>

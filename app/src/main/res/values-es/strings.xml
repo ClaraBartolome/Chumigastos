@@ -20,4 +20,7 @@
     <string name="home">Hogar</string>
     <string name="trifles">Chuminadas</string>
     <string name="category">Categoría</string>
+    <string name="see_all">Ver todos</string>
+    <string name="currency_exchange">Cambio de moneda</string>
+    <string name="calculate">Calcular</string>
 </resources>

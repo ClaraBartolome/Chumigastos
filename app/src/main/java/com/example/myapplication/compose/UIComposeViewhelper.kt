@@ -51,3 +51,25 @@ fun getDate(): String {
     val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
     return formatter.format(time)
 }
+
+fun parseValue(text: String): Float{
+    // Encontrar la última coma en la cadena
+    val lastCommaIndex = text.lastIndexOf(",")
+
+    // Separar la parte entera de la parte decimal
+    val integerPart = if (lastCommaIndex != -1) text.substring(0, lastCommaIndex) else text
+    val decimalPart = if (lastCommaIndex != -1) text.substring(lastCommaIndex + 1) else ""
+
+    // Eliminar comas y puntos solo de la parte entera
+    val cleanedIntegerPart = integerPart.replace(Regex("[,.]"), "")
+
+    // Reunir la parte entera limpia y la parte decimal
+    val cleanedText = if (decimalPart.isNotEmpty()) {
+        "$cleanedIntegerPart.${decimalPart.replace(".", "")}"
+    } else {
+        cleanedIntegerPart
+    }
+
+    // Convertir la cadena limpia a un número flotante
+    return cleanedText.toFloatOrNull() ?: 0.0f
+}

@@ -43,12 +43,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.compose.formatText
+import com.example.myapplication.compose.parseValue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>, icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit) {
+fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
+              icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit) {
 
     val previousValue = remember { mutableStateOf(digit.value) }
     var currentValue = 0.0f
@@ -224,27 +226,7 @@ fun ShowMoneyExchangeItem(eur: Float, yen: Float){
 }
 
 
-private fun parseValue(text: String): Float{
-    // Encontrar la última coma en la cadena
-    val lastCommaIndex = text.lastIndexOf(",")
 
-    // Separar la parte entera de la parte decimal
-    val integerPart = if (lastCommaIndex != -1) text.substring(0, lastCommaIndex) else text
-    val decimalPart = if (lastCommaIndex != -1) text.substring(lastCommaIndex + 1) else ""
-
-    // Eliminar comas y puntos solo de la parte entera
-    val cleanedIntegerPart = integerPart.replace(Regex("[,.]"), "")
-
-    // Reunir la parte entera limpia y la parte decimal
-    val cleanedText = if (decimalPart.isNotEmpty()) {
-        "$cleanedIntegerPart.${decimalPart.replace(".", "")}"
-    } else {
-        cleanedIntegerPart
-    }
-
-    // Convertir la cadena limpia a un número flotante
-    return cleanedText.toFloatOrNull() ?: 0.0f
-}
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
 @Composable

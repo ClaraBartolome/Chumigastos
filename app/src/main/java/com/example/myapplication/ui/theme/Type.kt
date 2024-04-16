@@ -2,9 +2,21 @@ package com.example.myapplication.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.R
+
+
+val OpenSans = FontFamily(
+    Font(R.font.opensans, FontWeight.Normal, FontStyle.Normal)
+)
+
+val Poppins = FontFamily(
+    Font(R.font.poppins, FontWeight.Normal, FontStyle.Normal)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(

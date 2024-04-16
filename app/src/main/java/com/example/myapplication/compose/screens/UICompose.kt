@@ -4,9 +4,18 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialogDefaults.containerColor
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -22,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -29,14 +39,16 @@ import com.example.myapplication.R
 import com.example.myapplication.common.ChumiScreens
 import com.example.myapplication.compose.components.AlertAdd
 import com.example.myapplication.compose.components.AlertExchange
+import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.TopAppBarDefault
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun UICompose(
-    yenExchange: MutableState<Float>,
-    eurExchange: MutableState<Float>,
-    saveYenExchange: () -> Unit,
-    saveEurExchange: () -> Unit,
+    yenExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
+    eurExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
+    saveYenExchange: () -> Unit = {},
+    saveEurExchange: () -> Unit = {},
 ) {
     val navController = rememberNavController()
     val ctx = LocalContext.current
@@ -55,6 +67,14 @@ fun UICompose(
     val eurValue = remember { mutableStateOf<Float>(100/ eurExchange.value) }
     Scaffold(
         topBar = { TopAppBarDefault(navController = navController, screen = screen.value, isPopUpExchangeOpen) },
+        bottomBar = { MainScreenBottomNav(
+            onClickAdd = { createToast(ctx) },
+            onClickChange = { createToast(ctx) },
+            onClickEdit = { isPopUpExchangeOpen.value = true },
+        )},
+        containerColor = Color.Transparent,
+        contentColor = Color.Transparent,
+        modifier = Modifier.background(Color.Transparent)
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -136,4 +156,12 @@ fun UICompose(
 
 private fun createToast(context: Context, label: String = "Próximamente") {
     Toast.makeText(context, label, Toast.LENGTH_SHORT).show()
+}
+
+@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
+@Composable
+private fun prevMainScreen(){
+    MyApplicationTheme {
+        UICompose()
+    }
 }
