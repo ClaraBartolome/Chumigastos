@@ -85,3 +85,26 @@ fun parseValue(text: String): Float{
     // Convertir la cadena limpia a un número flotante
     return cleanedText.toFloatOrNull() ?: 0.0f
 }
+
+fun onCalculateExchange(
+    isEurToYen: MutableState<Boolean>,
+    eurValue: MutableState<Float>,
+    yenValue: MutableState<Float>,
+    textEur: MutableState<String>,
+    textYen: MutableState<String>,
+    eurExchange: MutableState<Float>,
+    yenExchange: MutableState<Float>){
+    if(isEurToYen.value){
+        eurValue.value = parseValue(textEur.value)
+        yenValue.value = onUpdateCurrency(eurValue, eurExchange)
+        textYen.value = formatText(yenValue.value)
+        textEur.value = formatText(eurValue.value)
+    }else{
+        yenValue.value = parseValue(textYen.value)
+        eurValue.value = onUpdateCurrency(yenValue, yenExchange)
+        textYen.value = formatText(yenValue.value)
+        textEur.value = formatText(eurValue.value)
+    }
+}
+
+private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) = yen.value * yenExchange.value

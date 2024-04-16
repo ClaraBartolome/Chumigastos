@@ -1,11 +1,14 @@
 package com.example.myapplication.common
 
+import android.content.res.Configuration
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.R
 
-enum class ChumiScreens() {
+enum class TriffleScreens() {
     Start,
     ShoppingList,
-    Totals
+    Totals,
+    AddExpense
 }
 
 val categories = listOf(
@@ -24,3 +27,4 @@ val PREFERENCE_FILE = "PREFERENCE_FILE"
 
 //DB
 const val DB_NAME = "triffle_database.db"
+

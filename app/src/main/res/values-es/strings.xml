@@ -24,8 +24,9 @@
     <string name="currency_exchange">Cambio de moneda</string>
     <string name="calculate">Calcular</string>
     <string name="totals">Gastos totales</string>
-    <string name="add_expense">Añadir gasto</string>
+    <string name="add_expense">Añadir Gasto</string>
     <string name="shopping_list">Lista de la compra</string>
     <string name="total_lowercase">Total</string>
     <string name="swap_currencies">Intercambiar</string>
+    <string name="price">Precio</string>
 </resources>

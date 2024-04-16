@@ -1,53 +1,28 @@
 package com.example.myapplication.compose.screens
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AddCircle
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.AlertDialogDefaults.containerColor
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -55,7 +30,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
-import com.example.myapplication.common.ChumiScreens
+import com.example.myapplication.common.TriffleScreens
 import com.example.myapplication.compose.components.AlertAdd
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
@@ -77,7 +52,7 @@ fun UICompose(
     val ctx = LocalContext.current
 
     //Toolbar
-    val screen = remember { mutableStateOf(ChumiScreens.Start) }
+    val screen = remember { mutableStateOf(TriffleScreens.Start) }
 
     //Edit exchange
     val isPopUpExchangeOpen = remember { mutableStateOf(false) }
@@ -110,9 +85,9 @@ fun UICompose(
                 }
             },
             bottomBar = {
-                if(screen.value == ChumiScreens.Start){
+                if(screen.value == TriffleScreens.Start){
                     MainScreenBottomNav(
-                        onClickAdd = { createToast(ctx) },
+                        onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
                         onClickChange = {
                             isEurToYen.value = !isEurToYen.value
                             saveIsEurToYen.invoke()
@@ -127,19 +102,18 @@ fun UICompose(
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = ChumiScreens.Start.name,
+                startDestination = TriffleScreens.Start.name,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(route = ChumiScreens.Start.name) {
-                    screen.value = ChumiScreens.Start
+                composable(route = TriffleScreens.Start.name) {
+                    screen.value = TriffleScreens.Start
                     Box(
                         modifier = with(Modifier) {
                             fillMaxSize()
                                 .paint(
                                     // Replace with your image id
-                                    painterResource(id = R.drawable.bg_image_test),
-                                    contentScale = ContentScale.FillBounds
-                                )
+                                    painterResource(id = if(isSystemInDarkTheme()) R.drawable.image_bg_dark_test else R.drawable.bg_image_test),
+                                    contentScale = ContentScale.FillBounds).background(if(isSystemInDarkTheme())Color.Black.copy(0.3f) else Color.Transparent)
 
                         }) {
                         MainScreen(
@@ -148,9 +122,9 @@ fun UICompose(
                             yenValue,
                             eurValue,
                             isEurToYen,
-                            onClickAdd = { isPopUpAddItemOpen.value = true },
-                            onClickList = { navController.navigate(ChumiScreens.ShoppingList.name) },
-                            onClickTotals = { createToast(ctx) }
+                            onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
+                            onClickList = { navController.navigate(TriffleScreens.ShoppingList.name) },
+                            onClickTotals = { CreateToast(ctx) }
                         )
                         if (isPopUpExchangeOpen.value) {
                             AlertExchange(
@@ -177,21 +151,21 @@ fun UICompose(
                                 yenValue.value,
                                 onDismissRequest = { isPopUpAddItemOpen.value = false })
                             { trifleModel ->
-                                createToast(ctx, trifleModel.name)
+                                CreateToast(ctx, trifleModel.name)
                                 isPopUpAddItemOpen.value = false
                             }
                         }
                     }
                 }
 
-                composable(route = ChumiScreens.ShoppingList.name) {
-                    screen.value = ChumiScreens.ShoppingList
+                composable(route = TriffleScreens.ShoppingList.name) {
+                    screen.value = TriffleScreens.ShoppingList
                     Box(
                         modifier = with(Modifier) {
                             fillMaxSize()
                                 .paint(
                                     // Replace with your image id
-                                    painterResource(id = R.drawable.bg_image_test),
+                                    painterResource(id = if(isSystemInDarkTheme()) R.drawable.bg_image_test else R.drawable.bg_image_test),
                                     contentScale = ContentScale.FillBounds
                                 )
 
@@ -202,6 +176,15 @@ fun UICompose(
                             onAddClick = {})
                     }
                 }
+                composable(route = TriffleScreens.AddExpense.name) {
+                    screen.value = TriffleScreens.AddExpense
+                    AddExpenseScreen(
+                        eurValue, yenValue, yenExchange, eurExchange, isEurToYen
+                    ){trifleModel ->
+                        CreateToast(ctx, trifleModel.toString())
+                        navController.popBackStack()
+                    }
+                }
             }
         }
     }
@@ -209,13 +192,13 @@ fun UICompose(
 
 private fun NavigationDrawerOnSelectOption(selectedOption: Int, navController: NavController){
     when(selectedOption){
-        0-> {/*AÑADIR ITEM*/}
-        1-> {navController.navigate(ChumiScreens.ShoppingList.name)}
+        0-> {navController.navigate(TriffleScreens.AddExpense.name)}
+        1-> {navController.navigate(TriffleScreens.ShoppingList.name)}
         2-> {/*IR A TOTALES*/}
     }
 }
 
-private fun createToast(context: Context, label: String = "Próximamente") {
+private fun CreateToast(context: Context, label: String = "Próximamente") {
     Toast.makeText(context, label, Toast.LENGTH_SHORT).show()
 }
 

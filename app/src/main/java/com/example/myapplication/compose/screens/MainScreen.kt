@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -31,11 +32,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.compose.components.DoubleBorderButton
 import com.example.myapplication.compose.components.MainScreenChangeComponent
 import com.example.myapplication.compose.components.MainScreenTotalsComponent
 import com.example.myapplication.compose.components.MoneyItem
 import com.example.myapplication.compose.formatText
+import com.example.myapplication.compose.onCalculateExchange
 import com.example.myapplication.compose.parseValue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
@@ -114,36 +117,13 @@ fun MainScreen(
     }
 }
 
-private fun onCalculateExchange(
-    isEurToYen: MutableState<Boolean>,
-    eurValue: MutableState<Float>,
-    yenValue: MutableState<Float>,
-    textEur: MutableState<String>,
-    textYen: MutableState<String>,
-    eurExchange: MutableState<Float>,
-    yenExchange: MutableState<Float>){
-    if(isEurToYen.value){
-        eurValue.value = parseValue(textEur.value)
-        yenValue.value = onUpdateCurrency(eurValue, eurExchange)
-        textYen.value = formatText(yenValue.value)
-        textEur.value = formatText(eurValue.value)
-    }else{
-        yenValue.value = parseValue(textYen.value)
-        eurValue.value = onUpdateCurrency(yenValue, yenExchange)
-        textYen.value = formatText(yenValue.value)
-        textEur.value = formatText(eurValue.value)
-    }
-}
 
-
-private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) = yen.value * yenExchange.value
-
-
-
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
+@ThemePreviews
 @Composable
 private fun prevMainScreen(){
     MyApplicationTheme {
-        MainScreen()
+        Surface() {
+            MainScreen()
+        }
     }
 }

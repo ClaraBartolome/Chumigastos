@@ -29,8 +29,9 @@
     <string name="JPY_exchange_main" translatable="false">1JPY = %1$sEUR</string>
     <string name="Eur_exchange_main" translatable="false">1EUR = %1$sJPY</string>
     <string name="totals">Total expenses</string>
-    <string name="add_expense">Add expense</string>
+    <string name="add_expense">Add Expense</string>
     <string name="shopping_list">Shopping list</string>
     <string name="total_lowercase">Total</string>
-    <string name="swap_currencies">Swap currencies</string>
+    <string name="swap_currencies">Swap</string>
+    <string name="price">Price</string>
 </resources>

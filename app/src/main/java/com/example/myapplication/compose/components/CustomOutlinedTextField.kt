@@ -1,5 +1,6 @@
 package com.example.myapplication.compose.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,15 +28,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.compose.screens.AddExpenseScreen
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun CustomOutlinedTextField(
     value: MutableState<String> = remember { mutableStateOf("Value") },
     placeholder: String = "Placeholder",
     iconId: Int = R.drawable.ic_yen,
-    onValueChange: (String) -> Unit) {
+    onValueChange: (String) -> Unit = {}) {
     OutlinedCard(
         modifier = Modifier.padding(top = 8.dp),
         colors = CardDefaults.cardColors(
@@ -93,5 +97,14 @@ fun CustomOutlinedTextField(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "en", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun prevAddExpenseScreen(){
+    MyApplicationTheme {
+        CustomOutlinedTextField()
     }
 }

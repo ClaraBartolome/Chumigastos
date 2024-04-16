@@ -1,9 +1,9 @@
 package com.example.myapplication.compose.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,21 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
-import com.example.myapplication.common.ChumiScreens
+import com.example.myapplication.common.TriffleScreens
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarDefault(
     navController: NavHostController,
-    screen: ChumiScreens,
+    screen: TriffleScreens,
     isAlertExchangeOpen: MutableState<Boolean>,
     onNavigationIconClick: () -> Unit = {}
 ) {
@@ -38,14 +37,24 @@ fun TopAppBarDefault(
         title = { TitleText(screen) },
         actions = {
             when (screen) {
-                ChumiScreens.Start, ChumiScreens.ShoppingList, ChumiScreens.Totals -> {}
+                TriffleScreens.Start, TriffleScreens.ShoppingList, TriffleScreens.Totals, TriffleScreens.AddExpense -> {}
             }
         },
         navigationIcon = {
-            if (screen == ChumiScreens.Start) {
-                IconButtonApp(
-                    imageVector = Icons.Filled.Menu,
-                    action = { onNavigationIconClick.invoke() })
+            if (screen == TriffleScreens.Start) {
+
+            }
+            when (screen) {
+                TriffleScreens.Start -> {
+                    IconButtonApp(
+                        imageVector = Icons.Filled.Menu,
+                        action = { onNavigationIconClick.invoke() })
+                }
+                TriffleScreens.ShoppingList, TriffleScreens.Totals, TriffleScreens.AddExpense -> {
+                    IconButtonApp(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        action = { navController.popBackStack() })
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -82,9 +91,9 @@ private fun IconButtonApp(
 }
 
 @Composable
-private fun TitleText(screen: ChumiScreens) {
+private fun TitleText(screen: TriffleScreens) {
     val title = when (screen) {
-        ChumiScreens.Start -> stringResource(id = R.string.app_name)
+        TriffleScreens.Start -> stringResource(id = R.string.app_name)
         else -> stringResource(id = R.string.app_name)
     }
     Text(

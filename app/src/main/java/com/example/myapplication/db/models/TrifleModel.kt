@@ -13,4 +13,9 @@ data class TrifleModel(
     @ColumnInfo(name = "category", defaultValue = "")var category: String = "",
     @ColumnInfo(name = "yenPrice", defaultValue = "")var yenPrice: String = "",
     @ColumnInfo(name = "eurPrice", defaultValue = "")var eurPrice: String = "",
-)
+){
+    override fun toString(): String {
+        return "$name $storeName $dateOfCreation $category $yenPrice $eurPrice"
+    }
+}
+
