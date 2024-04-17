@@ -44,7 +44,7 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 fun ShoppingCartScreen(
     itemsList: MutableList<TrifleModel> = remember { mutableStateListOf() },
     storeName: MutableState<String> = remember { mutableStateOf("") },
-    isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(true) },
+    isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
     onAddClick: () -> Unit = {}
 ) {
     //itemsList.addAll(itemsMockUpList)
