@@ -20,4 +20,16 @@
     <string name="home">Hogar</string>
     <string name="trifles">Chuminadas</string>
     <string name="category">Categoría</string>
+    <string name="see_all">Ver todos</string>
+    <string name="currency_exchange">Cambio de moneda</string>
+    <string name="calculate">Calcular</string>
+    <string name="totals">Gastos totales</string>
+    <string name="add_expense">Añadir Gasto</string>
+    <string name="shopping_cart">Carrito de la compra</string>
+    <string name="total_lowercase">Total</string>
+    <string name="swap_currencies">Intercambiar</string>
+    <string name="price">Precio</string>
+    <string name="total_items">Chuminadas en tu cesta: %d</string>
+    <string name="buy_everything">Comprar</string>
+    <string name="trifles_purchased_in_total">Chuminadas compradas en total: %d</string>
 </resources>

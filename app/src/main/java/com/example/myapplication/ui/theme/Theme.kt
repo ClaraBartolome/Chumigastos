@@ -15,33 +15,76 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val LightColors = lightColorScheme(
+    primary = pink_theme_light_primary,
+    onPrimary = pink_theme_light_onPrimary,
+    primaryContainer = pink_theme_light_primaryContainer,
+    onPrimaryContainer = pink_theme_light_onPrimaryContainer,
+    secondary = pink_theme_light_secondary,
+    onSecondary = pink_theme_light_onSecondary,
+    secondaryContainer = pink_theme_light_secondaryContainer,
+    onSecondaryContainer = pink_theme_light_onSecondaryContainer,
+    tertiary = pink_theme_light_tertiary,
+    onTertiary = pink_theme_light_onTertiary,
+    tertiaryContainer = pink_theme_light_tertiaryContainer,
+    onTertiaryContainer = pink_theme_light_onTertiaryContainer,
+    error = pink_theme_light_error,
+    errorContainer = pink_theme_light_errorContainer,
+    onError = pink_theme_light_onError,
+    onErrorContainer = pink_theme_light_onErrorContainer,
+    background = pink_theme_light_background,
+    onBackground = pink_theme_light_onBackground,
+    surface = pink_theme_light_surface,
+    onSurface = pink_theme_light_onSurface,
+    surfaceVariant = pink_theme_light_surfaceVariant,
+    onSurfaceVariant = pink_theme_light_onSurfaceVariant,
+    outline = pink_theme_light_outline,
+    inverseOnSurface = pink_theme_light_inverseOnSurface,
+    inverseSurface = pink_theme_light_inverseSurface,
+    inversePrimary = pink_theme_light_inversePrimary,
+    surfaceTint = pink_theme_light_surfaceTint,
+    outlineVariant = pink_theme_light_outlineVariant,
+    scrim = pink_theme_light_scrim,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val DarkColors = darkColorScheme(
+    primary = pink_theme_dark_primary,
+    onPrimary = pink_theme_dark_onPrimary,
+    primaryContainer = pink_theme_dark_primaryContainer,
+    onPrimaryContainer = pink_theme_dark_onPrimaryContainer,
+    secondary = pink_theme_dark_secondary,
+    onSecondary = pink_theme_dark_onSecondary,
+    secondaryContainer = pink_theme_dark_secondaryContainer,
+    onSecondaryContainer = pink_theme_dark_onSecondaryContainer,
+    tertiary = pink_theme_dark_tertiary,
+    onTertiary = pink_theme_dark_onTertiary,
+    tertiaryContainer = pink_theme_dark_tertiaryContainer,
+    onTertiaryContainer = pink_theme_dark_onTertiaryContainer,
+    error = pink_theme_dark_error,
+    errorContainer = pink_theme_dark_errorContainer,
+    onError = pink_theme_dark_onError,
+    onErrorContainer = pink_theme_dark_onErrorContainer,
+    background = pink_theme_dark_background,
+    onBackground = pink_theme_dark_onBackground,
+    surface = pink_theme_dark_surface,
+    onSurface = pink_theme_dark_onSurface,
+    surfaceVariant = pink_theme_dark_surfaceVariant,
+    onSurfaceVariant = pink_theme_dark_onSurfaceVariant,
+    outline = pink_theme_dark_outline,
+    inverseOnSurface = pink_theme_dark_inverseOnSurface,
+    inverseSurface = pink_theme_dark_inverseSurface,
+    inversePrimary = pink_theme_dark_inversePrimary,
+    surfaceTint = pink_theme_dark_surfaceTint,
+    outlineVariant = pink_theme_dark_outlineVariant,
+    scrim = pink_theme_dark_scrim,
 )
 
 @Composable
 fun MyApplicationTheme(
-    darkTheme: Boolean = false,//isSystemInDarkTheme(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,8 +93,8 @@ fun MyApplicationTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> DarkColors
+        else -> LightColors
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -64,7 +107,7 @@ fun MyApplicationTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = CustomTypography,
         content = content
     )
 }
