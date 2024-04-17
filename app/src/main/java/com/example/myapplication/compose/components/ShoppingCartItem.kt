@@ -1,7 +1,9 @@
 package com.example.myapplication.compose.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -22,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,19 +34,31 @@ import com.example.myapplication.R
 import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.compose.formatTextCurrency
 import com.example.myapplication.compose.parseValue
+import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 import java.util.Locale
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShoppingCartItem(categoryId: Int = R.drawable.ic_triffle, itemName: String = stringResource(id = R.string.trifle), yenPrice: String = "10", eurPrice: String = "10") {
+fun ShoppingCartItem(
+    categoryId: Int = R.drawable.ic_triffle,
+    itemName: String = stringResource(id = R.string.trifle),
+    yenPrice: String = "10", eurPrice: String = "10",
+    onLongClickOnItem: () -> Unit = {},) {
+    val haptics = LocalHapticFeedback.current
     Card(colors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ),
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .padding(horizontal = 8.dp)
-            .clickable { /*onClick.invoke()*/ }) {
+            .combinedClickable(
+                onLongClick = {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onLongClickOnItem.invoke()},
+                onClick = {}
+            )) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start, modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)

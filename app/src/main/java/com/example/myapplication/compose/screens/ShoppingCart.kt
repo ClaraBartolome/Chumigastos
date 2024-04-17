@@ -47,7 +47,8 @@ fun ShoppingCartScreen(
     storeName: MutableState<String> = remember { mutableStateOf("") },
     isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
     onAddClick: () -> Unit = {},
-    onBuyClick: () -> Unit = {}
+    onBuyClick: () -> Unit = {},
+    onLongClickOnItem: (TrifleModel) -> Unit = {},
 ) {
     //itemsList.addAll(itemsMockUpList)
     val lastStoreName = remember { mutableStateOf("") }
@@ -84,7 +85,8 @@ fun ShoppingCartScreen(
                         categoryId = Category(trifleModel.category).iconId,
                         itemName = trifleModel.name,
                         yenPrice = trifleModel.yenPrice,
-                        eurPrice = trifleModel.eurPrice
+                        eurPrice = trifleModel.eurPrice,
+                        onLongClickOnItem = { onLongClickOnItem.invoke(trifleModel) }
                     )
                     if(index == itemsList.size -1){
                         Spacer(modifier = Modifier.height(16.dp))

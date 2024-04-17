@@ -40,6 +40,8 @@ import com.example.myapplication.compose.GetAllTrifles
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
+import com.example.myapplication.compose.components.PopUpChoice
+import com.example.myapplication.compose.components.PopUpChoiceButtons
 import com.example.myapplication.compose.components.TopAppBarDefault
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -76,16 +78,22 @@ fun UICompose(
     val eurValue = remember { mutableStateOf<Float>(100 / eurExchange.value) }
 
     //Shopping Cart
-    val itemsList = remember { mutableStateListOf<TrifleModel>() }
-    //itemsList.addAll(itemsMockUpList)
+    val shoppingCartList = remember { mutableStateListOf<TrifleModel>() }
     val addItemToShoppingCart = remember { mutableStateOf(false) }
     val storeName = remember { mutableStateOf("") }
     val addAllItems = remember { mutableStateOf(false) }
+    val shoppingCartItemChosen = remember { mutableStateOf<TrifleModel>(TrifleModel()) }
 
     //Totals
     val isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(true) }
     val totalItemsList = remember { mutableStateListOf<TrifleModel>() }
     totalItemsList.addAll(itemsMockUpList)
+
+    //Delete
+    val showPopUpOptions = remember { mutableStateOf(false) }
+    val showPopUpDelete = remember { mutableStateOf(false) }
+    val itemChosen = remember { mutableStateOf<TrifleModel>(TrifleModel()) }
+
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -140,7 +148,7 @@ fun UICompose(
                 composable(route = TriffleScreens.Start.name) {
                     screen.value = TriffleScreens.Start
                     storeName.value = ""
-                    itemsList.clear()
+                    shoppingCartList.clear()
                     TAG = "MAIN_SCREEN"
                     GetAllTrifles(trifleViewModel = trifleApplicationViewModel, TAG)
                     Box(
@@ -188,7 +196,7 @@ fun UICompose(
                 composable(route = TriffleScreens.ShoppingList.name) {
                     screen.value = TriffleScreens.ShoppingList
                     ShoppingCartScreen(
-                        itemsList = itemsList,
+                        itemsList = shoppingCartList,
                         storeName = storeName,
                         onAddClick = {
                             addItemToShoppingCart.value = true
@@ -196,11 +204,39 @@ fun UICompose(
                         onBuyClick = {
                             addAllItems.value = true
                             navController.navigate(TriffleScreens.Start.name)
+                        },
+                        onLongClickOnItem = {
+                            showPopUpOptions.value = true
+                            shoppingCartItemChosen.value = it
                         })
                     if (addAllItems.value){
                         addAllItems.value = false
-                        AddAllTrifles(trifleViewModel = trifleApplicationViewModel, trifleList = itemsList)
+                        AddAllTrifles(trifleViewModel = trifleApplicationViewModel, trifleList = shoppingCartList)
                     }
+
+                    if(showPopUpOptions.value){
+                        PopUpChoice(
+                            onClickEdit = {
+                                showPopUpOptions.value = false
+                            },
+                            onClickDelete = {
+                                showPopUpOptions.value = false
+                                showPopUpDelete.value = true}
+                        )
+                    }
+
+                    if(showPopUpDelete.value){
+                        PopUpChoiceButtons(
+                            onClickAccept = {
+                                showPopUpDelete.value = false
+                                shoppingCartList.remove(shoppingCartItemChosen.value)
+                            },
+                            onClickDismiss = {
+                                showPopUpDelete.value = false
+                            }
+                        )
+                    }
+
                 }
                 composable(route = TriffleScreens.AddExpense.name) {
                     screen.value = TriffleScreens.AddExpense
@@ -210,7 +246,7 @@ fun UICompose(
                         CreateToast(ctx, trifleModel.toString())
                         if(addItemToShoppingCart.value){
                             addItemToShoppingCart.value = false
-                            itemsList.add(trifleModel)
+                            shoppingCartList.add(trifleModel)
                         }else{
                             AddTrifle(trifleViewModel = trifleApplicationViewModel, trifle = trifleModel)
                         }
@@ -222,7 +258,33 @@ fun UICompose(
                     ShoppingCartScreen(
                         itemsList = trifleList.value,
                         isTotalItemsList = isTotalItemsList,
-                        onAddClick = {})
+                        onAddClick = {},
+                        onLongClickOnItem = {
+                            showPopUpOptions.value = true
+                            itemChosen.value = it
+                        })
+                    if(showPopUpOptions.value){
+                        PopUpChoice(
+                            onClickEdit = {
+                                showPopUpOptions.value = false
+                            },
+                            onClickDelete = {
+                                showPopUpOptions.value = false
+                                showPopUpDelete.value = true}
+                        )
+                    }
+
+                    if(showPopUpDelete.value){
+                        PopUpChoiceButtons(
+                            onClickAccept = {
+                                showPopUpDelete.value = false
+                                trifleApplicationViewModel.deleteTrifle(itemChosen.value)
+                            },
+                            onClickDismiss = {
+                                showPopUpDelete.value = false
+                            }
+                        )
+                    }
                 }
             }
         }

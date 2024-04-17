@@ -2,6 +2,7 @@ package com.example.myapplication.db
 
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,6 +19,9 @@ interface TrifleDao {
 
     @Query("SELECT * FROM trifle_table ")
     suspend fun getAll(): List<TrifleModel>
+
+    @Delete
+    suspend fun deleteTrifle(trifle: TrifleModel)
 
     /*@Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLink(link: LinkModel)

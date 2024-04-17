@@ -39,4 +39,10 @@
     <string name="price_slash_price" translatable="false">%s / %s</string>
     <string name="trifles_purchased_in_total">Trifles purchased in total: %d</string>
     <string name="empty_cart">Your shopping cart is empty, add an item using the + button below</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_popup">Are you sure you want to delete this item?</string>
+    <string name="yes">Yes</string>
+    <string name="no" translatable="false">No</string>
+    <string name="edit_trifle">Edit Trifle</string>
 </resources>

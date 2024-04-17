@@ -123,12 +123,17 @@ fun AlertExchange(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                 ) {
-                    PopUpButton(stringResource(id = R.string.dismiss)) { onDismissRequest.invoke() }
-                    PopUpButton(stringResource(id = R.string.accept)) {
-                        onConfirmation.invoke(
-                            input.value,
-                            exchangeEurYen.value
-                        )
+                    Column(Modifier.weight(1f)) {
+                        PopUpButton(stringResource(id = R.string.dismiss)) { onDismissRequest.invoke() }
+
+                    }
+                    Column(Modifier.weight(1f)) {
+                        PopUpButton(stringResource(id = R.string.accept)) {
+                            onConfirmation.invoke(
+                                input.value,
+                                exchangeEurYen.value
+                            )
+                        }
                     }
                 }
             }
@@ -209,17 +214,24 @@ fun MoneyItemPopUp(
 }
 
 @Composable
-fun PopUpButton(label: String, onClick: () -> Unit) {
+fun PopUpButton(
+    label: String,
+    containerColor: Color = Color.Transparent,
+    textColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    textWeight: FontWeight = FontWeight.Normal,
+    onClick: () -> Unit) {
     Button(
         onClick = { onClick.invoke() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
-        )
+            containerColor = containerColor,
+        ),
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            color = textColor,
+            fontWeight = textWeight
         )
     }
 }
