@@ -1,7 +1,6 @@
 package com.example.myapplication.compose.screens
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,13 +13,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,11 +30,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.common.TriffleScreens
+import com.example.myapplication.common.itemsMockUpList
 import com.example.myapplication.compose.components.AlertAdd
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
 import com.example.myapplication.compose.components.TopAppBarDefault
+import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
 
@@ -64,14 +65,29 @@ fun UICompose(
     val yenValue = remember { mutableStateOf<Float>(100f) }
     val eurValue = remember { mutableStateOf<Float>(100 / eurExchange.value) }
 
+    //Shopping Cart
+    val itemsList = remember { mutableStateListOf<TrifleModel>() }
+    itemsList.addAll(itemsMockUpList)
+    val addItemToShoppingCart = remember { mutableStateOf(false) }
+    val storeName = remember { mutableStateOf("") }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    ModalNavigationDrawer(drawerContent = {
-        NavigationDrawerContent(scope = scope, drawerState = drawerState, onSelectItem = {itemIndex -> NavigationDrawerOnSelectOption(itemIndex, navController) })
-    },
-        drawerState = drawerState) {
+    ModalNavigationDrawer(
+        drawerContent = {
+            NavigationDrawerContent(
+                scope = scope,
+                drawerState = drawerState,
+                onSelectItem = { itemIndex ->
+                    NavigationDrawerOnSelectOption(
+                        itemIndex,
+                        navController
+                    )
+                })
+        },
+        drawerState = drawerState
+    ) {
         Scaffold(
             topBar = {
                 TopAppBarDefault(
@@ -85,7 +101,7 @@ fun UICompose(
                 }
             },
             bottomBar = {
-                if(screen.value == TriffleScreens.Start){
+                if (screen.value == TriffleScreens.Start) {
                     MainScreenBottomNav(
                         onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
                         onClickChange = {
@@ -107,13 +123,16 @@ fun UICompose(
             ) {
                 composable(route = TriffleScreens.Start.name) {
                     screen.value = TriffleScreens.Start
+                    storeName.value = ""
                     Box(
                         modifier = with(Modifier) {
                             fillMaxSize()
                                 .paint(
                                     // Replace with your image id
-                                    painterResource(id = if(isSystemInDarkTheme()) R.drawable.image_bg_dark_test else R.drawable.bg_image_test),
-                                    contentScale = ContentScale.FillBounds).background(if(isSystemInDarkTheme())Color.Black.copy(0.3f) else Color.Transparent)
+                                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.image_bg_dark_test else R.drawable.bg_image_test),
+                                    contentScale = ContentScale.FillBounds
+                                )
+                                .background(if (isSystemInDarkTheme()) Color.Black.copy(0.3f) else Color.Transparent)
 
                         }) {
                         MainScreen(
@@ -160,28 +179,23 @@ fun UICompose(
 
                 composable(route = TriffleScreens.ShoppingList.name) {
                     screen.value = TriffleScreens.ShoppingList
-                    Box(
-                        modifier = with(Modifier) {
-                            fillMaxSize()
-                                .paint(
-                                    // Replace with your image id
-                                    painterResource(id = if(isSystemInDarkTheme()) R.drawable.bg_image_test else R.drawable.bg_image_test),
-                                    contentScale = ContentScale.FillBounds
-                                )
-
-                        }) {
-                        ShoppingListScreen(
-                            eurExchange = eurExchange.value,
-                            yenExchange = yenExchange.value,
-                            onAddClick = {})
-                    }
+                    ShoppingCartScreen(
+                        itemsList = itemsList,
+                        storeName = storeName,
+                        onAddClick = {
+                            addItemToShoppingCart.value = true
+                            navController.navigate(TriffleScreens.AddExpense.name)})
                 }
                 composable(route = TriffleScreens.AddExpense.name) {
                     screen.value = TriffleScreens.AddExpense
                     AddExpenseScreen(
-                        eurValue, yenValue, yenExchange, eurExchange, isEurToYen
-                    ){trifleModel ->
+                        eurValue, yenValue, yenExchange, eurExchange, isEurToYen, storeName
+                    ) { trifleModel ->
                         CreateToast(ctx, trifleModel.toString())
+                        if(addItemToShoppingCart.value){
+                            addItemToShoppingCart.value = false
+                            itemsList.add(trifleModel)
+                        }
                         navController.popBackStack()
                     }
                 }
@@ -190,11 +204,18 @@ fun UICompose(
     }
 }
 
-private fun NavigationDrawerOnSelectOption(selectedOption: Int, navController: NavController){
-    when(selectedOption){
-        0-> {navController.navigate(TriffleScreens.AddExpense.name)}
-        1-> {navController.navigate(TriffleScreens.ShoppingList.name)}
-        2-> {/*IR A TOTALES*/}
+private fun NavigationDrawerOnSelectOption(selectedOption: Int, navController: NavController) {
+    when (selectedOption) {
+        0 -> {
+            navController.navigate(TriffleScreens.AddExpense.name)
+        }
+
+        1 -> {
+            navController.navigate(TriffleScreens.ShoppingList.name)
+        }
+
+        2 -> {/*IR A TOTALES*/
+        }
     }
 }
 

@@ -49,8 +49,10 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
-              icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit) {
+fun MoneyItem(
+    digit: MutableState<Float>, text: MutableState<String>,
+    icon: Int = R.drawable.ic_euro, onUpdateNumber: () -> Unit
+) {
 
     val previousValue = remember { mutableStateOf(digit.value) }
     var currentValue = 0.0f
@@ -68,16 +70,25 @@ fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
-        Row(modifier = Modifier
-            .height(intrinsicSize = IntrinsicSize.Min)
-            .fillMaxWidth()
-            .padding(start = 16.dp, top = 8.dp, bottom = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-            Column(modifier = Modifier
-                .weight(1f)) {
+        Row(
+            modifier = Modifier
+                .height(intrinsicSize = IntrinsicSize.Min)
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
                 OutlinedTextField(
                     value = text.value,
                     onValueChange = {
-                        val newText = it.replace(Regex("[^0-9.,]"), "") // Eliminar cualquier cosa que no sea digito o coma o punto
+                        val newText = it.replace(
+                            Regex("[^0-9.,]"),
+                            ""
+                        ) // Eliminar cualquier cosa que no sea digito o coma o punto
                         currentValue = parseValue(newText)
                         text.value = newText
                     },
@@ -86,9 +97,9 @@ fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
                     trailingIcon = {
                         IconButton(onClick = {
 
-                                previousValue.value = currentValue
-                                digit.value = currentValue
-                                onUpdateNumber.invoke()
+                            previousValue.value = currentValue
+                            digit.value = currentValue
+                            onUpdateNumber.invoke()
 
                         }) {
                             Icon(
@@ -115,10 +126,16 @@ fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
 
             VerticalDivider(thickness = 2.dp, color = Color.LightGray)
 
-            Column(modifier = Modifier
-                .padding(horizontal = 8.dp)){
-                Image(painter = painterResource(id = icon), contentDescription = "", modifier = Modifier
-                    .size(32.dp), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = icon),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(32.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                 )
             }
         }
@@ -126,13 +143,22 @@ fun MoneyItem(digit: MutableState<Float>, text: MutableState<String>,
 }
 
 @Composable
-fun MoneyItemPopUp(eurToYen: MutableState<Boolean> = remember { mutableStateOf(false) }, eurChange: Float = 1.0f, yenChange: Float = 1.0f, onUpdateNumber: (String) -> Unit = {}){
+fun MoneyItemPopUp(
+    eurToYen: MutableState<Boolean> = remember { mutableStateOf(false) },
+    eurChange: Float = 1.0f,
+    yenChange: Float = 1.0f,
+    onUpdateNumber: (String) -> Unit = {}
+) {
     var text by remember { mutableStateOf("") }
-    OutlinedCard (
+    OutlinedCard(
         modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-            .height(IntrinsicSize.Min)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .height(IntrinsicSize.Min)
+        ) {
             Column(modifier = Modifier.weight(1f)) {
                 OutlinedTextField(
                     value = text,
@@ -142,9 +168,11 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean> = remember { mutableStateOf(f
                         onUpdateNumber.invoke(parseValue(newText).toString())
                     },
                     placeholder = {
-                        Text(text = (if (eurToYen.value) eurChange else yenChange).toString(),
+                        Text(
+                            text = (if (eurToYen.value) eurChange else yenChange).toString(),
                             color = Color.LightGray
-                        )},
+                        )
+                    },
                     textStyle = MaterialTheme.typography.titleMedium,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -162,12 +190,17 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean> = remember { mutableStateOf(f
             }
             VerticalDivider(thickness = 2.dp, color = Color.LightGray)
 
-            Column(modifier = Modifier
-                .padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.Center){
-                Image(painter = painterResource(id = if(eurToYen.value) R.drawable.ic_euro else R.drawable.ic_yen), contentDescription = "",
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = if (eurToYen.value) R.drawable.ic_euro else R.drawable.ic_yen),
+                    contentDescription = "",
                     modifier = Modifier
-                        .size(32.dp), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                        .size(32.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                 )
             }
         }
@@ -175,57 +208,81 @@ fun MoneyItemPopUp(eurToYen: MutableState<Boolean> = remember { mutableStateOf(f
 }
 
 @Composable
-fun ShowMoneyExchangeItem(eur: Float, yen: Float){
-    Row(horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
-        .fillMaxWidth()){
+fun ShowMoneyExchangeItem(eur: Float, yen: Float) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
 
-        OutlinedCard (
+        OutlinedCard(
         ) {
-            Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                .height(IntrinsicSize.Min)) {
-                Text(text = formatText(eur),
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .height(IntrinsicSize.Min)
+            ) {
+                Text(
+                    text = formatText(eur),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
-                        .padding(all = 8.dp))
+                        .padding(all = 8.dp)
+                )
                 VerticalDivider(thickness = 2.dp, color = Color.LightGray)
 
-                Column(modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                    verticalArrangement = Arrangement.Center){
-                    Image(painter = painterResource(id = R.drawable.ic_euro), contentDescription = "",
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_euro),
+                        contentDescription = "",
                         modifier = Modifier
-                            .fillMaxHeight(0.7f), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                            .fillMaxHeight(0.7f),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
                 }
             }
         }
 
-        OutlinedCard (
+        OutlinedCard(
         ) {
-            Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                .height(IntrinsicSize.Min)) {
-                Text(text = formatText(yen),
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .height(IntrinsicSize.Min)
+            ) {
+                Text(
+                    text = formatText(yen),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
-                        .padding(all = 8.dp))
+                        .padding(all = 8.dp)
+                )
                 VerticalDivider(thickness = 2.dp, color = Color.LightGray)
 
-                Column(modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                    verticalArrangement = Arrangement.Center){
-                    Image(painter = painterResource(id = R.drawable.ic_yen), contentDescription = "",
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_yen),
+                        contentDescription = "",
                         modifier = Modifier
-                            .fillMaxHeight(0.7f), colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                            .fillMaxHeight(0.7f),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
                 }
             }
         }
     }
 }
-
-
 
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
@@ -241,7 +298,10 @@ private fun DefaultPreview() {
                 remember { mutableStateOf<Float>(1.0f) },
                 remember { mutableStateOf("1.0f") },
                 R.drawable.ic_yen, {})
-            Column(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
+            Column(
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp)) {
                 ShowMoneyExchangeItem(eur = 1.67f, yen = 1.67f)
             }
         }

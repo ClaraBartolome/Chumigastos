@@ -27,7 +27,11 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun DoubleBorderButton(label: String = "AÑADIR", color: Color = Color.DarkGray, onClick: () -> Unit) {
+fun DoubleBorderButton(
+    label: String = "AÑADIR",
+    color: Color = Color.DarkGray,
+    onClick: () -> Unit
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = color,

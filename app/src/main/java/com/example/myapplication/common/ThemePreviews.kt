@@ -7,8 +7,20 @@ import androidx.compose.ui.tooling.preview.Preview
 
 //Preview
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "en", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    apiLevel = 33,
+    locale = "en",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    apiLevel = 33,
+    locale = "es",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 annotation class ThemePreviews
 
 @Preview(name = "NEXUS_7", device = Devices.NEXUS_7)

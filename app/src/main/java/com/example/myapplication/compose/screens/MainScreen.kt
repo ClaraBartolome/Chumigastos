@@ -45,21 +45,24 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun MainScreen(
-    yenExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    eurExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    yenValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    eurValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
+    yenExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    eurExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    yenValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    eurValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
-    onClickAdd: ()-> Unit = {},
-    onClickList: ()-> Unit  = {},
-    onClickTotals: ()-> Unit  = {}) {
+    onClickAdd: () -> Unit = {},
+    onClickList: () -> Unit = {},
+    onClickTotals: () -> Unit = {}
+) {
 
     val textYen = remember { mutableStateOf(formatText(yenValue.value)) }
     val textEur = remember { mutableStateOf(formatText(eurValue.value)) }
     Column(verticalArrangement = Arrangement.Top, modifier = Modifier.fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.Top, modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp)) {
+        Column(
+            verticalArrangement = Arrangement.Top, modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        ) {
 
             Row(
                 modifier = Modifier
@@ -68,11 +71,13 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(id = R.string.currency_exchange),
+                Text(
+                    text = stringResource(id = R.string.currency_exchange),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
-                    fontFamily = poppinsFontFamily)
+                    fontFamily = poppinsFontFamily
+                )
 
                 Text(text = stringResource(id = R.string.calculate),
                     style = MaterialTheme.typography.bodyLarge,
@@ -81,7 +86,13 @@ fun MainScreen(
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.clickable {
                         onCalculateExchange(
-                            isEurToYen, eurValue, yenValue, textEur, textYen, eurExchange, yenExchange
+                            isEurToYen,
+                            eurValue,
+                            yenValue,
+                            textEur,
+                            textYen,
+                            eurExchange,
+                            yenExchange
                         )
                     })
             }
@@ -91,25 +102,35 @@ fun MainScreen(
             Column(Modifier.padding(vertical = 16.dp)) {
                 MainScreenChangeComponent(
                     isTopCard = true,
-                    text = if(isEurToYen.value) textEur else textYen,
+                    text = if (isEurToYen.value) textEur else textYen,
                     isTextFieldEnabled = true,
                     textFieldWeight = 2.0f,
-                    currencyName = stringResource(id = if(isEurToYen.value) R.string.eur else R.string.yen),
-                    imageFlag = if(isEurToYen.value) R.drawable.image_eur_flag else R.drawable.image_japan_flag
+                    currencyName = stringResource(id = if (isEurToYen.value) R.string.eur else R.string.yen),
+                    imageFlag = if (isEurToYen.value) R.drawable.image_eur_flag else R.drawable.image_japan_flag
                 )
             }
             MainScreenChangeComponent(
                 isTopCard = false,
                 isTextFieldEnabled = false,
-                currencyName = stringResource(id = if(isEurToYen.value) R.string.yen else R.string.eur),
-                imageFlag = if(isEurToYen.value) R.drawable.image_japan_flag else R.drawable.image_eur_flag,
-                text = if(isEurToYen.value) textYen else textEur,
-                firstExchange = stringResource(id = R.string.JPY_exchange_main, formatText(yenExchange.value,"%.4f")),
-                secondExchange = stringResource(id = R.string.Eur_exchange_main, formatText(eurExchange.value))
+                currencyName = stringResource(id = if (isEurToYen.value) R.string.yen else R.string.eur),
+                imageFlag = if (isEurToYen.value) R.drawable.image_japan_flag else R.drawable.image_eur_flag,
+                text = if (isEurToYen.value) textYen else textEur,
+                firstExchange = stringResource(
+                    id = R.string.JPY_exchange_main,
+                    formatText(yenExchange.value, "%.4f")
+                ),
+                secondExchange = stringResource(
+                    id = R.string.Eur_exchange_main,
+                    formatText(eurExchange.value)
+                )
             )
         }
 
-        HorizontalDivider(thickness = 2.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 32.dp))
+        HorizontalDivider(
+            thickness = 2.dp,
+            color = Color.LightGray,
+            modifier = Modifier.padding(vertical = 32.dp)
+        )
 
         Column(Modifier.padding(horizontal = 16.dp)) {
             MainScreenTotalsComponent(onClickSeeAll = onClickTotals)
@@ -120,7 +141,7 @@ fun MainScreen(
 
 @ThemePreviews
 @Composable
-private fun prevMainScreen(){
+private fun prevMainScreen() {
     MyApplicationTheme {
         Surface() {
             MainScreen()

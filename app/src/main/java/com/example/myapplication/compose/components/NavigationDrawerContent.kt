@@ -48,7 +48,8 @@ import kotlinx.coroutines.launch
 fun NavigationDrawerContent(
     scope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    onSelectItem: (Int) -> Unit = {}) {
+    onSelectItem: (Int) -> Unit = {}
+) {
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(-1)
     }
@@ -56,17 +57,21 @@ fun NavigationDrawerContent(
         modifier = Modifier.padding(end = 64.dp)
     ) {
 
-        Row(modifier = Modifier
-            .height(intrinsicSize = IntrinsicSize.Min)
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp, bottom = 8.dp),
+        Row(
+            modifier = Modifier
+                .height(intrinsicSize = IntrinsicSize.Min)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp, bottom = 8.dp),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically){
-            Text(text = stringResource(id = R.string.app_name),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.SemiBold)
+                fontWeight = FontWeight.SemiBold
+            )
         }
 
         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -116,7 +121,7 @@ val navigationDrawerItems = listOf(
         unselectedIcon = Icons.Outlined.AddCircle,
     ),
     NavigationItem(
-        title = R.string.shopping_list,
+        title = R.string.shopping_cart,
         selectedIcon = Icons.Filled.ShoppingCart,
         unselectedIcon = Icons.Outlined.ShoppingCart
     ),
@@ -136,9 +141,12 @@ data class NavigationItem(
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
 @Composable
-private fun prevMainScreen(){
+private fun prevMainScreen() {
     MyApplicationTheme {
-        ModalNavigationDrawer(drawerContent = { NavigationDrawerContent()}, drawerState = rememberDrawerState(initialValue = DrawerValue.Open)) {
+        ModalNavigationDrawer(
+            drawerContent = { NavigationDrawerContent() },
+            drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+        ) {
 
         }
     }

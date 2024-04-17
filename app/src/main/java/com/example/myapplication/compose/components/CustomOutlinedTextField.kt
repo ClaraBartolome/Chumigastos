@@ -39,7 +39,8 @@ fun CustomOutlinedTextField(
     value: MutableState<String> = remember { mutableStateOf("Value") },
     placeholder: String = "Placeholder",
     iconId: Int = R.drawable.ic_yen,
-    onValueChange: (String) -> Unit = {}) {
+    onValueChange: (String) -> Unit = {}
+) {
     OutlinedCard(
         modifier = Modifier.padding(top = 8.dp),
         colors = CardDefaults.cardColors(
@@ -100,10 +101,22 @@ fun CustomOutlinedTextField(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "en", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    apiLevel = 33,
+    locale = "en",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    apiLevel = 33,
+    locale = "es",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-private fun prevAddExpenseScreen(){
+private fun prevAddExpenseScreen() {
     MyApplicationTheme {
         CustomOutlinedTextField()
     }

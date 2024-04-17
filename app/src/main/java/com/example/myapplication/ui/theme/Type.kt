@@ -59,7 +59,7 @@ val CustomTypography = Typography(
     titleMedium = defaultTypography.titleMedium.copy(fontFamily = openSansFontFamily),
     titleLarge = defaultTypography.titleLarge.copy(fontFamily = openSansFontFamily),
     titleSmall = defaultTypography.titleSmall.copy(fontFamily = openSansFontFamily),
-    bodyMedium =defaultTypography.bodyMedium.copy(fontFamily = openSansFontFamily),
+    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = openSansFontFamily),
     bodySmall = defaultTypography.bodySmall.copy(fontFamily = openSansFontFamily),
     labelLarge = defaultTypography.labelLarge.copy(fontFamily = openSansFontFamily),
     labelMedium = defaultTypography.labelMedium.copy(fontFamily = openSansFontFamily),

@@ -57,54 +57,63 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun AddExpenseScreen(
-    eurValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    yenValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    yenExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    eurExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f)},
-    isEurToYen : MutableState<Boolean> = remember { mutableStateOf(true) },
+    eurValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    yenValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    yenExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    eurExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
+    storeName: MutableState<String> = remember { mutableStateOf("") },
     onConfirmation: @Composable (TrifleModel) -> Unit = {}
 ) {
     val itemName = remember { mutableStateOf("") }
-    val storeName = remember { mutableStateOf("") }
     val categoryNumber = remember { mutableStateOf(-1) }
     val textYen = remember { mutableStateOf(formatText(yenValue.value)) }
     val textEur = remember { mutableStateOf(formatText(eurValue.value)) }
-    val selectedText = remember { mutableStateOf(categories[0]) }
-    var isConfirmed by remember{ mutableStateOf(false) }
+    var isConfirmed by remember { mutableStateOf(false) }
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface), verticalArrangement = Arrangement.Top){
-         item{
-             Row(modifier = Modifier
-                 .height(intrinsicSize = IntrinsicSize.Min)
-                 .fillMaxWidth()
-                 .padding(horizontal = 16.dp)
-                 .padding(top = 8.dp),
-                 horizontalArrangement = Arrangement.Start,
-                 verticalAlignment = Alignment.CenterVertically) {
-                 Text(text = stringResource(id = R.string.add_expense),
-                     style = MaterialTheme.typography.headlineLarge,
-                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                     fontWeight = FontWeight.SemiBold,
-                     fontFamily = poppinsFontFamily
-                 )
-             }
-         }
+            .background(MaterialTheme.colorScheme.surface), verticalArrangement = Arrangement.Top
+    ) {
+        item {
+            Row(
+                modifier = Modifier
+                    .height(intrinsicSize = IntrinsicSize.Min)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(id = R.string.add_expense),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = poppinsFontFamily
+                )
+            }
+        }
 
-        item{
+        item {
             Spacer(modifier = Modifier.height(8.dp))
             CustomTextField(
                 text = itemName,
-                placeholder = stringResource(id = R.string.trifle), label = stringResource(id = R.string.trifle_name)
+                placeholder = stringResource(id = R.string.trifle),
+                label = stringResource(id = R.string.trifle_name)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            CustomTextField(text = storeName, placeholder = stringResource(id = R.string.acme), label = stringResource(id = R.string.store_name))
+            CustomTextField(
+                text = storeName,
+                placeholder = stringResource(id = R.string.acme),
+                label = stringResource(id = R.string.store_name)
+            )
         }
 
-        item{
+        item {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = stringResource(id = R.string.category),
+            Text(
+                text = stringResource(id = R.string.category),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -120,8 +129,7 @@ fun AddExpenseScreen(
                             isSelected = categoryNumber.value == itemId
                         ) { categoryNumber.value = itemId }
                     }
-                }
-                , modifier = Modifier
+                }, modifier = Modifier
                     .height(125.dp)
                     .padding(horizontal = 16.dp)
                     .padding(top = 16.dp)
@@ -153,7 +161,13 @@ fun AddExpenseScreen(
                     modifier = Modifier
                         .clickable {
                             onCalculateExchange(
-                                isEurToYen, eurValue, yenValue, textEur, textYen, eurExchange, yenExchange
+                                isEurToYen,
+                                eurValue,
+                                yenValue,
+                                textEur,
+                                textYen,
+                                eurExchange,
+                                yenExchange
                             )
                         },
                 )
@@ -162,22 +176,31 @@ fun AddExpenseScreen(
             Column(
                 Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)) {
-                MainScreenChangeComponent(isTopCard = true,
-                    text = if(isEurToYen.value) textEur else textYen,
+                    .padding(top = 16.dp)
+            ) {
+                MainScreenChangeComponent(
+                    isTopCard = true,
+                    text = if (isEurToYen.value) textEur else textYen,
                     isTextFieldEnabled = true,
                     textFieldWeight = 2.0f,
-                    currencyName = stringResource(id = if(isEurToYen.value) R.string.eur else R.string.yen),
-                    imageFlag = if(isEurToYen.value) R.drawable.image_eur_flag else R.drawable.image_japan_flag)
+                    currencyName = stringResource(id = if (isEurToYen.value) R.string.eur else R.string.yen),
+                    imageFlag = if (isEurToYen.value) R.drawable.image_eur_flag else R.drawable.image_japan_flag
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 MainScreenChangeComponent(
-                        isTopCard = false,
+                    isTopCard = false,
                     isTextFieldEnabled = false,
-                    currencyName = stringResource(id = if(isEurToYen.value) R.string.yen else R.string.eur),
-                    imageFlag = if(isEurToYen.value) R.drawable.image_japan_flag else R.drawable.image_eur_flag,
-                    text = if(isEurToYen.value) textYen else textEur,
-                    firstExchange = stringResource(id = R.string.JPY_exchange_main, formatText(yenExchange.value,"%.4f")),
-                    secondExchange = stringResource(id = R.string.Eur_exchange_main, formatText(eurExchange.value))
+                    currencyName = stringResource(id = if (isEurToYen.value) R.string.yen else R.string.eur),
+                    imageFlag = if (isEurToYen.value) R.drawable.image_japan_flag else R.drawable.image_eur_flag,
+                    text = if (isEurToYen.value) textYen else textEur,
+                    firstExchange = stringResource(
+                        id = R.string.JPY_exchange_main,
+                        formatText(yenExchange.value, "%.4f")
+                    ),
+                    secondExchange = stringResource(
+                        id = R.string.Eur_exchange_main,
+                        formatText(eurExchange.value)
+                    )
                 )
             }
         }
@@ -186,11 +209,17 @@ fun AddExpenseScreen(
             Spacer(modifier = Modifier.height(80.dp))
         }
     }
-    Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
-        ) {
+    Box(
+        contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
+    ) {
 
-        Column (verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.height(80.dp).fillMaxWidth()){
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth()
+        ) {
             FloatingActionButton(
                 shape = CircleShape,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -202,7 +231,7 @@ fun AddExpenseScreen(
                 ),
                 modifier = Modifier.padding(vertical = 16.dp),
                 onClick = {
-                        isConfirmed = true
+                    isConfirmed = true
                 }) {
                 Text(
                     text = stringResource(id = R.string.add_purchase),
@@ -214,14 +243,16 @@ fun AddExpenseScreen(
                 )
             }
 
-            if(isConfirmed){
+            if (isConfirmed) {
                 isConfirmed = false
                 onConfirmation.invoke(
                     TrifleModel(
                         name = itemName.value.ifBlank { stringResource(id = R.string.trifle) },
                         storeName = storeName.value.ifBlank { stringResource(id = R.string.acme) },
                         dateOfCreation = getDate(),
-                        category = if(categoryNumber.value != -1) stringResource(id = categories[categoryNumber.value]) else stringResource(id = R.string.trifles),
+                        category = if (categoryNumber.value != -1) stringResource(id = categories[categoryNumber.value]) else stringResource(
+                            id = R.string.trifles
+                        ),
                         yenPrice = formatText(yenValue.value),
                         eurPrice = formatText(eurValue.value)
                     )
@@ -233,7 +264,7 @@ fun AddExpenseScreen(
 
 @ThemePreviews
 @Composable
-private fun prevAddExpenseScreen(){
+private fun prevAddExpenseScreen() {
     MyApplicationTheme {
         AddExpenseScreen()
     }

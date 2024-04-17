@@ -26,7 +26,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 fun CustomTextField(
     text: MutableState<String> = remember { mutableStateOf("") },
     placeholder: String = "placeholder",
-    label:String = "label",
+    label: String = "label",
 ) {
     TextField(
         // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -34,9 +34,10 @@ fun CustomTextField(
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         value = text.value,
-        onValueChange = { text.value = it},
+        onValueChange = { text.value = it },
         placeholder = {
-            Text(text = placeholder,
+            Text(
+                text = placeholder,
                 color = MaterialTheme.colorScheme.primary.copy(0.5f),
             )
         },
@@ -58,12 +59,13 @@ fun CustomTextField(
             disabledIndicatorColor = MaterialTheme.colorScheme.primary,
             errorIndicatorColor = MaterialTheme.colorScheme.primary,
             focusedIndicatorColor = MaterialTheme.colorScheme.primary
-        ))
+        )
+    )
 }
 
 @ThemePreviews
 @Composable
-private fun prevAddExpenseScreen(){
+private fun prevAddExpenseScreen() {
     MyApplicationTheme {
         Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
             CustomTextField()

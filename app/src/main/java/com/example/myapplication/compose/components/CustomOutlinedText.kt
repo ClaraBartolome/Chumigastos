@@ -24,8 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 
 @Composable
-fun CustomOutlinedText(text: String, iconId: Int, modifier: Modifier = Modifier
-    .height(IntrinsicSize.Min).fillMaxWidth()){
+fun CustomOutlinedText(
+    text: String, iconId: Int, modifier: Modifier = Modifier
+        .height(IntrinsicSize.Min)
+        .fillMaxWidth()
+) {
     OutlinedCard(
         modifier = Modifier.padding(top = 8.dp),
         colors = CardDefaults.cardColors(

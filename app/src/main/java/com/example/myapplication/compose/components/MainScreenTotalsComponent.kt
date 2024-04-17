@@ -29,7 +29,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
-fun MainScreenTotalsComponent(onClickSeeAll: ()-> Unit = {}) {
+fun MainScreenTotalsComponent(onClickSeeAll: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .background(Color.Transparent)
@@ -53,7 +53,8 @@ fun MainScreenTotalsComponent(onClickSeeAll: ()-> Unit = {}) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(id = R.string.total_lowercase),
+                Text(
+                    text = stringResource(id = R.string.total_lowercase),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
@@ -66,18 +67,22 @@ fun MainScreenTotalsComponent(onClickSeeAll: ()-> Unit = {}) {
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.clickable { onClickSeeAll.invoke() })
             }
-            Text(text = "1234 EUR",
+            Text(
+                text = "1234 EUR",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp))
-            Text(text = "12345 JPY",
+                    .padding(top = 8.dp)
+            )
+            Text(
+                text = "12345 JPY",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
         }
     }
 }

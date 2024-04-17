@@ -50,7 +50,7 @@ fun AlertAdd(
     val storeName = remember { mutableStateOf("") }
     val categoryName = remember { mutableStateOf("") }
     val selectedText = remember { mutableStateOf(categories[0]) }
-    var isConfirmed by remember{ mutableStateOf(false) }
+    var isConfirmed by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = { /*TODO*/ }) {
         Card(
             colors = CardDefaults.cardColors(
@@ -61,7 +61,11 @@ fun AlertAdd(
                 .wrapContentHeight()
                 .padding(horizontal = 16.dp)
         ) {
-            Column(verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = stringResource(id = R.string.add_purchase),
                     modifier = Modifier
@@ -72,31 +76,52 @@ fun AlertAdd(
                     textAlign = TextAlign.Start
                 )
 
-                CustomFormTextField(text = itemName, placeholder = stringResource(id = R.string.trifle), label = stringResource(id = R.string.trifle_name))
-                CustomFormTextField(text = storeName, placeholder = stringResource(id = R.string.acme), label = stringResource(id = R.string.store_name))
+                CustomFormTextField(
+                    text = itemName,
+                    placeholder = stringResource(id = R.string.trifle),
+                    label = stringResource(id = R.string.trifle_name)
+                )
+                CustomFormTextField(
+                    text = storeName,
+                    placeholder = stringResource(id = R.string.acme),
+                    label = stringResource(id = R.string.store_name)
+                )
 
                 CustomDropdownMenu(selectedText = selectedText, categoryName = categoryName)
 
-                Column(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp)) {
                     ShowMoneyExchangeItem(eur = eur, yen = yen)
                 }
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp)){
-                    PopUpButton(stringResource(id = R.string.dismiss)){onDismissRequest.invoke()}
-                    PopUpButton(stringResource(id = R.string.accept)){isConfirmed = true}
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp)
+                ) {
+                    PopUpButton(stringResource(id = R.string.dismiss)) { onDismissRequest.invoke() }
+                    PopUpButton(stringResource(id = R.string.accept)) { isConfirmed = true }
                 }
 
-                if(isConfirmed){
+                if (isConfirmed) {
                     isConfirmed = false
                     onConfirmation.invoke(
                         TrifleModel(
-                            name = if(itemName.value.isNotBlank()) itemName.value else stringResource(id = R.string.trifle),
-                            storeName = if(storeName.value.isNotBlank()) storeName.value else stringResource(id = R.string.acme),
+                            name = if (itemName.value.isNotBlank()) itemName.value else stringResource(
+                                id = R.string.trifle
+                            ),
+                            storeName = if (storeName.value.isNotBlank()) storeName.value else stringResource(
+                                id = R.string.acme
+                            ),
                             dateOfCreation = getDate(),
-                            category = if(categoryName.value.isNotBlank()) categoryName.value else stringResource(id = selectedText.value),
+                            category = if (categoryName.value.isNotBlank()) categoryName.value else stringResource(
+                                id = selectedText.value
+                            ),
                             yenPrice = formatText(yen),
                             eurPrice = formatText(eur)
                         )
@@ -108,7 +133,7 @@ fun AlertAdd(
 
 }
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33,locale = "es")
+@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
 @Composable
 private fun DefaultPreview() {
     MyApplicationTheme {

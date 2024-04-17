@@ -33,7 +33,9 @@ class MainActivity : ComponentActivity() {
                 val isEurToYen = remember { mutableStateOf(getIsEurToYen(this)) }
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize().background(Color.Transparent)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Transparent)
                 ) {
                     UICompose(
                         yenExchange,

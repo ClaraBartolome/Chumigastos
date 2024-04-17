@@ -9,7 +9,7 @@
     <string name="eur_to_jpy">EUR to JPY</string>
     <string name="jpy_to_eur">JPY to EUR</string>
     <string name="add_purchase">Add purchase</string>
-    <string name="trifle">Trifle</string>
+    <string name="trifle">Trifles</string>
     <string name="trifle_name">Trifle name</string>
     <string name="acme" translatable="false">ACME</string>
     <string name="store_name">Store name</string>
@@ -30,8 +30,11 @@
     <string name="Eur_exchange_main" translatable="false">1EUR = %1$sJPY</string>
     <string name="totals">Total expenses</string>
     <string name="add_expense">Add Expense</string>
-    <string name="shopping_list">Shopping list</string>
+    <string name="shopping_cart">Shopping cart</string>
     <string name="total_lowercase">Total</string>
     <string name="swap_currencies">Swap</string>
     <string name="price">Price</string>
+    <string name="total_items">Triffles in your cart: %d</string>
+    <string name="buy_everything">Buy</string>
+    <string name="price_slash_price" translatable="false">%s / %s</string>
 </resources>

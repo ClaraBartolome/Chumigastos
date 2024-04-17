@@ -7,8 +7,10 @@ import com.example.myapplication.common.PREFERENCES_EUR_EXCHANGE
 import com.example.myapplication.common.PREFERENCES_IS_EUR_TO_YEN
 import com.example.myapplication.common.PREFERENCES_YEN_EXCHANGE
 import com.example.myapplication.common.PREFERENCE_FILE
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Currency
 import java.util.Locale
 
 fun getYenExchange(activity: ComponentActivity): Float {
@@ -21,7 +23,7 @@ fun setYenExchange(activity: ComponentActivity, yenExchange: MutableState<Float>
         PREFERENCES_YEN_EXCHANGE, yenExchange.value
     ).apply()
     activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
-        PREFERENCES_EUR_EXCHANGE, 1/yenExchange.value
+        PREFERENCES_EUR_EXCHANGE, 1 / yenExchange.value
     ).apply()
 }
 
@@ -35,7 +37,7 @@ fun setEurExchange(activity: ComponentActivity, eurExchange: MutableState<Float>
         PREFERENCES_EUR_EXCHANGE, eurExchange.value
     ).apply()
     activity.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE).edit().putFloat(
-        PREFERENCES_YEN_EXCHANGE, 1/eurExchange.value
+        PREFERENCES_YEN_EXCHANGE, 1 / eurExchange.value
     ).apply()
 }
 
@@ -58,13 +60,23 @@ fun formatText(value: Float, format: String = "%.2f"): String {
     }
 }
 
+fun formatTextCurrency(value: Float, locale: Locale): String {
+    val customFormat = NumberFormat.getCurrencyInstance()
+    customFormat.currency = Currency.getInstance(locale)
+    return if (value % 1.0f == 0.0f) {
+        customFormat.format(value.toInt())
+    } else {
+        customFormat.format(value)
+    }
+}
+
 fun getDate(): String {
     val time = Calendar.getInstance().time
     val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
     return formatter.format(time)
 }
 
-fun parseValue(text: String): Float{
+fun parseValue(text: String): Float {
     // Encontrar la última coma en la cadena
     val lastCommaIndex = text.lastIndexOf(",")
 
@@ -93,13 +105,14 @@ fun onCalculateExchange(
     textEur: MutableState<String>,
     textYen: MutableState<String>,
     eurExchange: MutableState<Float>,
-    yenExchange: MutableState<Float>){
-    if(isEurToYen.value){
+    yenExchange: MutableState<Float>
+) {
+    if (isEurToYen.value) {
         eurValue.value = parseValue(textEur.value)
         yenValue.value = onUpdateCurrency(eurValue, eurExchange)
         textYen.value = formatText(yenValue.value)
         textEur.value = formatText(eurValue.value)
-    }else{
+    } else {
         yenValue.value = parseValue(textYen.value)
         eurValue.value = onUpdateCurrency(yenValue, yenExchange)
         textYen.value = formatText(yenValue.value)
@@ -107,4 +120,5 @@ fun onCalculateExchange(
     }
 }
 
-private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) = yen.value * yenExchange.value
+private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) =
+    yen.value * yenExchange.value

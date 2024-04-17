@@ -44,15 +44,22 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 
 //HEIGHT ES DE 80.DP
 @Composable
-fun MainScreenBottomNav(onClickEdit: () -> Unit = {}, onClickAdd: () -> Unit = {}, onClickChange: () -> Unit = {}) {
-    Row(horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically,
+fun MainScreenBottomNav(
+    onClickEdit: () -> Unit = {},
+    onClickAdd: () -> Unit = {},
+    onClickChange: () -> Unit = {}
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant)) {
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+    ) {
 
 
-        IconButtonApp(Icons.Filled.Edit, stringResource(id = R.string.edit_change), onClickEdit )
+        IconButtonApp(Icons.Filled.Edit, stringResource(id = R.string.edit_change), onClickEdit)
 
         FloatingActionButton(
             shape = CircleShape,
@@ -67,25 +74,36 @@ fun MainScreenBottomNav(onClickEdit: () -> Unit = {}, onClickAdd: () -> Unit = {
             Icon(Icons.Filled.Add, "Localized description")
         }
 
-        IconButtonApp(imageId = R.drawable.ic_money_exchange, label = stringResource(id = R.string.swap_currencies), onClickChange)
+        IconButtonApp(
+            imageId = R.drawable.ic_money_exchange,
+            label = stringResource(id = R.string.swap_currencies),
+            onClickChange
+        )
     }
 }
 
 @Composable
 fun MainScreenBottomNavOverlap() {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(90.dp)
-        .background(Color.Transparent)) {
-        Box(modifier = Modifier
-            .matchParentSize()
-            .padding(top = 10.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant)){
-            Row(horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically,
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(90.dp)
+            .background(Color.Transparent)
+    ) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .padding(top = 10.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .matchParentSize()) {
-                IconButton(onClick = {  }) {
+                    .matchParentSize()
+            ) {
+                IconButton(onClick = { }) {
                     Icon(
                         imageVector = (Icons.Filled.Edit),
                         contentDescription = "",
@@ -98,7 +116,7 @@ fun MainScreenBottomNavOverlap() {
         }
 
         Box {
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()){
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                 FloatingActionButton(
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -108,7 +126,7 @@ fun MainScreenBottomNavOverlap() {
                         focusedElevation = 2.dp,
                         hoveredElevation = 2.dp
                     ),
-                    onClick = {  }) {
+                    onClick = { }) {
                     Icon(Icons.Filled.Add, "")
                 }
             }
@@ -118,7 +136,7 @@ fun MainScreenBottomNavOverlap() {
 }
 
 @Composable
-private fun IconButtonApp(imageVector: ImageVector, label:String, onClick: () -> Unit){
+private fun IconButtonApp(imageVector: ImageVector, label: String, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         IconButton(onClick = { onClick.invoke() }) {
             Icon(
@@ -127,7 +145,8 @@ private fun IconButtonApp(imageVector: ImageVector, label:String, onClick: () ->
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Text(text = label,
+        Text(
+            text = label,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -135,7 +154,7 @@ private fun IconButtonApp(imageVector: ImageVector, label:String, onClick: () ->
 }
 
 @Composable
-private fun IconButtonApp(imageId: Int, label:String, onClick: () -> Unit){
+private fun IconButtonApp(imageId: Int, label: String, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         IconButton(onClick = { onClick.invoke() }) {
             Icon(
@@ -144,7 +163,8 @@ private fun IconButtonApp(imageId: Int, label:String, onClick: () -> Unit){
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Text(text = label,
+        Text(
+            text = label,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 2
@@ -154,12 +174,11 @@ private fun IconButtonApp(imageId: Int, label:String, onClick: () -> Unit){
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
 @Composable
-private fun prevMainScreen(){
+private fun prevMainScreen() {
     MyApplicationTheme {
         Scaffold(
             bottomBar = { MainScreenBottomNav() }
-        ) {
-                innerPadding ->
+        ) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
 
             }

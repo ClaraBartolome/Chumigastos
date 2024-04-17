@@ -14,29 +14,31 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.compose.screens.ShoppingListScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun CustomFormTextField(text: MutableState<String> = remember { mutableStateOf("Value") },
-                        placeholder: String = "placeholder",
-                        label:String = "label",
-                        modifier: Modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 8.dp, end = 16.dp)){
+fun CustomFormTextField(
+    text: MutableState<String> = remember { mutableStateOf("Value") },
+    placeholder: String = "placeholder",
+    label: String = "label",
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+) {
     TextField(
         value = text.value,
         onValueChange = {},
         placeholder = {
-            Text(text = placeholder,
+            Text(
+                text = placeholder,
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.5f),
             )
         },
         label = {
-            Text(text = label,
+            Text(
+                text = label,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         },
@@ -56,7 +58,7 @@ fun CustomFormTextField(text: MutableState<String> = remember { mutableStateOf("
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
 @Composable
-private fun prevShoppingListScreen(){
+private fun prevShoppingListScreen() {
     MyApplicationTheme {
         Column(Modifier.height(IntrinsicSize.Min)) {
             CustomFormTextField()

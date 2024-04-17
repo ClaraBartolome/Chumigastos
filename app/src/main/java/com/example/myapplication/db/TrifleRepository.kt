@@ -1,6 +1,6 @@
 package com.example.myapplication.db
 
-class TrifleRepository (private val trifleDao: TrifleDao) {
+class TrifleRepository(private val trifleDao: TrifleDao) {
 
     /*private val _allLinks = MutableLiveData<List<LinkModel>>()
     val allLinks: LiveData<List<LinkModel>>

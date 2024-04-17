@@ -29,9 +29,9 @@ import com.example.myapplication.common.categories
 @Composable
 fun CustomDropdownMenu(selectedText: MutableState<Int>, categoryName: MutableState<String>) {
     var expanded by remember { mutableStateOf(false) }
-    var categorySelected by remember{ mutableStateOf(-1) }
-    var isCategorySelected by remember{ mutableStateOf(false) }
-    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = {expanded = !expanded}) {
+    var categorySelected by remember { mutableStateOf(-1) }
+    var isCategorySelected by remember { mutableStateOf(false) }
+    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
         TextField(
             // The `menuAnchor` modifier must be passed to the text field for correctness.
             modifier = Modifier
@@ -52,7 +52,8 @@ fun CustomDropdownMenu(selectedText: MutableState<Int>, categoryName: MutableSta
                 disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 disabledSupportingTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ))
+            )
+        )
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
@@ -70,7 +71,7 @@ fun CustomDropdownMenu(selectedText: MutableState<Int>, categoryName: MutableSta
         }
     }
 
-    if(isCategorySelected && categorySelected != -1){
+    if (isCategorySelected && categorySelected != -1) {
         isCategorySelected = false
         selectedText.value = categorySelected
         categoryName.value = stringResource(id = categorySelected)

@@ -50,6 +50,7 @@ fun TopAppBarDefault(
                         imageVector = Icons.Filled.Menu,
                         action = { onNavigationIconClick.invoke() })
                 }
+
                 TriffleScreens.ShoppingList, TriffleScreens.Totals, TriffleScreens.AddExpense -> {
                     IconButtonApp(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

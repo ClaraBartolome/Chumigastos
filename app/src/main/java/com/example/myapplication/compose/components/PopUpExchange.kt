@@ -50,8 +50,16 @@ fun AlertExchange(
                 .wrapContentHeight()
                 .padding(horizontal = 16.dp)
         ) {
-            Column(verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
-                Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier.fillMaxWidth()) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(
                         text = stringResource(id = R.string.edit_change),
                         modifier = Modifier
@@ -62,7 +70,10 @@ fun AlertExchange(
                         textAlign = TextAlign.Start
                     )
 
-                    IconButton(onClick = { exchangeEurYen.value = !exchangeEurYen.value }, modifier = Modifier.padding(end= 16.dp)) {
+                    IconButton(
+                        onClick = { exchangeEurYen.value = !exchangeEurYen.value },
+                        modifier = Modifier.padding(end = 16.dp)
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_exchange),
                             contentDescription = "",
@@ -72,7 +83,7 @@ fun AlertExchange(
                     }
                 }
                 Text(
-                    text = stringResource(id = if(exchangeEurYen.value) R.string.jpy_to_eur else R.string.eur_to_jpy),
+                    text = stringResource(id = if (exchangeEurYen.value) R.string.jpy_to_eur else R.string.eur_to_jpy),
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .align(Alignment.CenterHorizontally),
@@ -81,19 +92,28 @@ fun AlertExchange(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = stringResource(id = if(exchangeEurYen.value) R.string.JPY_exchange else R.string.EUR_exchange),
+                    text = stringResource(id = if (exchangeEurYen.value) R.string.JPY_exchange else R.string.EUR_exchange),
                     modifier = Modifier.padding(start = 16.dp, top = 8.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.DarkGray
                 )
-                MoneyItemPopUp(exchangeEurYen, eurChange, yenChange){text -> input.value = text}
+                MoneyItemPopUp(exchangeEurYen, eurChange, yenChange) { text -> input.value = text }
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically , modifier = Modifier
-                    .fillMaxWidth()
-                    .padding( horizontal = 16.dp)){
-                    PopUpButton(stringResource(id = R.string.dismiss)){onDismissRequest.invoke()}
-                    PopUpButton(stringResource(id = R.string.accept)){onConfirmation.invoke(input.value, exchangeEurYen.value)}
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    PopUpButton(stringResource(id = R.string.dismiss)) { onDismissRequest.invoke() }
+                    PopUpButton(stringResource(id = R.string.accept)) {
+                        onConfirmation.invoke(
+                            input.value,
+                            exchangeEurYen.value
+                        )
+                    }
                 }
             }
         }
@@ -101,18 +121,20 @@ fun AlertExchange(
 }
 
 @Composable
-fun PopUpButton(label: String, onClick: () -> Unit){
+fun PopUpButton(label: String, onClick: () -> Unit) {
     Button(
-        onClick = { onClick.invoke()},
+        onClick = { onClick.invoke() },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
-        )) {
-        Text(text = label,
+        )
+    ) {
+        Text(
+            text = label,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground)
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
-
 
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)

@@ -47,7 +47,7 @@ fun MainScreenChangeComponent(
     isTextFieldEnabled: Boolean = false,
     imageFlag: Int = R.drawable.image_eur_flag,
     textFieldWeight: Float = 1.8f,
-    text: MutableState<String> = remember { mutableStateOf("0123456789")},
+    text: MutableState<String> = remember { mutableStateOf("0123456789") },
     currencyName: String = "Euros",
     firstExchange: String = "1JPY = 0,00061EUR",
     secondExchange: String = "1EUR = 164,5JPY",
@@ -75,7 +75,8 @@ fun MainScreenChangeComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(modifier = Modifier.weight(2f)) {
-                Image(painter = painterResource(id = imageFlag),
+                Image(
+                    painter = painterResource(id = imageFlag),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -83,25 +84,40 @@ fun MainScreenChangeComponent(
                         .clip(CircleShape)
                         .border(2.dp, Color.Gray, CircleShape)
                 )
-                Column(Modifier.padding(start = 16.dp).fillMaxHeight(), verticalArrangement = Arrangement.Center) {
-                    Text(text = currencyName,
+                Column(
+                    Modifier
+                        .padding(start = 16.dp)
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = currencyName,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold,
-                        fontFamily = openSansFontFamily)
+                        fontFamily = openSansFontFamily
+                    )
                 }
             }
 
-            Column(modifier = Modifier.weight(textFieldWeight).padding(end = 8.dp)){
+            Column(modifier = Modifier
+                .weight(textFieldWeight)
+                .padding(end = 8.dp)) {
                 OutlinedTextField(
                     value = text.value,
                     onValueChange = {
-                        if(it.length <= maxChar){
-                            val newText = it.replace(Regex("[^0-9.,]"), "") // Eliminar cualquier cosa que no sea digito o coma o punto
+                        if (it.length <= maxChar) {
+                            val newText = it.replace(
+                                Regex("[^0-9.,]"),
+                                ""
+                            ) // Eliminar cualquier cosa que no sea digito o coma o punto
                             text.value = newText
                         }
                     },
-                    textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.End, fontFamily = openSansFontFamily),
+                    textStyle = MaterialTheme.typography.titleMedium.copy(
+                        textAlign = TextAlign.End,
+                        fontFamily = openSansFontFamily
+                    ),
                     singleLine = true,
                     enabled = isTextFieldEnabled,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -122,18 +138,28 @@ fun MainScreenChangeComponent(
             }
         }
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 8.dp)){
-            if(!isTopCard){
-                Text(text = firstExchange,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 8.dp)
+        ) {
+            if (!isTopCard) {
+                Text(
+                    text = firstExchange,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Normal,
-                    fontFamily = openSansFontFamily)
-                Text(text = secondExchange,
+                    fontFamily = openSansFontFamily
+                )
+                Text(
+                    text = secondExchange,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Normal,
-                    fontFamily = openSansFontFamily)
+                    fontFamily = openSansFontFamily
+                )
             }
         }
     }

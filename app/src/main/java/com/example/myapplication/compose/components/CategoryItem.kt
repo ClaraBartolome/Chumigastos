@@ -26,17 +26,24 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
-fun CategoryItem(labelId: Int = R.string.category, isSelected: Boolean = false, onClick: () -> Unit = {}) {
+fun CategoryItem(
+    labelId: Int = R.string.category,
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {}
+) {
     Card(colors = CardDefaults.cardColors(
-        containerColor = if(isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.primaryContainer
+        containerColor = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.primaryContainer
     ),
-        modifier = Modifier.clickable { onClick.invoke()}) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()) {
+        modifier = Modifier.clickable { onClick.invoke() }) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
             Text(
                 text = stringResource(id = labelId),
                 style = MaterialTheme.typography.labelMedium,
-                color = if(isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onPrimaryContainer,
+                color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }

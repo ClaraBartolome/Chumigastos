@@ -111,7 +111,8 @@ fun ShoppingListItem(showTitle: Boolean = false, isFirstItem: Boolean = false) {
             }
             Column(
                 Modifier
-                    .weight(1f).fillMaxHeight(),
+                    .weight(1f)
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

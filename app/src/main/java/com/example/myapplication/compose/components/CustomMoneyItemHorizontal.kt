@@ -43,7 +43,7 @@ fun CustomMoneyItemHorizontal() {
             .padding(top = 8.dp)
     ) {
         Column(Modifier.weight(3f)) {
-            CustomOutlinedTextField(value = remember { mutableStateOf("123456,87")}){}
+            CustomOutlinedTextField(value = remember { mutableStateOf("123456,87") }) {}
         }
         Image(
             painter = painterResource(id = R.drawable.ic_arrow_forward),

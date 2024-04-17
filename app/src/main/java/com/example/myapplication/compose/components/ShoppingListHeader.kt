@@ -30,15 +30,19 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 @Composable
 fun ShoppingListHeader() {
     Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier.wrapContentHeight()) {
-        Row(horizontalArrangement = Arrangement.SpaceEvenly,
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .height(IntrinsicSize.Min)
-                .fillMaxWidth()){
-            Column(modifier = Modifier
-                .fillMaxHeight()
-                .weight(1f),
-                verticalArrangement = Arrangement.Center) {
+                .fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(
                     text = stringResource(id = R.string.total_uppercase),
                     textAlign = TextAlign.Start,
@@ -49,7 +53,12 @@ fun ShoppingListHeader() {
                 )
             }
 
-            Column(Modifier.weight(3f, true).padding(all = 16.dp), verticalArrangement = Arrangement.Center) {
+            Column(
+                Modifier
+                    .weight(3f, true)
+                    .padding(all = 16.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
                 ShowMoneyExchangeItem(eur = 100.0f, yen = 100.64f)
             }
         }
@@ -59,7 +68,7 @@ fun ShoppingListHeader() {
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
 @Composable
-private fun prevShoppingListHeader(){
+private fun prevShoppingListHeader() {
     MyApplicationTheme {
         ShoppingListHeader()
     }
