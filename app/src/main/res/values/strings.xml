@@ -38,4 +38,5 @@
     <string name="buy_everything">Buy</string>
     <string name="price_slash_price" translatable="false">%s / %s</string>
     <string name="trifles_purchased_in_total">Trifles purchased in total: %d</string>
+    <string name="empty_cart">Your shopping cart is empty, add an item using the + button below</string>
 </resources>

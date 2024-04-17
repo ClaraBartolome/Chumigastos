@@ -235,6 +235,15 @@ fun AddExpenseScreen(
 
             if (isConfirmed) {
                 isConfirmed = false
+                onCalculateExchange(
+                    isEurToYen,
+                    eurValue,
+                    yenValue,
+                    textEur,
+                    textYen,
+                    eurExchange,
+                    yenExchange
+                )
                 onConfirmation.invoke(
                     TrifleModel(
                         name = itemName.value.ifBlank { stringResource(id = R.string.trifle) },

@@ -32,4 +32,5 @@
     <string name="total_items">Chuminadas en tu cesta: %d</string>
     <string name="buy_everything">Comprar</string>
     <string name="trifles_purchased_in_total">Chuminadas compradas en total: %d</string>
+    <string name="empty_cart">Tu carrito esta vacío, añade un objeto utilizando el botón + que está abajo.</string>
 </resources>

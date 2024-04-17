@@ -1,12 +1,17 @@
 package com.example.myapplication.compose
 
 import android.content.Context
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import com.example.myapplication.TrifleApplicationViewModel
 import com.example.myapplication.common.PREFERENCES_EUR_EXCHANGE
 import com.example.myapplication.common.PREFERENCES_IS_EUR_TO_YEN
 import com.example.myapplication.common.PREFERENCES_YEN_EXCHANGE
 import com.example.myapplication.common.PREFERENCE_FILE
+import com.example.myapplication.db.models.TrifleModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -122,3 +127,30 @@ fun onCalculateExchange(
 
 private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) =
     yen.value * yenExchange.value
+
+
+//ROOM
+
+@Composable
+fun GetAllTrifles(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAll()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun AddTrifle(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION", trifle: TrifleModel) {
+    LaunchedEffect(Unit) {
+        trifleViewModel.insert(trifle)
+        Log.i(TAG, "Added trifle: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun AddAllTrifles(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION", trifleList: List<TrifleModel>) {
+    LaunchedEffect(Unit) {
+        trifleViewModel.insertAll(trifleList)
+        Log.i(TAG, "Added trifle list: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
