@@ -1,6 +1,40 @@
 package com.example.myapplication.db
 
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.myapplication.db.models.TrifleModel
+
 class TrifleRepository(private val trifleDao: TrifleDao) {
+
+    private val _allTrifles = MutableLiveData<List<TrifleModel>>()
+    val allTrifles: LiveData<List<TrifleModel>>
+        get() = _allTrifles
+
+    //region insert
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insert(trifle: TrifleModel) {
+        trifleDao.insertTrifle(trifle)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertAllTrifles(trifles: List<TrifleModel>) {
+        trifleDao.insertAllTrifles(trifles)
+    }
+
+    // endregion
+
+    //region get
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTrifles() {
+        _allTrifles.postValue(trifleDao.getAll())
+    }
+
+    //endregion
 
     /*private val _allLinks = MutableLiveData<List<LinkModel>>()
     val allLinks: LiveData<List<LinkModel>>

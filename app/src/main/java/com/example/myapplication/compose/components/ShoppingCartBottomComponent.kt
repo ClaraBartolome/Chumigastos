@@ -36,7 +36,8 @@ import java.util.Locale
 
 @Composable
 fun ShoppingCartBottomComponent(
-    itemsList: MutableList<TrifleModel> = remember { mutableStateListOf() },
+    itemsList: List<TrifleModel> = remember { mutableStateListOf() },
+    onBuyClick: () -> Unit = {}
 ) {
     Text(
         text = stringResource(id = R.string.total_items, itemsList.size),
@@ -73,7 +74,7 @@ fun ShoppingCartBottomComponent(
             ),
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = {
-
+                onBuyClick.invoke()
             }) {
             Text(
                 text = stringResource(id = R.string.buy_everything),
@@ -92,7 +93,7 @@ fun ShoppingCartBottomComponent(
 
 @Composable
 fun TotalsBottomComponent(
-    itemsList: MutableList<TrifleModel> = remember { mutableStateListOf() },
+    itemsList: List<TrifleModel> = remember { mutableStateListOf() },
 ) {
     Text(
         text = stringResource(id = R.string.trifles_purchased_in_total, itemsList.size),
@@ -116,7 +117,7 @@ fun TotalsBottomComponent(
     }
 }
 
-private fun calculateYenTotal(itemsList: MutableList<TrifleModel>): Float{
+private fun calculateYenTotal(itemsList: List<TrifleModel>): Float{
     var total = 0f
     itemsList.forEach {item ->
         total += parseValue(item.yenPrice)
@@ -124,7 +125,7 @@ private fun calculateYenTotal(itemsList: MutableList<TrifleModel>): Float{
     return total
 }
 
-private fun calculateEurTotal(itemsList: MutableList<TrifleModel>): Float{
+private fun calculateEurTotal(itemsList: List<TrifleModel>): Float{
     var total = 0f
     itemsList.forEach {item ->
         total += parseValue(item.eurPrice)

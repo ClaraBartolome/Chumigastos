@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -29,8 +31,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
+import com.example.myapplication.TrifleApplicationViewModel
 import com.example.myapplication.common.TriffleScreens
 import com.example.myapplication.common.itemsMockUpList
+import com.example.myapplication.compose.AddAllTrifles
+import com.example.myapplication.compose.AddTrifle
+import com.example.myapplication.compose.GetAllTrifles
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
@@ -39,11 +45,14 @@ import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
 
+var TAG = "TRIFLE_APPLICATION"
+
 @Composable
 fun UICompose(
     yenExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
     eurExchange: MutableState<Float> = remember { mutableStateOf(1.0f) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
+    trifleApplicationViewModel: TrifleApplicationViewModel,
     saveYenExchange: () -> Unit = {},
     saveEurExchange: () -> Unit = {},
     saveIsEurToYen: () -> Unit = {}
@@ -51,14 +60,16 @@ fun UICompose(
     val navController = rememberNavController()
     val ctx = LocalContext.current
 
+    //ROOM
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val trifleList = trifleApplicationViewModel.allTrifles.observeAsState()
+
+
     //Toolbar
     val screen = remember { mutableStateOf(TriffleScreens.Start) }
 
     //Edit exchange
     val isPopUpExchangeOpen = remember { mutableStateOf(false) }
-
-    //Add Item
-    val isPopUpAddItemOpen = remember { mutableStateOf(false) }
 
     //Price
     val yenValue = remember { mutableStateOf<Float>(100f) }
@@ -66,9 +77,10 @@ fun UICompose(
 
     //Shopping Cart
     val itemsList = remember { mutableStateListOf<TrifleModel>() }
-    itemsList.addAll(itemsMockUpList)
+    //itemsList.addAll(itemsMockUpList)
     val addItemToShoppingCart = remember { mutableStateOf(false) }
     val storeName = remember { mutableStateOf("") }
+    val addAllItems = remember { mutableStateOf(false) }
 
     //Totals
     val isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(true) }
@@ -128,6 +140,9 @@ fun UICompose(
                 composable(route = TriffleScreens.Start.name) {
                     screen.value = TriffleScreens.Start
                     storeName.value = ""
+                    itemsList.clear()
+                    TAG = "MAIN_SCREEN"
+                    GetAllTrifles(trifleViewModel = trifleApplicationViewModel, TAG)
                     Box(
                         modifier = with(Modifier) {
                             fillMaxSize()
@@ -177,7 +192,15 @@ fun UICompose(
                         storeName = storeName,
                         onAddClick = {
                             addItemToShoppingCart.value = true
-                            navController.navigate(TriffleScreens.AddExpense.name)})
+                            navController.navigate(TriffleScreens.AddExpense.name)},
+                        onBuyClick = {
+                            addAllItems.value = true
+                            navController.navigate(TriffleScreens.Start.name)
+                        })
+                    if (addAllItems.value){
+                        addAllItems.value = false
+                        AddAllTrifles(trifleViewModel = trifleApplicationViewModel, trifleList = itemsList)
+                    }
                 }
                 composable(route = TriffleScreens.AddExpense.name) {
                     screen.value = TriffleScreens.AddExpense
@@ -188,6 +211,8 @@ fun UICompose(
                         if(addItemToShoppingCart.value){
                             addItemToShoppingCart.value = false
                             itemsList.add(trifleModel)
+                        }else{
+                            AddTrifle(trifleViewModel = trifleApplicationViewModel, trifle = trifleModel)
                         }
                         navController.popBackStack()
                     }
@@ -195,7 +220,7 @@ fun UICompose(
                 composable(TriffleScreens.Totals.name){
                     screen.value = TriffleScreens.Totals
                     ShoppingCartScreen(
-                        itemsList = totalItemsList,
+                        itemsList = trifleList.value,
                         isTotalItemsList = isTotalItemsList,
                         onAddClick = {})
                 }
@@ -226,6 +251,6 @@ private fun CreateToast(context: Context, label: String = "Próximamente") {
 @Composable
 private fun prevMainScreen() {
     MyApplicationTheme {
-        UICompose()
+        //UICompose()
     }
 }

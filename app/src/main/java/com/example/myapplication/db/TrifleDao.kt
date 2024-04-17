@@ -2,9 +2,22 @@ package com.example.myapplication.db
 
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.example.myapplication.db.models.TrifleModel
 
 @Dao
 interface TrifleDao {
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertTrifle(trifle: TrifleModel)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAllTrifles(trifle: List<TrifleModel>)
+
+    @Query("SELECT * FROM trifle_table ")
+    suspend fun getAll(): List<TrifleModel>
 
     /*@Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLink(link: LinkModel)

@@ -1,6 +1,7 @@
 package com.example.myapplication.compose.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,13 +43,16 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun ShoppingCartScreen(
-    itemsList: MutableList<TrifleModel> = remember { mutableStateListOf() },
+    itemsList: List<TrifleModel>? = remember { mutableStateListOf() },
     storeName: MutableState<String> = remember { mutableStateOf("") },
     isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
-    onAddClick: () -> Unit = {}
+    onAddClick: () -> Unit = {},
+    onBuyClick: () -> Unit = {}
 ) {
     //itemsList.addAll(itemsMockUpList)
     val lastStoreName = remember { mutableStateOf("") }
+    itemsList?.let{ trifles ->
+
     Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(Modifier.padding(bottom = 100.dp)){
             if(!isTotalItemsList.value){
@@ -62,27 +66,41 @@ fun ShoppingCartScreen(
                 }
             }
 
-            itemsIndexed(itemsList){ index, trifleModel ->
-                Spacer(modifier = Modifier.height(8.dp))
-                if(isTotalItemsList.value && (index == 0 || lastStoreName.value != trifleModel.storeName)){
-                    Text(
-                        text = trifleModel.storeName,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textDecoration = TextDecoration.Underline,
-                        fontFamily = poppinsFontFamily,
-                        modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+            if(itemsList.isNotEmpty()){
+                itemsIndexed(trifles){ index, trifleModel ->
+                    Spacer(modifier = Modifier.height(8.dp))
+                    if(isTotalItemsList.value && (index == 0 || lastStoreName.value != trifleModel.storeName)){
+                        Text(
+                            text = trifleModel.storeName,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textDecoration = TextDecoration.Underline,
+                            fontFamily = poppinsFontFamily,
+                            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+                        )
+                        lastStoreName.value = trifleModel.storeName
+                    }
+                    ShoppingCartItem(
+                        categoryId = Category(trifleModel.category).iconId,
+                        itemName = trifleModel.name,
+                        yenPrice = trifleModel.yenPrice,
+                        eurPrice = trifleModel.eurPrice
                     )
-                    lastStoreName.value = trifleModel.storeName
+                    if(index == itemsList.size -1){
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
-                ShoppingCartItem(
-                    categoryId = Category(trifleModel.category).iconId,
-                    itemName = trifleModel.name,
-                    yenPrice = trifleModel.yenPrice,
-                    eurPrice = trifleModel.eurPrice
-                )
-                if(index == itemsList.size -1){
-                    Spacer(modifier = Modifier.height(16.dp))
+            }else{
+                item {
+                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = stringResource(id = R.string.empty_cart),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontFamily = poppinsFontFamily,
+                            modifier = Modifier.padding(start = 16.dp, top = 8.dp)
+                        )
+                    }
                 }
             }
         }
@@ -110,11 +128,13 @@ fun ShoppingCartScreen(
             .align(Alignment.BottomCenter)
             .background(MaterialTheme.colorScheme.tertiary)) {
             if(isTotalItemsList.value){
-                TotalsBottomComponent(itemsList)
+                TotalsBottomComponent(trifles)
             }else{
-                ShoppingCartBottomComponent(itemsList)
+                ShoppingCartBottomComponent(trifles, onBuyClick)
             }
         }
+    }
+
     }
 }
 
