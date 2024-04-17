@@ -1,6 +1,5 @@
 package com.example.myapplication.compose.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,17 +13,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.R
 import com.example.myapplication.common.ThemePreviews
-import com.example.myapplication.compose.screens.AddExpenseScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun CustomTextField(
     text: MutableState<String> = remember { mutableStateOf("") },
+    maxChar:Int = 30,
     placeholder: String = "placeholder",
     label: String = "label",
 ) {
@@ -34,7 +30,11 @@ fun CustomTextField(
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         value = text.value,
-        onValueChange = { text.value = it },
+        onValueChange = {
+            if(it.length <= maxChar){
+                text.value = it
+            }
+                        },
         placeholder = {
             Text(
                 text = placeholder,

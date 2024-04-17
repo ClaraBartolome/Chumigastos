@@ -1,17 +1,14 @@
 package com.example.myapplication.compose.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import kotlin.math.round
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,23 +20,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 import com.example.myapplication.common.ThemePreviews
-import com.example.myapplication.compose.components.DoubleBorderButton
 import com.example.myapplication.compose.components.MainScreenChangeComponent
 import com.example.myapplication.compose.components.MainScreenTotalsComponent
-import com.example.myapplication.compose.components.MoneyItem
 import com.example.myapplication.compose.formatText
 import com.example.myapplication.compose.onCalculateExchange
-import com.example.myapplication.compose.parseValue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
@@ -96,9 +86,6 @@ fun MainScreen(
                         )
                     })
             }
-
-
-
             Column(Modifier.padding(vertical = 16.dp)) {
                 MainScreenChangeComponent(
                     isTopCard = true,

@@ -31,4 +31,5 @@
     <string name="price">Precio</string>
     <string name="total_items">Chuminadas en tu cesta: %d</string>
     <string name="buy_everything">Comprar</string>
+    <string name="trifles_purchased_in_total">Chuminadas compradas en total: %d</string>
 </resources>

@@ -31,7 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.common.TriffleScreens
 import com.example.myapplication.common.itemsMockUpList
-import com.example.myapplication.compose.components.AlertAdd
 import com.example.myapplication.compose.components.AlertExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
@@ -70,6 +69,11 @@ fun UICompose(
     itemsList.addAll(itemsMockUpList)
     val addItemToShoppingCart = remember { mutableStateOf(false) }
     val storeName = remember { mutableStateOf("") }
+
+    //Totals
+    val isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val totalItemsList = remember { mutableStateListOf<TrifleModel>() }
+    totalItemsList.addAll(itemsMockUpList)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -143,7 +147,7 @@ fun UICompose(
                             isEurToYen,
                             onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
                             onClickList = { navController.navigate(TriffleScreens.ShoppingList.name) },
-                            onClickTotals = { CreateToast(ctx) }
+                            onClickTotals = { navController.navigate(TriffleScreens.Totals.name) }
                         )
                         if (isPopUpExchangeOpen.value) {
                             AlertExchange(
@@ -153,30 +157,19 @@ fun UICompose(
                                     isPopUpExchangeOpen.value = false
                                 }) { text, exchangeEurYen ->
                                 if (text.isNotBlank() && exchangeEurYen) {
-                                    eurExchange.value = text.toFloat()
-                                    yenExchange.value = 1 / eurExchange.value
-                                    saveEurExchange.invoke()
-                                } else if (!exchangeEurYen) {
                                     yenExchange.value = text.toFloat()
                                     eurExchange.value = 1 / yenExchange.value
                                     saveYenExchange.invoke()
+                                } else if (!exchangeEurYen) {
+                                    eurExchange.value = text.toFloat()
+                                    yenExchange.value = 1 / eurExchange.value
+                                    saveEurExchange.invoke()
                                 }
                                 isPopUpExchangeOpen.value = false
                             }
                         }
-                        if (isPopUpAddItemOpen.value) {
-                            AlertAdd(
-                                eurValue.value,
-                                yenValue.value,
-                                onDismissRequest = { isPopUpAddItemOpen.value = false })
-                            { trifleModel ->
-                                CreateToast(ctx, trifleModel.name)
-                                isPopUpAddItemOpen.value = false
-                            }
-                        }
                     }
                 }
-
                 composable(route = TriffleScreens.ShoppingList.name) {
                     screen.value = TriffleScreens.ShoppingList
                     ShoppingCartScreen(
@@ -199,6 +192,13 @@ fun UICompose(
                         navController.popBackStack()
                     }
                 }
+                composable(TriffleScreens.Totals.name){
+                    screen.value = TriffleScreens.Totals
+                    ShoppingCartScreen(
+                        itemsList = totalItemsList,
+                        isTotalItemsList = isTotalItemsList,
+                        onAddClick = {})
+                }
             }
         }
     }
@@ -214,8 +214,7 @@ private fun NavigationDrawerOnSelectOption(selectedOption: Int, navController: N
             navController.navigate(TriffleScreens.ShoppingList.name)
         }
 
-        2 -> {/*IR A TOTALES*/
-        }
+        2 -> {navController.navigate(TriffleScreens.Totals.name)}
     }
 }
 

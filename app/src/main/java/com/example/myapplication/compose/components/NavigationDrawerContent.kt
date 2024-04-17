@@ -83,7 +83,7 @@ fun NavigationDrawerContent(
                 label = {
                     Text(text = stringResource(id = item.title))
                 },
-                selected = index == selectedItemIndex,
+                selected = false,
                 onClick = {
                     selectedItemIndex = index
                     onSelectItem.invoke(selectedItemIndex)
@@ -93,9 +93,7 @@ fun NavigationDrawerContent(
                 },
                 icon = {
                     Icon(
-                        imageVector = if (index == selectedItemIndex) {
-                            item.selectedIcon
-                        } else item.unselectedIcon,
+                        imageVector = item.selectedIcon,
                         contentDescription = stringResource(id = item.title)
                     )
                 },
