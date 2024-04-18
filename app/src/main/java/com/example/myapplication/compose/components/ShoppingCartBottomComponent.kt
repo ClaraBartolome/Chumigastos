@@ -93,7 +93,7 @@ fun ShoppingCartBottomComponent(
 
 @Composable
 fun TotalsBottomComponent(
-    itemsList: List<TrifleModel> = remember { mutableStateListOf() },
+    itemsList: List<TrifleModel> = remember { mutableStateListOf() }
 ) {
     Text(
         text = stringResource(id = R.string.trifles_purchased_in_total, itemsList.size),

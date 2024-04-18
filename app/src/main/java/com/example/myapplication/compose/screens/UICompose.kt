@@ -44,11 +44,13 @@ import com.example.myapplication.compose.components.PopUpChoice
 import com.example.myapplication.compose.components.PopUpChoiceButtons
 import com.example.myapplication.compose.components.TopAppBarDefault
 import com.example.myapplication.compose.formatText
+import com.example.myapplication.compose.formatTextCurrency
 import com.example.myapplication.compose.parseValue
 import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 var TAG = "TRIFLE_APPLICATION"
 
@@ -175,8 +177,8 @@ fun UICompose(
                             yenValue,
                             eurValue,
                             isEurToYen,
-                            onClickAdd = { navController.navigate(TrifleScreens.AddExpense.name) },
-                            onClickList = { navController.navigate(TrifleScreens.ShoppingList.name) },
+                            totalEur = formatTextCurrency(calculateTotalEur(trifleList.value), Locale("es", "ES")),
+                            totalYen = formatTextCurrency(calculateTotalYen(trifleList.value), Locale.JAPAN),
                             onClickTotals = { navController.navigate(TrifleScreens.Totals.name) }
                         )
                         if (isPopUpExchangeOpen.value) {
@@ -337,6 +339,26 @@ fun UICompose(
             }
         }
     }
+}
+
+private fun calculateTotalEur(list: List<TrifleModel>?): Float{
+    var total = 0.0f
+    list?.let { trifleList ->
+        trifleList.forEach {
+            total += parseValue(it.eurPrice)
+        }
+    }
+    return total
+}
+
+private fun calculateTotalYen(list: List<TrifleModel>?): Float{
+    var total = 0.0f
+    list?.let { trifleList ->
+        trifleList.forEach {
+            total += parseValue(it.yenPrice)
+        }
+    }
+    return total
 }
 
 private fun navigationDrawerOnSelectOption(selectedOption: Int, navController: NavController) {

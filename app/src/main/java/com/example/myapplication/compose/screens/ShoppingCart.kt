@@ -50,7 +50,6 @@ fun ShoppingCartScreen(
     onBuyClick: () -> Unit = {},
     onLongClickOnItem: (TrifleModel) -> Unit = {},
 ) {
-    //itemsList.addAll(itemsMockUpList)
     val lastStoreName = remember { mutableStateOf("") }
     itemsList?.let{ trifles ->
 
@@ -96,7 +95,7 @@ fun ShoppingCartScreen(
                 item {
                     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = stringResource(id = R.string.empty_cart),
+                            text = if(isTotalItemsList.value) stringResource(id = R.string.empty_totals) else stringResource(id = R.string.empty_cart),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             fontFamily = poppinsFontFamily,

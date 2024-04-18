@@ -40,8 +40,8 @@ fun MainScreen(
     yenValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
     eurValue: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
-    onClickAdd: () -> Unit = {},
-    onClickList: () -> Unit = {},
+    totalYen: String = "12345 JPY",
+    totalEur: String = "12345 EUR",
     onClickTotals: () -> Unit = {}
 ) {
 
@@ -120,7 +120,7 @@ fun MainScreen(
         )
 
         Column(Modifier.padding(horizontal = 16.dp)) {
-            MainScreenTotalsComponent(onClickSeeAll = onClickTotals)
+            MainScreenTotalsComponent(totalYen = totalYen, totalEur = totalEur, onClickSeeAll = onClickTotals)
         }
     }
 }

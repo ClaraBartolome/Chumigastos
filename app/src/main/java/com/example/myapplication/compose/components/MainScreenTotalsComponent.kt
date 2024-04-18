@@ -29,7 +29,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
-fun MainScreenTotalsComponent(onClickSeeAll: () -> Unit = {}) {
+fun MainScreenTotalsComponent(totalYen: String = "12345 JPY",totalEur: String = "1234 JPY", onClickSeeAll: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .background(Color.Transparent)
@@ -68,7 +68,7 @@ fun MainScreenTotalsComponent(onClickSeeAll: () -> Unit = {}) {
                     modifier = Modifier.clickable { onClickSeeAll.invoke() })
             }
             Text(
-                text = "1234 EUR",
+                text = totalEur,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
@@ -77,7 +77,7 @@ fun MainScreenTotalsComponent(onClickSeeAll: () -> Unit = {}) {
                     .padding(top = 8.dp)
             )
             Text(
-                text = "12345 JPY",
+                text = totalYen,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
