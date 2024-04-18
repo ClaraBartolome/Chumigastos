@@ -21,6 +21,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -44,9 +47,14 @@ import java.util.Locale
 fun ShoppingCartItem(
     categoryId: Int = R.drawable.ic_triffle,
     itemName: String = stringResource(id = R.string.trifle),
-    yenPrice: String = "10", eurPrice: String = "10",
+    yenPrice: String = "10",
+    eurPrice: String = "10",
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
     onLongClickOnItem: () -> Unit = {},) {
     val haptics = LocalHapticFeedback.current
+    val textEur = formatTextCurrency(
+        parseValue(eurPrice), Locale("es", "ES"))
+    val textYen = formatTextCurrency(parseValue(yenPrice), Locale.JAPAN)
     Card(colors = CardDefaults.cardColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ),
@@ -79,8 +87,9 @@ fun ShoppingCartItem(
                     modifier = Modifier.padding(start = 16.dp, top = 8.dp)
                 )
                 Text(
-                    text = stringResource(id = R.string.price_slash_price, formatTextCurrency(
-                        parseValue(eurPrice), Locale("es", "ES")), formatTextCurrency(parseValue(yenPrice), Locale.JAPAN)),
+                    text = stringResource(id = R.string.price_slash_price,
+                        if(isEurToYen.value) textEur else textYen,
+                        if(isEurToYen.value) textYen else textEur),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.padding(start = 16.dp, top = 8.dp)

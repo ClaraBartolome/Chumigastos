@@ -35,8 +35,9 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 fun PopUpChoiceButtons(
     labelText: String = stringResource(id = R.string.delete_popup),
     onClickAccept: () -> Unit = {},
-    onClickDismiss: () -> Unit = {}) {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    onClickDismiss: () -> Unit = {},
+    onDismissRequest: () -> Unit = {} ) {
+    Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Card(colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),modifier = Modifier.width(290.dp)) {

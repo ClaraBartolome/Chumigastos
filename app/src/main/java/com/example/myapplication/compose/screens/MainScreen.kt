@@ -120,7 +120,10 @@ fun MainScreen(
         )
 
         Column(Modifier.padding(horizontal = 16.dp)) {
-            MainScreenTotalsComponent(totalYen = totalYen, totalEur = totalEur, onClickSeeAll = onClickTotals)
+            MainScreenTotalsComponent(totalYen = totalYen
+                , totalEur = totalEur,
+                isEurToYen = isEurToYen,
+                onClickSeeAll = onClickTotals)
         }
     }
 }

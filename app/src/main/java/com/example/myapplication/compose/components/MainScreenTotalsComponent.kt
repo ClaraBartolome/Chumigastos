@@ -16,6 +16,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,11 +28,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
-fun MainScreenTotalsComponent(totalYen: String = "12345 JPY",totalEur: String = "1234 JPY", onClickSeeAll: () -> Unit = {}) {
+fun MainScreenTotalsComponent(
+    totalYen: String = "12345 JPY",
+    totalEur: String = "1234 EUR",
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
+    onClickSeeAll: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .background(Color.Transparent)
@@ -68,7 +76,7 @@ fun MainScreenTotalsComponent(totalYen: String = "12345 JPY",totalEur: String = 
                     modifier = Modifier.clickable { onClickSeeAll.invoke() })
             }
             Text(
-                text = totalEur,
+                text = if(isEurToYen.value) totalEur else totalYen,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
@@ -77,7 +85,7 @@ fun MainScreenTotalsComponent(totalYen: String = "12345 JPY",totalEur: String = 
                     .padding(top = 8.dp)
             )
             Text(
-                text = totalYen,
+                text = if(isEurToYen.value) totalYen else totalEur,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontWeight = FontWeight.Normal,
@@ -87,7 +95,7 @@ fun MainScreenTotalsComponent(totalYen: String = "12345 JPY",totalEur: String = 
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
+@ThemePreviews
 @Composable
 private fun DefaultPreview() {
     MyApplicationTheme {

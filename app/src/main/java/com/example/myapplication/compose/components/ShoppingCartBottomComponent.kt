@@ -17,7 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,8 +39,11 @@ import java.util.Locale
 @Composable
 fun ShoppingCartBottomComponent(
     itemsList: List<TrifleModel> = remember { mutableStateListOf() },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
     onBuyClick: () -> Unit = {}
 ) {
+    val textYen = formatTextCurrency(calculateYenTotal(itemsList), Locale.JAPAN)
+    val textEur = formatTextCurrency(calculateEurTotal(itemsList), Locale("es", "ES"))
     Text(
         text = stringResource(id = R.string.total_items, itemsList.size),
         style = MaterialTheme.typography.titleMedium,
@@ -53,13 +58,13 @@ fun ShoppingCartBottomComponent(
         Column(modifier = Modifier
             .fillMaxHeight()) {
             Text(
-                text = formatTextCurrency(calculateYenTotal(itemsList), Locale.JAPAN),
+                text = if(isEurToYen.value) textEur else textYen,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier.padding(start = 16.dp, top = 8.dp)
             )
             Text(
-                text = formatTextCurrency(calculateEurTotal(itemsList), Locale("es", "ES")),
+                text = if(isEurToYen.value) textYen else textEur,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier.padding(start = 16.dp, top = 8.dp)
@@ -93,8 +98,11 @@ fun ShoppingCartBottomComponent(
 
 @Composable
 fun TotalsBottomComponent(
-    itemsList: List<TrifleModel> = remember { mutableStateListOf() }
+    itemsList: List<TrifleModel> = remember { mutableStateListOf() },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
 ) {
+    val textYen = formatTextCurrency(calculateYenTotal(itemsList), Locale.JAPAN)
+    val textEur = formatTextCurrency(calculateEurTotal(itemsList), Locale("es", "ES"))
     Text(
         text = stringResource(id = R.string.trifles_purchased_in_total, itemsList.size),
         style = MaterialTheme.typography.titleMedium,
@@ -108,8 +116,8 @@ fun TotalsBottomComponent(
         .fillMaxHeight()){
         Text(
             text = stringResource(id = R.string.price_slash_price,
-                formatTextCurrency(calculateYenTotal(itemsList), Locale.JAPAN),
-                formatTextCurrency(calculateEurTotal(itemsList), Locale("es", "ES"))),
+                if(isEurToYen.value) textEur else textYen,
+                if(isEurToYen.value) textYen else textEur),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onTertiary,
             modifier = Modifier.padding(start = 16.dp, top = 8.dp)

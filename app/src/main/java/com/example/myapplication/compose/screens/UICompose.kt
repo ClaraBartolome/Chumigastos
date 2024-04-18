@@ -37,7 +37,7 @@ import com.example.myapplication.common.itemsMockUpList
 import com.example.myapplication.compose.AddAllTrifles
 import com.example.myapplication.compose.AddTrifle
 import com.example.myapplication.compose.GetAllTrifles
-import com.example.myapplication.compose.components.AlertExchange
+import com.example.myapplication.compose.components.PopUpExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
 import com.example.myapplication.compose.components.PopUpChoice
@@ -182,7 +182,7 @@ fun UICompose(
                             onClickTotals = { navController.navigate(TrifleScreens.Totals.name) }
                         )
                         if (isPopUpExchangeOpen.value) {
-                            AlertExchange(
+                            PopUpExchange(
                                 eurExchange.value,
                                 yenExchange.value,
                                 onDismissRequest = {
@@ -207,6 +207,7 @@ fun UICompose(
                     ShoppingCartScreen(
                         itemsList = shoppingCartList,
                         storeName = storeName,
+                        isEurToYen = isEurToYen,
                         onAddClick = {
                             addItemToShoppingCart.value = true
                             navController.navigate(TrifleScreens.AddExpense.name)},
@@ -277,6 +278,7 @@ fun UICompose(
                     ShoppingCartScreen(
                         itemsList = trifleList.value,
                         isTotalItemsList = isTotalItemsList,
+                        isEurToYen = isEurToYen,
                         onAddClick = {},
                         onLongClickOnItem = {
                             showPopUpOptions.value = true
@@ -292,7 +294,10 @@ fun UICompose(
                             },
                             onClickDelete = {
                                 showPopUpOptions.value = false
-                                showPopUpDelete.value = true}
+                                showPopUpDelete.value = true},
+                            onDismissRequest = {
+                                showPopUpOptions.value = false
+                            }
                         )
                     }
 
@@ -303,6 +308,9 @@ fun UICompose(
                                 trifleApplicationViewModel.deleteTrifle(itemChosen.value)
                             },
                             onClickDismiss = {
+                                showPopUpDelete.value = false
+                            },
+                            onDismissRequest = {
                                 showPopUpDelete.value = false
                             }
                         )

@@ -32,8 +32,8 @@ import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun PopUpChoice(onClickEdit: () -> Unit = {},onClickDelete: () -> Unit = {} ) {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+fun PopUpChoice(onClickEdit: () -> Unit = {},onClickDelete: () -> Unit = {},onDismissRequest: () -> Unit = {}  ) {
+    Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Card(colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),modifier = Modifier.width(224.dp)) {

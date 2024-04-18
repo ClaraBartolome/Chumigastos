@@ -48,15 +48,15 @@ import com.example.myapplication.compose.parseValue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
-fun AlertExchange(
+fun PopUpExchange(
     eurChange: Float,
     yenChange: Float,
     onDismissRequest: () -> Unit,
-    onConfirmation: (String, Boolean) -> Unit
+    onConfirmation: (String, Boolean) -> Unit,
 ) {
     val exchangeEurYen = remember { mutableStateOf(true) }
     val input = remember { mutableStateOf("") }
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -241,7 +241,7 @@ fun PopUpButton(
 @Composable
 private fun DefaultPreview() {
     MyApplicationTheme {
-        AlertExchange(1.0f, 1.0f,
+        PopUpExchange(1.0f, 1.0f,
             onDismissRequest = { /*TODO*/ },
             onConfirmation = { text, exchange -> }
         )

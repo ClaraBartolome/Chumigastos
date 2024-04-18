@@ -46,6 +46,7 @@ fun ShoppingCartScreen(
     itemsList: List<TrifleModel>? = remember { mutableStateListOf() },
     storeName: MutableState<String> = remember { mutableStateOf("") },
     isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
     onAddClick: () -> Unit = {},
     onBuyClick: () -> Unit = {},
     onLongClickOnItem: (TrifleModel) -> Unit = {},
@@ -85,6 +86,7 @@ fun ShoppingCartScreen(
                         itemName = trifleModel.name,
                         yenPrice = trifleModel.yenPrice,
                         eurPrice = trifleModel.eurPrice,
+                        isEurToYen = isEurToYen,
                         onLongClickOnItem = { onLongClickOnItem.invoke(trifleModel) }
                     )
                     if(index == itemsList.size -1){
@@ -129,9 +131,9 @@ fun ShoppingCartScreen(
             .align(Alignment.BottomCenter)
             .background(MaterialTheme.colorScheme.tertiary)) {
             if(isTotalItemsList.value){
-                TotalsBottomComponent(trifles)
+                TotalsBottomComponent(trifles, isEurToYen)
             }else{
-                ShoppingCartBottomComponent(trifles, onBuyClick)
+                ShoppingCartBottomComponent(trifles, isEurToYen, onBuyClick)
             }
         }
     }
