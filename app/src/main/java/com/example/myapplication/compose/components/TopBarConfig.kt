@@ -20,14 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
-import com.example.myapplication.common.TriffleScreens
+import com.example.myapplication.common.TrifleScreens
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarDefault(
     navController: NavHostController,
-    screen: TriffleScreens,
+    screen: TrifleScreens,
     isAlertExchangeOpen: MutableState<Boolean>,
     onNavigationIconClick: () -> Unit = {}
 ) {
@@ -36,21 +36,21 @@ fun TopAppBarDefault(
         title = { TitleText(screen) },
         actions = {
             when (screen) {
-                TriffleScreens.Start, TriffleScreens.ShoppingList, TriffleScreens.Totals, TriffleScreens.AddExpense -> {}
+                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense -> {}
             }
         },
         navigationIcon = {
-            if (screen == TriffleScreens.Start) {
+            if (screen == TrifleScreens.Start) {
 
             }
             when (screen) {
-                TriffleScreens.Start -> {
+                TrifleScreens.Start -> {
                     IconButtonApp(
                         imageVector = Icons.Filled.Menu,
                         action = { onNavigationIconClick.invoke() })
                 }
 
-                TriffleScreens.ShoppingList, TriffleScreens.Totals, TriffleScreens.AddExpense -> {
+                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense -> {
                     IconButtonApp(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         action = { navController.popBackStack() })
@@ -91,9 +91,9 @@ private fun IconButtonApp(
 }
 
 @Composable
-private fun TitleText(screen: TriffleScreens) {
+private fun TitleText(screen: TrifleScreens) {
     val title = when (screen) {
-        TriffleScreens.Start -> stringResource(id = R.string.app_name)
+        TrifleScreens.Start -> stringResource(id = R.string.app_name)
         else -> stringResource(id = R.string.app_name)
     }
     Text(

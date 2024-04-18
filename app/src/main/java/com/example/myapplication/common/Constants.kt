@@ -1,15 +1,14 @@
 package com.example.myapplication.common
 
-import android.content.res.Configuration
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.R
 import com.example.myapplication.db.models.TrifleModel
 
-enum class TriffleScreens() {
+enum class TrifleScreens() {
     Start,
     ShoppingList,
     Totals,
-    AddExpense
+    AddExpense,
+    EditExpense
 }
 
 val categories = listOf(
@@ -31,7 +30,7 @@ val categoryIcons = listOf(
 val itemsMockUpList = listOf<TrifleModel>(
     TrifleModel(name = "Moldes sandwiches", storeName = "Donki", category = "Chuminadas", yenPrice = "100", eurPrice = "0,61"),
     TrifleModel(name = "Toalla de Manos", storeName = "Daiso", category = "Hogar", yenPrice = "100", eurPrice = "0,61"),
-    TrifleModel(name = "Bento", storeName = "Donki", category = "Hogar", yenPrice = "100", eurPrice = "0,61"),
+    TrifleModel(name = "Item Prueba", storeName = "Donki", category = "Hogar", yenPrice = "100", eurPrice = "0,61"),
     TrifleModel(name = "Tote Bag", storeName = "Donki", category = "Chuminadas", yenPrice = "100", eurPrice = "0,61"),
     TrifleModel(name = "Tote Bag", storeName = "Donki", category = "Chuminadas", yenPrice = "100", eurPrice = "0,61"),
     TrifleModel(name = "Camiseta", storeName = "Donki", category = "Ropa", yenPrice = "100", eurPrice = "0,61"),

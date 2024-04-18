@@ -46,6 +46,16 @@ class TrifleRepository(private val trifleDao: TrifleDao) {
 
     //endregion
 
+    //region Update
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateTrifle(trifle: TrifleModel) {
+        trifleDao.updateTrifle(trifle)
+    }
+
+    //endregion
+
     /*private val _allLinks = MutableLiveData<List<LinkModel>>()
     val allLinks: LiveData<List<LinkModel>>
         get() =_allLinks

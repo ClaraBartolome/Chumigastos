@@ -32,7 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.TrifleApplicationViewModel
-import com.example.myapplication.common.TriffleScreens
+import com.example.myapplication.common.TrifleScreens
 import com.example.myapplication.common.itemsMockUpList
 import com.example.myapplication.compose.AddAllTrifles
 import com.example.myapplication.compose.AddTrifle
@@ -43,6 +43,9 @@ import com.example.myapplication.compose.components.NavigationDrawerContent
 import com.example.myapplication.compose.components.PopUpChoice
 import com.example.myapplication.compose.components.PopUpChoiceButtons
 import com.example.myapplication.compose.components.TopAppBarDefault
+import com.example.myapplication.compose.formatText
+import com.example.myapplication.compose.parseValue
+import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
@@ -68,7 +71,7 @@ fun UICompose(
 
 
     //Toolbar
-    val screen = remember { mutableStateOf(TriffleScreens.Start) }
+    val screen = remember { mutableStateOf(TrifleScreens.Start) }
 
     //Edit exchange
     val isPopUpExchangeOpen = remember { mutableStateOf(false) }
@@ -94,6 +97,10 @@ fun UICompose(
     val showPopUpDelete = remember { mutableStateOf(false) }
     val itemChosen = remember { mutableStateOf<TrifleModel>(TrifleModel()) }
 
+    //Edit
+    val isEditScreen = remember { mutableStateOf(false) }
+    val isItemFromCart = remember { mutableStateOf(false) }
+    val originalItem = remember { mutableStateOf(TrifleModel()) }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -104,7 +111,7 @@ fun UICompose(
                 scope = scope,
                 drawerState = drawerState,
                 onSelectItem = { itemIndex ->
-                    NavigationDrawerOnSelectOption(
+                    navigationDrawerOnSelectOption(
                         itemIndex,
                         navController
                     )
@@ -125,9 +132,9 @@ fun UICompose(
                 }
             },
             bottomBar = {
-                if (screen.value == TriffleScreens.Start) {
+                if (screen.value == TrifleScreens.Start) {
                     MainScreenBottomNav(
-                        onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
+                        onClickAdd = { navController.navigate(TrifleScreens.AddExpense.name) },
                         onClickChange = {
                             isEurToYen.value = !isEurToYen.value
                             saveIsEurToYen.invoke()
@@ -142,11 +149,11 @@ fun UICompose(
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = TriffleScreens.Start.name,
+                startDestination = TrifleScreens.Start.name,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(route = TriffleScreens.Start.name) {
-                    screen.value = TriffleScreens.Start
+                composable(route = TrifleScreens.Start.name) {
+                    screen.value = TrifleScreens.Start
                     storeName.value = ""
                     shoppingCartList.clear()
                     TAG = "MAIN_SCREEN"
@@ -168,9 +175,9 @@ fun UICompose(
                             yenValue,
                             eurValue,
                             isEurToYen,
-                            onClickAdd = { navController.navigate(TriffleScreens.AddExpense.name) },
-                            onClickList = { navController.navigate(TriffleScreens.ShoppingList.name) },
-                            onClickTotals = { navController.navigate(TriffleScreens.Totals.name) }
+                            onClickAdd = { navController.navigate(TrifleScreens.AddExpense.name) },
+                            onClickList = { navController.navigate(TrifleScreens.ShoppingList.name) },
+                            onClickTotals = { navController.navigate(TrifleScreens.Totals.name) }
                         )
                         if (isPopUpExchangeOpen.value) {
                             AlertExchange(
@@ -193,21 +200,22 @@ fun UICompose(
                         }
                     }
                 }
-                composable(route = TriffleScreens.ShoppingList.name) {
-                    screen.value = TriffleScreens.ShoppingList
+                composable(route = TrifleScreens.ShoppingList.name) {
+                    screen.value = TrifleScreens.ShoppingList
                     ShoppingCartScreen(
                         itemsList = shoppingCartList,
                         storeName = storeName,
                         onAddClick = {
                             addItemToShoppingCart.value = true
-                            navController.navigate(TriffleScreens.AddExpense.name)},
+                            navController.navigate(TrifleScreens.AddExpense.name)},
                         onBuyClick = {
                             addAllItems.value = true
-                            navController.navigate(TriffleScreens.Start.name)
+                            navController.navigate(TrifleScreens.Start.name)
                         },
                         onLongClickOnItem = {
                             showPopUpOptions.value = true
                             shoppingCartItemChosen.value = it
+                            originalItem.value = it
                         })
                     if (addAllItems.value){
                         addAllItems.value = false
@@ -218,6 +226,9 @@ fun UICompose(
                         PopUpChoice(
                             onClickEdit = {
                                 showPopUpOptions.value = false
+                                isEditScreen.value = true
+                                isItemFromCart.value = true
+                                navController.navigate(TrifleScreens.EditExpense.name)
                             },
                             onClickDelete = {
                                 showPopUpOptions.value = false
@@ -238,12 +249,18 @@ fun UICompose(
                     }
 
                 }
-                composable(route = TriffleScreens.AddExpense.name) {
-                    screen.value = TriffleScreens.AddExpense
+                composable(route = TrifleScreens.AddExpense.name) {
+                    screen.value = TrifleScreens.AddExpense
                     AddExpenseScreen(
-                        eurValue, yenValue, yenExchange, eurExchange, isEurToYen, storeName
+                        eurValue,
+                        yenValue,
+                        yenExchange,
+                        eurExchange,
+                        isEurToYen,
+                        storeName,
+                        textEur = remember { mutableStateOf(formatText(eurValue.value)) },
+                        textYen = remember { mutableStateOf(formatText(yenValue.value)) }
                     ) { trifleModel ->
-                        CreateToast(ctx, trifleModel.toString())
                         if(addItemToShoppingCart.value){
                             addItemToShoppingCart.value = false
                             shoppingCartList.add(trifleModel)
@@ -253,8 +270,8 @@ fun UICompose(
                         navController.popBackStack()
                     }
                 }
-                composable(TriffleScreens.Totals.name){
-                    screen.value = TriffleScreens.Totals
+                composable(TrifleScreens.Totals.name){
+                    screen.value = TrifleScreens.Totals
                     ShoppingCartScreen(
                         itemsList = trifleList.value,
                         isTotalItemsList = isTotalItemsList,
@@ -267,6 +284,9 @@ fun UICompose(
                         PopUpChoice(
                             onClickEdit = {
                                 showPopUpOptions.value = false
+                                isEditScreen.value = false
+                                isItemFromCart.value = false
+                                navController.navigate(TrifleScreens.EditExpense.name)
                             },
                             onClickDelete = {
                                 showPopUpOptions.value = false
@@ -286,22 +306,50 @@ fun UICompose(
                         )
                     }
                 }
+                composable(TrifleScreens.EditExpense.name){
+                    screen.value = TrifleScreens.EditExpense
+                    val item = if(isItemFromCart.value) shoppingCartItemChosen else itemChosen
+                    AddExpenseScreen(
+                        yenExchange = yenExchange,
+                        eurExchange = eurExchange,
+                        isEurToYen = isEurToYen,
+                        textEur = remember { mutableStateOf(item.value.eurPrice) },
+                        textYen = remember { mutableStateOf(item.value.yenPrice) },
+                        itemName = remember { mutableStateOf(item.value.name) },
+                        storeName = remember { mutableStateOf(item.value.storeName) },
+                        categoryNumber = remember { mutableStateOf(CategoryModel(item.value.category).position) },
+                        yenValue = remember { mutableStateOf<Float>(parseValue(item.value.yenPrice)) },
+                        eurValue = remember { mutableStateOf<Float>(parseValue(item.value.eurPrice)) },
+                        isEditScreen = isEditScreen
+                    ) { trifleModel ->
+                        if(isItemFromCart.value){
+                            isItemFromCart.value = false
+                            val index = shoppingCartList.indexOf(originalItem.value)
+                            shoppingCartList.remove(originalItem.value)
+                            shoppingCartList.add(index, trifleModel)
+                        }else{
+                            trifleModel.id = itemChosen.value.id
+                            trifleApplicationViewModel.updateTrifle(trifleModel)
+                        }
+                        navController.popBackStack()
+                    }
+                }
             }
         }
     }
 }
 
-private fun NavigationDrawerOnSelectOption(selectedOption: Int, navController: NavController) {
+private fun navigationDrawerOnSelectOption(selectedOption: Int, navController: NavController) {
     when (selectedOption) {
         0 -> {
-            navController.navigate(TriffleScreens.AddExpense.name)
+            navController.navigate(TrifleScreens.AddExpense.name)
         }
 
         1 -> {
-            navController.navigate(TriffleScreens.ShoppingList.name)
+            navController.navigate(TrifleScreens.ShoppingList.name)
         }
 
-        2 -> {navController.navigate(TriffleScreens.Totals.name)}
+        2 -> {navController.navigate(TrifleScreens.Totals.name)}
     }
 }
 

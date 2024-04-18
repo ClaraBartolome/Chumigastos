@@ -37,6 +37,11 @@ class TrifleApplicationViewModel(private val repository: TrifleRepository) : Vie
         repository.deleteTrifle(trifle)
         getAll()
     }
+
+    fun updateTrifle(trifle:TrifleModel)= viewModelScope.launch{
+        repository.updateTrifle(trifle)
+        getAll()
+    }
 }
 
 class TrifleViewModelFactory(private val repository: TrifleRepository) : ViewModelProvider.Factory {

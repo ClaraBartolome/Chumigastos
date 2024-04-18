@@ -36,7 +36,7 @@ import com.example.myapplication.compose.components.CustomTextField
 import com.example.myapplication.compose.components.ShoppingCartBottomComponent
 import com.example.myapplication.compose.components.ShoppingCartItem
 import com.example.myapplication.compose.components.TotalsBottomComponent
-import com.example.myapplication.db.models.Category
+import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
@@ -82,7 +82,7 @@ fun ShoppingCartScreen(
                         lastStoreName.value = trifleModel.storeName
                     }
                     ShoppingCartItem(
-                        categoryId = Category(trifleModel.category).iconId,
+                        categoryId = CategoryModel(trifleModel.category).iconId,
                         itemName = trifleModel.name,
                         yenPrice = trifleModel.yenPrice,
                         eurPrice = trifleModel.eurPrice,

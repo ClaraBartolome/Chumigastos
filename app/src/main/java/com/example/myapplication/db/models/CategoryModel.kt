@@ -1,9 +1,8 @@
 package com.example.myapplication.db.models
 
-import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 
-data class Category(
+data class CategoryModel(
     val name:String,
 ) {
     var iconId = when(name){
@@ -13,5 +12,13 @@ data class Category(
         "Food", "Comida" -> R.drawable.ic_food
         "Stationery", "Papelería" -> R.drawable.ic_stationery
         else -> R.drawable.ic_triffle
+    }
+    var position = when(name){
+        "Chuminadas", "Trifles" -> 0
+        "Clothes", "Ropa" -> 1
+        "Food", "Comida" -> 2
+        "Stationery", "Papelería" -> 3
+        "Home", "Hogar" -> 4
+        else -> 0
     }
 }

@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.myapplication.db.models.TrifleModel
 
 @Dao
@@ -22,6 +23,9 @@ interface TrifleDao {
 
     @Delete
     suspend fun deleteTrifle(trifle: TrifleModel)
+
+    @Update
+    suspend fun updateTrifle(trifle: TrifleModel)
 
     /*@Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLink(link: LinkModel)

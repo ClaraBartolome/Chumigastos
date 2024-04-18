@@ -41,6 +41,8 @@ import com.example.myapplication.compose.components.MainScreenChangeComponent
 import com.example.myapplication.compose.formatText
 import com.example.myapplication.compose.getDate
 import com.example.myapplication.compose.onCalculateExchange
+import com.example.myapplication.compose.parseValue
+import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.poppinsFontFamily
@@ -53,12 +55,13 @@ fun AddExpenseScreen(
     eurExchange: MutableState<Float> = remember { mutableStateOf<Float>(1.0f) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
     storeName: MutableState<String> = remember { mutableStateOf("") },
+    itemName: MutableState<String> = remember { mutableStateOf("") },
+    categoryNumber: MutableState<Int> = remember { mutableStateOf(0) },
+    textYen: MutableState<String> = remember { mutableStateOf("") },
+    textEur: MutableState<String> = remember { mutableStateOf("") },
+    isEditScreen: MutableState<Boolean> = remember { mutableStateOf(false) },
     onConfirmation: @Composable (TrifleModel) -> Unit = {}
 ) {
-    val itemName = remember { mutableStateOf("") }
-    val categoryNumber = remember { mutableStateOf(-1) }
-    val textYen = remember { mutableStateOf(formatText(yenValue.value)) }
-    val textEur = remember { mutableStateOf(formatText(eurValue.value)) }
     var isConfirmed by remember { mutableStateOf(false) }
     LazyColumn(
         Modifier
@@ -76,7 +79,7 @@ fun AddExpenseScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(id = R.string.add_expense),
+                    text = stringResource(id = if(isEditScreen.value) R.string.edit_trifle else R.string.add_expense),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
