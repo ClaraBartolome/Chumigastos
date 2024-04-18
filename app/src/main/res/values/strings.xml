@@ -46,4 +46,15 @@
     <string name="no" translatable="false">No</string>
     <string name="edit_trifle">Edit Trifle</string>
     <string name="empty_totals">You haven\'t bought anything yet</string>
+    <string name="name_AZ">Name (A-Z)</string>
+    <string name="name_ZA">Name (Z-A)</string>
+    <string name="date_of_creation_ASC">Date of Creation (Newest First)</string>
+    <string name="date_of_creation_DESC">Date of Creation (Oldest First)</string>
+    <string name="date_of_mod_ASC">Date of Modification (Newest First)</string>
+    <string name="date_of_mod_DESC">Date of Modification (Oldest First)</string>
+    <string name="order_by">Order by:</string>
+    <string name="filter_by_categories">Filter by categories</string>
+    <string name="order_by_arg">Order by: %s</string>
+    <string name="store_name_AZ">Store Name (A-Z)</string>
+    <string name="store_name_ZA">Store Name (Z-A)</string>
 </resources>

@@ -3,6 +3,8 @@ package com.example.myapplication.compose.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,21 +30,24 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 fun TopAppBarDefault(
     navController: NavHostController,
     screen: TrifleScreens,
-    isAlertExchangeOpen: MutableState<Boolean>,
+    onTotalOptions: () -> Unit = {},
     onNavigationIconClick: () -> Unit = {}
 ) {
-    val showMenu = remember { mutableStateOf(false) }
+
     TopAppBar(
         title = { TitleText(screen) },
         actions = {
             when (screen) {
-                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense -> {}
+                TrifleScreens.Totals -> {
+                    IconButtonApp(iconId = R.drawable.ic_search, action = { /*TODO*/ })
+                    IconButtonApp(
+                        imageVector = Icons.Filled.MoreVert,
+                        action = { onTotalOptions.invoke()})
+                }
+                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig -> {}
             }
         },
         navigationIcon = {
-            if (screen == TrifleScreens.Start) {
-
-            }
             when (screen) {
                 TrifleScreens.Start -> {
                     IconButtonApp(
@@ -50,7 +55,7 @@ fun TopAppBarDefault(
                         action = { onNavigationIconClick.invoke() })
                 }
 
-                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense -> {
+                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig -> {
                     IconButtonApp(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         action = { navController.popBackStack() })

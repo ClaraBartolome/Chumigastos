@@ -39,4 +39,15 @@
     <string name="yes">Sí</string>
     <string name="edit_trifle">Editar Chuminada</string>
     <string name="empty_totals">Aún no has comprado nada</string>
+    <string name="name_AZ">Nombre (A-Z)</string>
+    <string name="name_ZA">Nombre (Z-A)</string>
+    <string name="date_of_creation_ASC">Fecha de creación (Más recientes primero)</string>
+    <string name="date_of_creation_DESC">Fecha de creación (Más antiguos primero)</string>
+    <string name="date_of_mod_ASC">Fecha de modificación (Más recientes primero)</string>
+    <string name="date_of_mod_DESC">Fecha de modificación (Más antiguos primero)</string>
+    <string name="order_by">Ordenar por:</string>
+    <string name="filter_by_categories">Filtrar por categorias</string>
+    <string name="order_by_arg">Ordenar por: %s</string>
+    <string name="store_name_AZ">Nombre de la Tienda (A-Z)</string>
+    <string name="store_name_ZA">Nombre de la Tienda (Z-A)</string>
 </resources>

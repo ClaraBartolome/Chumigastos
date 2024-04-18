@@ -18,8 +18,29 @@ interface TrifleDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllTrifles(trifle: List<TrifleModel>)
 
-    @Query("SELECT * FROM trifle_table ")
-    suspend fun getAll(): List<TrifleModel>
+    @Query("SELECT * FROM trifle_table ORDER BY dateOfCreation DESC")
+    suspend fun getAllDateOfCreationDesc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY dateOfCreation ASC")
+    suspend fun getAllDateOfCreationAsc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY name ASC")
+    suspend fun getAllOrderedByNameAsc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY name DESC")
+    suspend fun getAllOrderedByNameDesc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY storeName ASC")
+    suspend fun getAllOrderedByStoreNameAsc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY storeName DESC")
+    suspend fun getAllOrderedByStoreNameDesc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY dateOfModification DESC")
+    suspend fun getAllDateOfModDesc(): List<TrifleModel>
+
+    @Query("SELECT * FROM trifle_table ORDER BY dateOfModification ASC")
+    suspend fun getAllDateOfModAsc(): List<TrifleModel>
 
     @Delete
     suspend fun deleteTrifle(trifle: TrifleModel)

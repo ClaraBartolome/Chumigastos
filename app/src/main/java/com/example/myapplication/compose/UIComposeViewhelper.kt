@@ -11,6 +11,7 @@ import com.example.myapplication.common.PREFERENCES_EUR_EXCHANGE
 import com.example.myapplication.common.PREFERENCES_IS_EUR_TO_YEN
 import com.example.myapplication.common.PREFERENCES_YEN_EXCHANGE
 import com.example.myapplication.common.PREFERENCE_FILE
+import com.example.myapplication.common.SortRadioOptions
 import com.example.myapplication.db.models.TrifleModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -77,7 +78,7 @@ fun formatTextCurrency(value: Float, locale: Locale): String {
 
 fun getDate(): String {
     val time = Calendar.getInstance().time
-    val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    val formatter = SimpleDateFormat("dd-MM-yyyy | HH:mm:ss", Locale.getDefault())
     return formatter.format(time)
 }
 
@@ -132,9 +133,102 @@ private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState
 //ROOM
 
 @Composable
-fun GetAllTrifles(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+fun SortTree(option: SortRadioOptions, viewModel: TrifleApplicationViewModel) {
+    when (option) {
+        SortRadioOptions.NameAZ -> {
+            GetAllTriflesNameAsc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.NameZA -> {
+            GetAllTriflesNameDesc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.StoreNameAZ -> {
+            GetAllTriflesStoreNameAsc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.StoreNameZA -> {
+            GetAllTriflesStoreNameDesc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.CreationDateNewFirst -> {
+            GetAllTriflesDateOfCreationAsc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.CreationDateOldFirst -> {
+            GetAllTriflesDateOfCreationDesc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.ModDateNewFirst -> {
+            GetAllTriflesDateOfModDesc(trifleViewModel = viewModel)
+        }
+
+        SortRadioOptions.ModDateOldFirst -> {
+            GetAllTriflesDateOfModAsc(trifleViewModel = viewModel)
+        }
+    }
+}
+
+@Composable
+fun GetAllTriflesDateOfCreationDesc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
     LaunchedEffect(Unit) {
-        trifleViewModel.getAll()
+        trifleViewModel.getAllTriflesDateOfCreationDesc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesDateOfCreationAsc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesDateOfCreationAsc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesDateOfModDesc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesDateOfModDesc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesDateOfModAsc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesDateOfModAsc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesNameDesc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesNameDesc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesNameAsc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesNameAsc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesStoreNameDesc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesStoreNameDesc()
+        Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun GetAllTriflesStoreNameAsc(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION") {
+    LaunchedEffect(Unit) {
+        trifleViewModel.getAllTriflesStoreNameAsc()
         Log.i(TAG, "DB created size: ${trifleViewModel.allTrifles.value?.size}")
     }
 }
@@ -153,4 +247,21 @@ fun AddAllTrifles(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TR
         trifleViewModel.insertAll(trifleList)
         Log.i(TAG, "Added trifle list: ${trifleViewModel.allTrifles.value?.size}")
     }
+}
+
+@Composable
+fun DeleteTrifle(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION", trifle: TrifleModel) {
+    LaunchedEffect(Unit) {
+        trifleViewModel.deleteTrifle(trifle)
+        Log.i(TAG, "Added trifle list: ${trifleViewModel.allTrifles.value?.size}")
+    }
+}
+
+@Composable
+fun UpdateTrifle(trifleViewModel: TrifleApplicationViewModel, TAG: String = "TRIFLE_APPLICATION", trifle: TrifleModel, sortRadioOption: SortRadioOptions) {
+    LaunchedEffect(Unit) {
+        trifleViewModel.updateTrifle(trifle)
+        Log.i(TAG, "Added trifle list: ${trifleViewModel.allTrifles.value?.size}")
+    }
+    SortTree(option = sortRadioOption, viewModel =trifleViewModel)
 }

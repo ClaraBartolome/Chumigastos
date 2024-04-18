@@ -252,6 +252,7 @@ fun AddExpenseScreen(
                         name = itemName.value.ifBlank { stringResource(id = R.string.trifle) },
                         storeName = storeName.value.ifBlank { stringResource(id = R.string.acme) },
                         dateOfCreation = getDate(),
+                        dateOfModification = getDate(),
                         category = if (categoryNumber.value != -1) stringResource(id = categories[categoryNumber.value]) else stringResource(
                             id = R.string.trifles
                         ),

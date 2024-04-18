@@ -16,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -32,11 +33,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.TrifleApplicationViewModel
+import com.example.myapplication.common.SortRadioOptions
 import com.example.myapplication.common.TrifleScreens
+import com.example.myapplication.common.customRadioOptions
 import com.example.myapplication.common.itemsMockUpList
 import com.example.myapplication.compose.AddAllTrifles
 import com.example.myapplication.compose.AddTrifle
-import com.example.myapplication.compose.GetAllTrifles
+import com.example.myapplication.compose.DeleteTrifle
+import com.example.myapplication.compose.GetAllTriflesDateOfCreationDesc
+import com.example.myapplication.compose.SortTree
+import com.example.myapplication.compose.UpdateTrifle
+import com.example.myapplication.compose.components.DropDownMenu
 import com.example.myapplication.compose.components.PopUpExchange
 import com.example.myapplication.compose.components.MainScreenBottomNav
 import com.example.myapplication.compose.components.NavigationDrawerContent
@@ -72,6 +79,7 @@ fun UICompose(
     val trifleList = trifleApplicationViewModel.allTrifles.observeAsState()
 
 
+
     //Toolbar
     val screen = remember { mutableStateOf(TrifleScreens.Start) }
 
@@ -93,16 +101,22 @@ fun UICompose(
     val isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(true) }
     val totalItemsList = remember { mutableStateListOf<TrifleModel>() }
     totalItemsList.addAll(itemsMockUpList)
+    //SORT
+    val sortOption = remember { mutableStateOf<SortRadioOptions>(customRadioOptions[4]) }
 
     //Delete
     val showPopUpOptions = remember { mutableStateOf(false) }
     val showPopUpDelete = remember { mutableStateOf(false) }
+    val isTrifleBeingDeleted = remember { mutableStateOf(false) }
     val itemChosen = remember { mutableStateOf<TrifleModel>(TrifleModel()) }
 
     //Edit
     val isEditScreen = remember { mutableStateOf(false) }
     val isItemFromCart = remember { mutableStateOf(false) }
+    val isTrifleBeingUpdated = remember { mutableStateOf(false) }
     val originalItem = remember { mutableStateOf(TrifleModel()) }
+    //DropdownMenu
+    val showDropdownMenu = remember { mutableStateOf(false) }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -126,12 +140,15 @@ fun UICompose(
                 TopAppBarDefault(
                     navController = navController,
                     screen = screen.value,
-                    isPopUpExchangeOpen
-                ) {
-                    scope.launch {
-                        drawerState.open()
+                    onNavigationIconClick = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                    onTotalOptions = {
+                        showDropdownMenu.value = true
                     }
-                }
+                )
             },
             bottomBar = {
                 if (screen.value == TrifleScreens.Start) {
@@ -159,7 +176,7 @@ fun UICompose(
                     storeName.value = ""
                     shoppingCartList.clear()
                     TAG = "MAIN_SCREEN"
-                    GetAllTrifles(trifleViewModel = trifleApplicationViewModel, TAG)
+                    GetAllTriflesDateOfCreationDesc(trifleViewModel = trifleApplicationViewModel, TAG)
                     Box(
                         modifier = with(Modifier) {
                             fillMaxSize()
@@ -205,7 +222,7 @@ fun UICompose(
                 composable(route = TrifleScreens.ShoppingList.name) {
                     screen.value = TrifleScreens.ShoppingList
                     ShoppingCartScreen(
-                        itemsList = shoppingCartList,
+                        itemsList = produceState(initialValue = shoppingCartList, producer = {}),
                         storeName = storeName,
                         isEurToYen = isEurToYen,
                         onAddClick = {
@@ -275,8 +292,9 @@ fun UICompose(
                 }
                 composable(TrifleScreens.Totals.name){
                     screen.value = TrifleScreens.Totals
+                    SortTree(option = sortOption.value, viewModel = trifleApplicationViewModel)
                     ShoppingCartScreen(
-                        itemsList = trifleList.value,
+                        itemsList = trifleList,
                         isTotalItemsList = isTotalItemsList,
                         isEurToYen = isEurToYen,
                         onAddClick = {},
@@ -305,13 +323,31 @@ fun UICompose(
                         PopUpChoiceButtons(
                             onClickAccept = {
                                 showPopUpDelete.value = false
-                                trifleApplicationViewModel.deleteTrifle(itemChosen.value)
+                                isTrifleBeingDeleted.value = true
                             },
                             onClickDismiss = {
                                 showPopUpDelete.value = false
                             },
                             onDismissRequest = {
                                 showPopUpDelete.value = false
+                            }
+                        )
+                    }
+
+                    if(isTrifleBeingDeleted.value){
+                        isTrifleBeingDeleted.value = false
+                        DeleteTrifle(trifleViewModel = trifleApplicationViewModel, trifle = itemChosen.value)
+                        SortTree(option = sortOption.value, viewModel = trifleApplicationViewModel)
+                    }
+
+                    if(showDropdownMenu.value){
+                        DropDownMenu(
+                            showDropdownMenu,
+                            orderChosen = sortOption,
+                            onCategoryClick = {},
+                            onOrderClick = {
+                                showDropdownMenu.value = false
+                                navController.navigate(TrifleScreens.SortingConfig.name)
                             }
                         )
                     }
@@ -334,20 +370,42 @@ fun UICompose(
                     ) { trifleModel ->
                         if(isItemFromCart.value){
                             isItemFromCart.value = false
+                            trifleModel.dateOfCreation = originalItem.value.dateOfCreation
                             val index = shoppingCartList.indexOf(originalItem.value)
                             shoppingCartList.remove(originalItem.value)
                             shoppingCartList.add(index, trifleModel)
                         }else{
-                            trifleModel.id = itemChosen.value.id
-                            trifleApplicationViewModel.updateTrifle(trifleModel)
+                            itemChosen.value.apply {
+                                name = trifleModel.name
+                                this.storeName = trifleModel.storeName
+                                category = trifleModel.category
+                                dateOfModification = trifleModel.dateOfModification
+                                yenPrice = trifleModel.yenPrice
+                                eurPrice = trifleModel.eurPrice
+                            }
+                            isTrifleBeingUpdated.value = true
                         }
+
+                    }
+
+                    if(isTrifleBeingUpdated.value){
+                        isTrifleBeingUpdated.value = false
+                        UpdateTrifle(trifleViewModel = trifleApplicationViewModel, trifle = itemChosen.value, sortRadioOption = sortOption.value )
+                        SortTree(option = sortOption.value, viewModel = trifleApplicationViewModel)
                         navController.popBackStack()
                     }
+
+                }
+                composable(route = TrifleScreens.SortingConfig.name) {
+                    screen.value = TrifleScreens.SortingConfig
+                    SortScreen(sortOption, customRadioOptions)
                 }
             }
         }
     }
 }
+
+
 
 private fun calculateTotalEur(list: List<TrifleModel>?): Float{
     var total = 0.0f

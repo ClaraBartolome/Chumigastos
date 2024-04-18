@@ -30,8 +30,50 @@ class TrifleRepository(private val trifleDao: TrifleDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getAllTrifles() {
-        _allTrifles.postValue(trifleDao.getAll())
+    suspend fun getAllTriflesDateOfCreationDesc() {
+        _allTrifles.postValue(trifleDao.getAllDateOfCreationDesc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesDateOfCreationAsc() {
+        _allTrifles.postValue(trifleDao.getAllDateOfCreationAsc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesDateOfModDesc() {
+        _allTrifles.postValue(trifleDao.getAllDateOfModDesc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesDateOfModAsc() {
+        _allTrifles.postValue(trifleDao.getAllDateOfModAsc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesNameDesc() {
+        _allTrifles.postValue(trifleDao.getAllOrderedByNameDesc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesNameAsc() {
+        _allTrifles.postValue(trifleDao.getAllOrderedByNameAsc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesStoreNameDesc() {
+        _allTrifles.postValue(trifleDao.getAllOrderedByStoreNameDesc())
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllTriflesStoreNameAsc() {
+        _allTrifles.postValue(trifleDao.getAllOrderedByStoreNameAsc())
     }
 
     //endregion

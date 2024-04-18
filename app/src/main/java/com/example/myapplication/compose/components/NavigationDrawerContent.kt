@@ -1,6 +1,7 @@
 package com.example.myapplication.compose.components
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Face
@@ -34,12 +37,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -56,6 +62,23 @@ fun NavigationDrawerContent(
     ModalDrawerSheet(
         modifier = Modifier.padding(end = 64.dp)
     ) {
+
+
+
+        Row(
+            modifier = Modifier
+                .height(intrinsicSize = IntrinsicSize.Min)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp, bottom = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_main),
+                contentDescription = "",
+                modifier = Modifier.size(128.dp).clip(CircleShape))
+        }
 
         Row(
             modifier = Modifier
@@ -137,7 +160,7 @@ data class NavigationItem(
     val badgeCount: Int? = null
 )
 
-@Preview(showBackground = true, showSystemUi = true, apiLevel = 33, locale = "es")
+@ThemePreviews
 @Composable
 private fun prevMainScreen() {
     MyApplicationTheme {

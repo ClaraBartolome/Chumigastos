@@ -8,7 +8,8 @@ enum class TrifleScreens() {
     ShoppingList,
     Totals,
     AddExpense,
-    EditExpense
+    EditExpense,
+    SortingConfig
 }
 
 val categories = listOf(
@@ -45,6 +46,29 @@ val PREFERENCES_YEN_EXCHANGE = "YEN_EXCHANGE"
 val PREFERENCES_EUR_EXCHANGE = "EUR_EXCHANGE"
 val PREFERENCES_IS_EUR_TO_YEN = "IS_EUR_TO_YEN"
 val PREFERENCE_FILE = "PREFERENCE_FILE"
+
+//SORTING
+enum class SortRadioOptions(val textId: Int) {
+    NameAZ(R.string.name_AZ),
+    NameZA(R.string.name_ZA),
+    StoreNameAZ(R.string.store_name_AZ),
+    StoreNameZA(R.string.store_name_ZA),
+    CreationDateNewFirst(R.string.date_of_creation_ASC),
+    CreationDateOldFirst(R.string.date_of_creation_DESC),
+    ModDateNewFirst(R.string.date_of_mod_ASC),
+    ModDateOldFirst(R.string.date_of_mod_DESC),
+}
+
+val customRadioOptions = listOf(
+    SortRadioOptions.NameAZ,
+    SortRadioOptions.NameZA,
+    SortRadioOptions.StoreNameAZ,
+    SortRadioOptions.StoreNameZA,
+    SortRadioOptions.CreationDateNewFirst,
+    SortRadioOptions.CreationDateOldFirst,
+    SortRadioOptions.ModDateNewFirst,
+    SortRadioOptions.ModDateOldFirst,
+)
 
 //DB
 const val DB_NAME = "trifle_database.db"

@@ -10,6 +10,7 @@ data class TrifleModel(
     @ColumnInfo(name = "name", defaultValue = "") var name: String = "",
     @ColumnInfo(name = "storeName", defaultValue = "") var storeName: String = "",
     @ColumnInfo(name = "dateOfCreation", defaultValue = "") var dateOfCreation: String = "",
+    @ColumnInfo(name = "dateOfModification", defaultValue = "") var dateOfModification: String = "",
     @ColumnInfo(name = "category", defaultValue = "") var category: String = "",
     @ColumnInfo(name = "yenPrice", defaultValue = "") var yenPrice: String = "",
     @ColumnInfo(name = "eurPrice", defaultValue = "") var eurPrice: String = "",

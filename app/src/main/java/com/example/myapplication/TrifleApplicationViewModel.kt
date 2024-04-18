@@ -15,32 +15,59 @@ class TrifleApplicationViewModel(private val repository: TrifleRepository) : Vie
     //region Insert
     fun insert(trifle:TrifleModel)= viewModelScope.launch{
         repository.insert(trifle)
-        getAll()
+        getAllTriflesDateOfCreationDesc()
     }
 
     fun insertAll(trifleList: List<TrifleModel>)= viewModelScope.launch{
         repository.insertAllTrifles(trifleList)
-        getAll()
+        getAllTriflesDateOfCreationDesc()
     }
 
     //endregion
 
     //region Get
 
-    fun getAll()= viewModelScope.launch{
-        repository.getAllTrifles()
+    fun getAllTriflesDateOfCreationDesc()= viewModelScope.launch{
+        repository.getAllTriflesDateOfCreationDesc()
+    }
+
+    fun getAllTriflesDateOfCreationAsc()= viewModelScope.launch{
+        repository.getAllTriflesDateOfCreationAsc()
+    }
+
+    fun getAllTriflesDateOfModDesc()= viewModelScope.launch{
+        repository.getAllTriflesDateOfModDesc()
+    }
+
+    fun getAllTriflesDateOfModAsc()= viewModelScope.launch{
+        repository.getAllTriflesDateOfModAsc()
+    }
+
+    fun getAllTriflesNameDesc()= viewModelScope.launch{
+        repository.getAllTriflesNameDesc()
+    }
+
+    fun getAllTriflesNameAsc()= viewModelScope.launch{
+        repository.getAllTriflesNameAsc()
+    }
+
+    fun getAllTriflesStoreNameDesc()= viewModelScope.launch{
+        repository.getAllTriflesStoreNameDesc()
+    }
+
+    fun getAllTriflesStoreNameAsc()= viewModelScope.launch{
+        repository.getAllTriflesStoreNameAsc()
     }
 
     //endregion
 
     fun deleteTrifle(trifle:TrifleModel)= viewModelScope.launch{
         repository.deleteTrifle(trifle)
-        getAll()
     }
 
     fun updateTrifle(trifle:TrifleModel)= viewModelScope.launch{
         repository.updateTrifle(trifle)
-        getAll()
+        getAllTriflesDateOfCreationDesc()
     }
 }
 

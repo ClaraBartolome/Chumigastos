@@ -1,5 +1,6 @@
 package com.example.myapplication.compose.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,8 +23,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +46,7 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun ShoppingCartScreen(
-    itemsList: List<TrifleModel>? = remember { mutableStateListOf() },
+    itemsList: State<List<TrifleModel>?> = produceState(initialValue = listOf(), producer = {}),
     storeName: MutableState<String> = remember { mutableStateOf("") },
     isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
@@ -52,7 +55,7 @@ fun ShoppingCartScreen(
     onLongClickOnItem: (TrifleModel) -> Unit = {},
 ) {
     val lastStoreName = remember { mutableStateOf("") }
-    itemsList?.let{ trifles ->
+    itemsList.value?.let{ trifles ->
 
     Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(Modifier.padding(bottom = 100.dp)){
@@ -67,9 +70,10 @@ fun ShoppingCartScreen(
                 }
             }
 
-            if(itemsList.isNotEmpty()){
+            if(trifles.isNotEmpty()){
                 itemsIndexed(trifles){ index, trifleModel ->
                     Spacer(modifier = Modifier.height(8.dp))
+                    Log.d("TOTALS", "lastStoreName: ${lastStoreName.value} storeName: ${trifleModel.storeName}")
                     if(isTotalItemsList.value && (index == 0 || lastStoreName.value != trifleModel.storeName)){
                         Text(
                             text = trifleModel.storeName,
@@ -89,7 +93,7 @@ fun ShoppingCartScreen(
                         isEurToYen = isEurToYen,
                         onLongClickOnItem = { onLongClickOnItem.invoke(trifleModel) }
                     )
-                    if(index == itemsList.size -1){
+                    if(index == trifles.size -1){
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
