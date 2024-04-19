@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.myapplication.R
 import com.example.myapplication.common.TrifleScreens
+import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,42 +32,59 @@ fun TopAppBarDefault(
     navController: NavHostController,
     screen: TrifleScreens,
     onTotalOptions: () -> Unit = {},
-    onNavigationIconClick: () -> Unit = {}
+    onNavigationIconClick: () -> Unit = {},
+    //search
+    isSearchOpen: MutableState<Boolean>,
+    searchText: MutableState<String> = remember { mutableStateOf("") },
+    isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
+    onSearchInit: () -> List<TrifleModel> = { listOf<TrifleModel>() },
+    onClickOnSearched: (TrifleModel) -> Unit = {},
+    onTextChange: (String) -> Unit = {},
+    onCloseClicked: () -> Unit = {}
 ) {
-
-    TopAppBar(
-        title = { TitleText(screen) },
-        actions = {
-            when (screen) {
-                TrifleScreens.Totals -> {
-                    IconButtonApp(iconId = R.drawable.ic_search, action = { /*TODO*/ })
-                    IconButtonApp(
-                        imageVector = Icons.Filled.MoreVert,
-                        action = { onTotalOptions.invoke()})
-                }
-                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {}
-            }
-        },
-        navigationIcon = {
-            when (screen) {
-                TrifleScreens.Start -> {
-                    IconButtonApp(
-                        imageVector = Icons.Filled.Menu,
-                        action = { onNavigationIconClick.invoke() })
-                }
-
-                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {
-                    IconButtonApp(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        action = { navController.popBackStack() })
-                }
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
+    if(isSearchOpen.value){
+        SearchBar(
+            text = searchText,
+            onSearchInit = onSearchInit,
+            onClickOnSearched = onClickOnSearched,
+            onTextChange = onTextChange,
+            onCloseClicked = onCloseClicked
         )
-    )
+    }else{
+        TopAppBar(
+            title = { TitleText(screen) },
+            actions = {
+                when (screen) {
+                    TrifleScreens.Totals -> {
+                        IconButtonApp(iconId = R.drawable.ic_search, action = { isSearchOpen.value = true })
+                        IconButtonApp(
+                            imageVector = Icons.Filled.MoreVert,
+                            action = { onTotalOptions.invoke()})
+                    }
+                    TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {}
+                }
+            },
+            navigationIcon = {
+                when (screen) {
+                    TrifleScreens.Start -> {
+                        IconButtonApp(
+                            imageVector = Icons.Filled.Menu,
+                            action = { onNavigationIconClick.invoke() })
+                    }
+
+                    TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {
+                        IconButtonApp(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            action = { navController.popBackStack() })
+                    }
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary
+            )
+        )
+    }
 }
 
 @Composable

@@ -4,6 +4,8 @@ import com.example.myapplication.R
 import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 
+const val NUMBER_MAX_CHARACTERS_NAME = 30
+
 enum class TrifleScreens() {
     Start,
     ShoppingList,

@@ -14,13 +14,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.common.NUMBER_MAX_CHARACTERS_NAME
 import com.example.myapplication.common.ThemePreviews
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun CustomTextField(
     text: MutableState<String> = remember { mutableStateOf("") },
-    maxChar:Int = 30,
+    maxChar:Int = NUMBER_MAX_CHARACTERS_NAME,
     placeholder: String = "placeholder",
     label: String = "label",
 ) {

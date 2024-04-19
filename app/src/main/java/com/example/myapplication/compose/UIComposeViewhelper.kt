@@ -129,6 +129,15 @@ fun onCalculateExchange(
 private fun onUpdateCurrency(yen: MutableState<Float>, yenExchange: MutableState<Float>) =
     yen.value * yenExchange.value
 
+fun sortedTrifleList(trifles: List<TrifleModel>?, searchText: String): List<TrifleModel> {
+    trifles?.let {
+        return it.filter { linkModel ->
+            linkModel.name.lowercase().contains(searchText.lowercase())
+        }.sortedBy { it.name }
+    } ?: run {
+        return listOf()
+    }
+}
 
 //ROOM
 

@@ -55,6 +55,7 @@ import com.example.myapplication.compose.components.TopAppBarDefault
 import com.example.myapplication.compose.formatText
 import com.example.myapplication.compose.formatTextCurrency
 import com.example.myapplication.compose.parseValue
+import com.example.myapplication.compose.sortedTrifleList
 import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -124,6 +125,10 @@ fun UICompose(
     val categoriesList = remember { mutableStateListOf<CategoryModel>() }
     categoriesList.addAll(createCategoriesList())
 
+    //Search
+    val searchText = remember { mutableStateOf("") }
+    val isSearchOpen = remember { mutableStateOf(false) }
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -153,7 +158,21 @@ fun UICompose(
                     },
                     onTotalOptions = {
                         showDropdownMenu.value = true
-                    }
+                    },
+                    isSearchOpen = isSearchOpen,
+                    searchText = searchText,
+                    isEurToYen = isEurToYen,
+                    onSearchInit = { sortedTrifleList(trifleList.value, searchText = searchText.value) },
+                    onClickOnSearched = {
+                        isEditScreen.value = true
+                        isItemFromCart.value = false
+                        isSearchOpen.value = false
+                        searchText.value = ""
+                        itemChosen.value = it
+                        navController.navigate(TrifleScreens.EditExpense.name)
+                    },
+                    onTextChange = { text -> searchText.value = text },
+                    onCloseClicked = { isSearchOpen.value = false }
                 )
             },
             bottomBar = {
@@ -317,7 +336,7 @@ fun UICompose(
                         PopUpChoice(
                             onClickEdit = {
                                 showPopUpOptions.value = false
-                                isEditScreen.value = false
+                                isEditScreen.value = true
                                 isItemFromCart.value = false
                                 navController.navigate(TrifleScreens.EditExpense.name)
                             },
