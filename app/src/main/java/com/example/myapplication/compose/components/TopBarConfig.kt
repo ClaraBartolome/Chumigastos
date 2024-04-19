@@ -44,7 +44,7 @@ fun TopAppBarDefault(
                         imageVector = Icons.Filled.MoreVert,
                         action = { onTotalOptions.invoke()})
                 }
-                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig -> {}
+                TrifleScreens.Start, TrifleScreens.ShoppingList, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {}
             }
         },
         navigationIcon = {
@@ -55,7 +55,7 @@ fun TopAppBarDefault(
                         action = { onNavigationIconClick.invoke() })
                 }
 
-                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig -> {
+                TrifleScreens.ShoppingList, TrifleScreens.Totals, TrifleScreens.AddExpense, TrifleScreens.EditExpense, TrifleScreens.SortingConfig, TrifleScreens.CategoriesFilter -> {
                     IconButtonApp(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         action = { navController.popBackStack() })

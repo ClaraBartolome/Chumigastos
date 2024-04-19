@@ -41,7 +41,7 @@ fun SortScreen(selectedOption: MutableState<SortRadioOptions> = remember { mutab
         Text(
             text = stringResource(id = R.string.order_by),
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             color = MaterialTheme.colorScheme.onBackground,
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold

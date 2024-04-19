@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -35,6 +36,7 @@ import com.example.myapplication.R
 import com.example.myapplication.TrifleApplicationViewModel
 import com.example.myapplication.common.SortRadioOptions
 import com.example.myapplication.common.TrifleScreens
+import com.example.myapplication.common.categoriesModelMockUp
 import com.example.myapplication.common.customRadioOptions
 import com.example.myapplication.common.itemsMockUpList
 import com.example.myapplication.compose.AddAllTrifles
@@ -118,6 +120,10 @@ fun UICompose(
     //DropdownMenu
     val showDropdownMenu = remember { mutableStateOf(false) }
 
+    //CATEGORY
+    val categoriesList = remember { mutableStateListOf<CategoryModel>() }
+    categoriesList.addAll(createCategoriesList())
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -175,6 +181,9 @@ fun UICompose(
                     screen.value = TrifleScreens.Start
                     storeName.value = ""
                     shoppingCartList.clear()
+                    categoriesList.forEach {
+                        it.isSelected = true
+                    }
                     TAG = "MAIN_SCREEN"
                     GetAllTriflesDateOfCreationDesc(trifleViewModel = trifleApplicationViewModel, TAG)
                     Box(
@@ -222,9 +231,10 @@ fun UICompose(
                 composable(route = TrifleScreens.ShoppingList.name) {
                     screen.value = TrifleScreens.ShoppingList
                     ShoppingCartScreen(
-                        itemsList = produceState(initialValue = shoppingCartList, producer = {}),
+                        itemsList = produceState(initialValue = shoppingCartList.reversed(), producer = {}),
                         storeName = storeName,
                         isEurToYen = isEurToYen,
+                        selectedOptions = categoriesList,
                         onAddClick = {
                             addItemToShoppingCart.value = true
                             navController.navigate(TrifleScreens.AddExpense.name)},
@@ -297,6 +307,7 @@ fun UICompose(
                         itemsList = trifleList,
                         isTotalItemsList = isTotalItemsList,
                         isEurToYen = isEurToYen,
+                        selectedOptions = categoriesList,
                         onAddClick = {},
                         onLongClickOnItem = {
                             showPopUpOptions.value = true
@@ -344,7 +355,10 @@ fun UICompose(
                         DropDownMenu(
                             showDropdownMenu,
                             orderChosen = sortOption,
-                            onCategoryClick = {},
+                            onCategoryClick = {
+                                showDropdownMenu.value = false
+                                navController.navigate(TrifleScreens.CategoriesFilter.name)
+                            },
                             onOrderClick = {
                                 showDropdownMenu.value = false
                                 navController.navigate(TrifleScreens.SortingConfig.name)
@@ -400,12 +414,23 @@ fun UICompose(
                     screen.value = TrifleScreens.SortingConfig
                     SortScreen(sortOption, customRadioOptions)
                 }
+                composable(route = TrifleScreens.CategoriesFilter.name) {
+                    screen.value = TrifleScreens.CategoriesFilter
+                    CategoriesScreen(categoriesList)
+                }
             }
         }
     }
 }
 
-
+@Composable
+private fun createCategoriesList(): List<CategoryModel> = listOf(
+CategoryModel(name = stringResource(id = R.string.trifles)),
+CategoryModel(name = stringResource(id = R.string.clothes)),
+CategoryModel(name = stringResource(id = R.string.food)),
+CategoryModel(name = stringResource(id = R.string.stationery)),
+CategoryModel(name = stringResource(id = R.string.home))
+)
 
 private fun calculateTotalEur(list: List<TrifleModel>?): Float{
     var total = 0.0f

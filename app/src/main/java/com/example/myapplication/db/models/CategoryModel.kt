@@ -4,6 +4,7 @@ import com.example.myapplication.R
 
 data class CategoryModel(
     val name:String,
+    var isSelected: Boolean = true,
 ) {
     var iconId = when(name){
         "Chuminadas", "Trifles" -> R.drawable.ic_triffle

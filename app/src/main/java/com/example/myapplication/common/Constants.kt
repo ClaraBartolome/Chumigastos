@@ -1,6 +1,7 @@
 package com.example.myapplication.common
 
 import com.example.myapplication.R
+import com.example.myapplication.db.models.CategoryModel
 import com.example.myapplication.db.models.TrifleModel
 
 enum class TrifleScreens() {
@@ -9,7 +10,8 @@ enum class TrifleScreens() {
     Totals,
     AddExpense,
     EditExpense,
-    SortingConfig
+    SortingConfig,
+    CategoriesFilter,
 }
 
 val categories = listOf(
@@ -18,6 +20,15 @@ val categories = listOf(
     R.string.food,
     R.string.stationery,
     R.string.home
+)
+
+val categoriesModelMockUp = listOf(
+    CategoryModel(name = "Chuminadas"),
+    CategoryModel(name = "Ropa"),
+    CategoryModel(name = "Comida"),
+    CategoryModel(name = "Chuminadas"),
+    CategoryModel(name = "Papelería"),
+    CategoryModel(name = "Hogar"),
 )
 
 val categoryIcons = listOf(

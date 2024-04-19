@@ -32,13 +32,13 @@
     <string name="total_items">Chuminadas en tu cesta: %d</string>
     <string name="buy_everything">Comprar</string>
     <string name="trifles_purchased_in_total">Chuminadas compradas en total: %d</string>
-    <string name="empty_cart">Tu carrito esta vacío, añade un objeto utilizando el botón + que está abajo.</string>
+    <string name="empty_cart">Tu carrito esta vacío, añade un objeto utilizando el botón + que está abajo. Mantén pulsado el item para editarlo o eliminarlo.</string>
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
     <string name="delete_popup">¿Estás seguro de que quieres eliminar este objeto?</string>
     <string name="yes">Sí</string>
     <string name="edit_trifle">Editar Chuminada</string>
-    <string name="empty_totals">Aún no has comprado nada</string>
+    <string name="empty_totals">Aún no has comprado nada. Mantén pulsado el item para editarlo o eliminarlo.</string>
     <string name="name_AZ">Nombre (A-Z)</string>
     <string name="name_ZA">Nombre (Z-A)</string>
     <string name="date_of_creation_ASC">Fecha de creación (Más recientes primero)</string>
@@ -50,4 +50,7 @@
     <string name="order_by_arg">Ordenar por: %s</string>
     <string name="store_name_AZ">Nombre de la Tienda (A-Z)</string>
     <string name="store_name_ZA">Nombre de la Tienda (Z-A)</string>
+    <string name="filter_categories">Selecciona las categorías que quieres mostrar:</string>
+    <string name="category_explanation">Las categorías en verde se mostraran mientras que las que están en rosa no.</string>
+    <string name="no_items_in_category">No hay ningún item en las categorías seleccionadas. Añade algún item o selecciona más categorías.</string>
 </resources>

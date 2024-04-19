@@ -38,14 +38,14 @@
     <string name="buy_everything">Buy</string>
     <string name="price_slash_price" translatable="false">%s / %s</string>
     <string name="trifles_purchased_in_total">Trifles purchased in total: %d</string>
-    <string name="empty_cart">Your shopping cart is empty, add an item using the + button below</string>
+    <string name="empty_cart">Your shopping cart is empty, add an item using the + button below. Hold down the item to edit or delete it.</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="delete_popup">Are you sure you want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no" translatable="false">No</string>
     <string name="edit_trifle">Edit Trifle</string>
-    <string name="empty_totals">You haven\'t bought anything yet</string>
+    <string name="empty_totals">You haven\'t bought anything yet. Hold down the item to edit or delete it.</string>
     <string name="name_AZ">Name (A-Z)</string>
     <string name="name_ZA">Name (Z-A)</string>
     <string name="date_of_creation_ASC">Date of Creation (Newest First)</string>
@@ -57,4 +57,7 @@
     <string name="order_by_arg">Order by: %s</string>
     <string name="store_name_AZ">Store Name (A-Z)</string>
     <string name="store_name_ZA">Store Name (Z-A)</string>
+    <string name="filter_categories">Select categories to show:</string>
+    <string name="category_explanation">The categories in green will show while categories in pink won\'t.</string>
+    <string name="no_items_in_category">There are no items in the categories selected. Add some items or select more categories.</string>
 </resources>
