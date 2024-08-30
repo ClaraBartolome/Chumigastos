@@ -59,7 +59,7 @@ fun PopUpExchange(
     Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.surface,
             ),
             modifier = Modifier
                 .fillMaxWidth()
