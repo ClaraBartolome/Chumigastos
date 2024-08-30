@@ -1,4 +1,4 @@
-# Trifflexpenses
+# <img align="left" src="assets/icon.png" alt="image" width="45" height="45"/> Trifflexpenses
 This is an app created for tracking expenses while traveling in Japan using Jetpack Compose. Its objective is to make an expense list and list how much it costs in yen and euros. It's available in English and Spanish.
 
 ## Main Screen
