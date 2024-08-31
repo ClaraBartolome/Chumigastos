@@ -250,7 +250,9 @@ fun UICompose(
                 composable(route = TrifleScreens.ShoppingList.name) {
                     screen.value = TrifleScreens.ShoppingList
                     ShoppingCartScreen(
-                        itemsList = produceState(initialValue = shoppingCartList.reversed(), producer = {}),
+                        itemsList = remember {
+                            mutableStateOf(shoppingCartList.reversed())
+                        },
                         storeName = storeName,
                         isEurToYen = isEurToYen,
                         selectedOptions = categoriesList,
@@ -259,7 +261,6 @@ fun UICompose(
                             navController.navigate(TrifleScreens.AddExpense.name)},
                         onBuyClick = {
                             addAllItems.value = true
-                            navController.navigate(TrifleScreens.Start.name)
                         },
                         onLongClickOnItem = {
                             showPopUpOptions.value = true
@@ -269,6 +270,7 @@ fun UICompose(
                     if (addAllItems.value){
                         addAllItems.value = false
                         AddAllTrifles(trifleViewModel = trifleApplicationViewModel, trifleList = shoppingCartList)
+                        navController.navigate(TrifleScreens.Start.name)
                     }
 
                     if(showPopUpOptions.value){
@@ -281,7 +283,10 @@ fun UICompose(
                             },
                             onClickDelete = {
                                 showPopUpOptions.value = false
-                                showPopUpDelete.value = true}
+                                showPopUpDelete.value = true},
+                            onDismissRequest = {
+                                showPopUpOptions.value = false
+                            }
                         )
                     }
 

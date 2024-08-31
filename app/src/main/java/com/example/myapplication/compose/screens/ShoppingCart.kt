@@ -49,7 +49,9 @@ import com.example.myapplication.ui.theme.poppinsFontFamily
 
 @Composable
 fun ShoppingCartScreen(
-    itemsList: State<List<TrifleModel>?> = produceState(initialValue = listOf(), producer = {}),
+    itemsList: State<List<TrifleModel>?> = remember {
+        mutableStateOf(listOf())
+    },
     storeName: MutableState<String> = remember { mutableStateOf("") },
     isTotalItemsList: MutableState<Boolean> = remember { mutableStateOf(false) },
     isEurToYen: MutableState<Boolean> = remember { mutableStateOf(true) },
