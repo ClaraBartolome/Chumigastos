@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Chumigastos</string>
     <string name="add_uppercase">AÑADIR</string>
     <string name="shopping_list_uppercase">LISTA DE LA COMPRA</string>
     <string name="total_uppercase">TOTAL</string>

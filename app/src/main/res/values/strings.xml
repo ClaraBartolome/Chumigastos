@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Chumigastos</string>
+    <string name="app_name">TriffleExpenses</string>
     <string name="add_uppercase">ADD</string>
     <string name="shopping_list_uppercase">SHOPPING LIST</string>
     <string name="total_uppercase">TOTAL</string>
